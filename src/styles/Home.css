@@ -1,0 +1,100 @@
+/* src/pages/Home.css */
+
+/* Home page container */
+.home-page {
+  position: relative;
+  height: 200vh; /* Large height for scroll effect */
+}
+
+/* Parallax carousel section */
+.carousel-section {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+  background-color: #3B3030; /* Dark brown background to prevent white showing when scrolling too fast */
+}
+
+/* Carousel container */
+.carousel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  will-change: transform;
+  transition: transform 0.3s ease-out;
+}
+
+/* Carousel item styling */
+.carousel-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure overflow is hidden to crop the image */
+}
+
+/* Carousel image styling */
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure images cover the container without leaving gaps */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Text overlay on carousel */
+.carousel-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the text */
+  text-align: center;
+  z-index: 2; /* Ensure the text appears above the carousel */
+  color: #FFF0D1; /* Light cream text color to match your theme */
+}
+
+.company-name {
+  font-size: 48px; /* Large font size for company name */
+  font-weight: bold;
+  color: #FFF0D1;
+  margin-bottom: 20px;
+}
+
+.company-message {
+  font-size: 24px; /* Smaller font size for the message */
+  color: #FFF0D1;
+  max-width: 800px; /* Limit the width of the message */
+  margin: 0 auto;
+  line-height: 1.6; /* Improve readability */
+}
+
+/* Text boxes overlaid on the carousel */
+.content {
+  position: relative;
+  z-index: 2; /* Ensure the content appears above the carousel */
+  padding-top: 50px;
+}
+
+.text-box {
+  background-color: rgba(255, 240, 209, 0.9); /* Light cream background */
+  color: #3B3030; /* Dark brown text */
+  margin: 50px auto;
+  padding: 30px;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Make text responsive */
+@media (max-width: 768px) {
+  .company-name {
+    font-size: 32px; /* Reduce font size for mobile */
+  }
+
+  .company-message {
+    font-size: 18px; /* Adjust font size for mobile */
+    padding: 0 20px;
+  }
+}
