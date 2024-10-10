@@ -1,0 +1,39 @@
+/* src/components/NavBar.css */
+
+  .navbar {
+    background: linear-gradient(
+      to right, 
+    rgba(0, 0, 0, 1),        /* Solid black */
+    rgba(255, 255, 255, 1)   /* Solid white */
+    );
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+  }
+  
+  .nav-item {
+    padding: 0 10px;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    transition: color 0.3s;
+  }
+  
+  .nav-link:hover {
+    color: #ffcc00;
+  }
