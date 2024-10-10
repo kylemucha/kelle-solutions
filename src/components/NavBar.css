@@ -7,31 +7,33 @@
       rgba(0, 0, 0, 1),         /* Solid black on the left */
       #3B3030                   /* Dark brown on the right */
     );
-    padding: 10px 20px;
+    padding: 10px 20px; /* Adjusted padding for vertical and horizontal */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    position: fixed;    /* Fixed navbar */
-    top: 0;             /* Stick to the top */
+    justify-content: space-between; /* Space between items */
+    position: fixed;  
+    top: 0;             
     left: 0;
-    width: 100%;        /* Full width */
-    z-index: 1000;      /* Ensure the navbar stays on top of content */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a shadow when stuck */
-}
-
-/* Other styles remain unchanged */
-
-/* Logo styling */
-.logo img {
-    height: 50px;
+    width: 100%; /* Ensure full width */
+    z-index: 1000; /* Keep on top of content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Nav links container */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
-    margin: 0;
+    gap: 20px;          /* Spacing between items */
+    margin: 0;          /* Reset margin */
+    padding: 0 30px;    /* Add padding on the right side */
+    flex-grow: 1;       /* Allow flex items to grow */
+    justify-content: flex-end; /* Align items to the right */
+    flex-shrink: 0;     /* Prevent items from shrinking */
+}
+
+/* Logo styling */
+.logo img {
+    height: 50px;
 }
 
 /* Nav link items with hover underline effect */
@@ -71,43 +73,43 @@
 /* Media query for smaller screens */
 @media (max-width: 768px) {
     .menu-toggle {
-      display: block;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: #FFF0D1; /* Light cream for hamburger menu icon */
-      cursor: pointer;
+        display: block;
+        font-size: 24px;
+        background: none;
+        border: none;
+        color: #FFF0D1; /* Light cream for hamburger menu icon */
+        cursor: pointer;
     }
 
     .nav-links {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      text-align: center;
-      position: absolute;
-      top: 60px;
-      left: 0;
-      background-color: #664343; /* Deep brown background for mobile menu */
-      padding: 10px 0;
+        display: none; /* Initially hidden */
+        flex-direction: column; /* Stack items vertically */
+        width: 100%; /* Full width for mobile */
+        text-align: center; /* Center text */
+        position: absolute;
+        top: 60px; /* Position under the menu button */
+        left: 0;
+        background-color: #664343; /* Deep brown background for mobile menu */
+        padding: 10px 0; /* Added padding to avoid cutting off text */
     }
 
     .nav-links.open {
-      display: flex;
+        display: flex; /* Show when open */
     }
 
     .nav-item {
-      padding: 10px 0;
+        padding: 10px 0; /* Space between items */
     }
 
     .nav-link {
-      color: #FFF0D1; /* Light cream text on mobile */
+        color: #FFF0D1; /* Light cream text on mobile */
     }
 
     .nav-link:hover {
-      color: #795757; /* Warm taupe hover on mobile */
+        color: #795757; /* Warm taupe hover on mobile */
     }
 
     .nav-link::after {
-      background-color: #795757; /* Warm taupe underline on mobile */
+        background-color: #795757; /* Warm taupe underline on mobile */
     }
 }
