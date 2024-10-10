@@ -1,21 +1,25 @@
 /* src/components/NavBar.css */
 
-  .navbar {
+/* Main navbar container with black-to-white gradient */
+.navbar {
     background: linear-gradient(
       to right, 
-    rgba(0, 0, 0, 1),        /* Solid black */
-    rgba(255, 255, 255, 1)   /* Solid white */
+      rgba(0, 0, 0, 1),         /* Solid black on the left */
+      #3B3030                   /* Dark brown on the right */
     );
     padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
   }
   
+  /* Logo styling */
   .logo img {
     height: 50px;
   }
   
+  /* Nav links container */
   .nav-links {
     list-style: none;
     display: flex;
@@ -23,17 +27,81 @@
     margin: 0;
   }
   
-  .nav-item {
-    padding: 0 10px;
-  }
-  
+  /* Nav link items with hover underline effect */
   .nav-link {
     text-decoration: none;
-    color: black;
+    color: #FFF0D1;  /* Light cream for nav link text */
     font-size: 18px;
-    transition: color 0.3s;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease; /* Smooth color transition */
+  }
+  
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px; /* Position the line slightly below the text */
+    left: 0;
+    background-color: #795757; /* Warm taupe underline */
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%; /* Expand the underline on hover */
   }
   
   .nav-link:hover {
-    color: #ffcc00;
+    color: #795757; /* Warm taupe on hover */
   }
+  
+  /* Hamburger menu button */
+  .menu-toggle {
+    display: none; /* Hidden on larger screens */
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #FFF0D1; /* Light cream for hamburger menu icon */
+      cursor: pointer;
+    }
+  
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background-color: #664343; /* Deep brown background for mobile menu */
+      padding: 10px 0;
+    }
+  
+    .nav-links.open {
+      display: flex;
+    }
+  
+    .nav-item {
+      padding: 10px 0;
+    }
+  
+    .nav-link {
+      color: #FFF0D1; /* Light cream text on mobile */
+    }
+  
+    .nav-link:hover {
+      color: #795757; /* Warm taupe hover on mobile */
+    }
+  
+    .nav-link::after {
+      background-color: #795757; /* Warm taupe underline on mobile */
+    }
+  }
+  
