@@ -1,2 +1,0 @@
-username1:hashedpassword1
-username2:hashedpassword2
