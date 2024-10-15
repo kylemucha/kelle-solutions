@@ -1,70 +1,106 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Razor Pages ASP.NET Core with Entity Framework Core
 
-## Available Scripts
+This project is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. The application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Razor Pages with ASP.NET Core
+- Entity Framework Core for data access
+- SQL Server database for persistence
+- Dependency Injection for `DbContext`
+- CRUD operations for managing student data
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Before running the application, ensure you have the following installed:
 
-### `npm test`
+- [.NET 6.0 SDK](https://dotnet.microsoft.com/download)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [LocalDB](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-2016-express-localdb)
+- A text editor or an IDE like [Visual Studio](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+Follow these steps to get the application up and running:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Clone the Repository
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/your-username/razor-pages-ef-core.git
+cd razor-pages-ef-core
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Install Dependencies
 
-### `npm run eject`
+Install the required NuGet packages if they are not installed:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. Set Up the Database Connection
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Update the `appsettings.json` file to point to your SQL Server or LocalDB:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```json
+{
+  "ConnectionStrings": {
+    "SchoolContext": "Server=(localdb)\mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+```
 
-## Learn More
+### 4. Create the Database
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Apply the initial Entity Framework migration to create the database schema:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
 
-### Code Splitting
+### 5. Run the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Use the following command to run the application locally:
 
-### Analyzing the Bundle Size
+```bash
+dotnet run
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The application will start on `https://localhost:5001` or `http://localhost:5000`. Navigate to `/Students` to view the CRUD interface for managing student data.
 
-### Making a Progressive Web App
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- `Pages/Students`: Razor Pages for creating, reading, updating, and deleting students.
+- `Models/Student.cs`: The `Student` entity class.
+- `Data/SchoolContext.cs`: The database context class for managing the database connection and querying the `Student` model.
 
-### Advanced Configuration
+## Technologies Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- ASP.NET Core Razor Pages
+- Entity Framework Core
+- SQL Server / LocalDB
+- Bootstrap (for simple page styling)
 
-### Deployment
+## Screenshots
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### List of Students
+![Students List](screenshots/students-list.png)
 
-### `npm run build` fails to minify
+### Create Student
+![Create Student](screenshots/create-student.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## How to Contribute
+
+If you'd like to contribute to the project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
