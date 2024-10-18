@@ -1,0 +1,57 @@
+# ASP.NET specific
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.sln.docstates
+*.vspxproj.user
+
+# Razor Pages specific
+*.cshtml.cs                # Razor Page code-behind files
+*.cshtml                   # Razor Page view files
+wwwroot/                   # Static files like CSS, JS, images
+
+# ASP.NET Core specific
+.vscode/
+.vs/
+.vscode-server/
+*.swp
+**/project.lock.json
+**/project.fragment.lock.json
+
+# Azure specific
+azure-pipelines.yml
+serviceWorker.js
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Backup & build files
+*.bak
+*.dll
+*.exe
+*.pdb
+*.cache
+*.tmp
+*.diff
+*.patch
+*.log
+
+# Azure SQL related
+sqlbackup*.bak
+sql*.db
+
+# Log file
+*.log
+
+# Miscellaneous
+Thumbs.db
+
+# Production specific
+/wwwroot
+/hostingstart.html
