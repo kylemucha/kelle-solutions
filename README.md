@@ -3,6 +3,9 @@
 
 This project is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. The application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
+## Team Members
+Nancy Zhu
+
 ## Features
 
 - Razor Pages with ASP.NET Core
