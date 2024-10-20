@@ -5,6 +5,7 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 
 ## Team Members
 Nancy Zhu
+Steven Cao
 
 ## Features
 
