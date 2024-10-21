@@ -1,6 +1,8 @@
-# ASP.NET specific
+# Ignore build output directories
 bin/
 obj/
+
+# User-specific files
 *.user
 *.rsuser
 *.suo
@@ -13,30 +15,21 @@ obj/
 wwwroot/                   # Static files like CSS, JS, images
 
 # ASP.NET Core specific
-.vscode/
-.vs/
-.vscode-server/
-*.swp
-**/project.lock.json
+.vscode/                   # Visual Studio Code settings
+.vs/                       # Visual Studio folder
+.vscode-server/            # VS Code server settings (for remote dev)
+*.swp                      # Swap files from editing
+**/project.lock.json       # Lock file for .NET project
 **/project.fragment.lock.json
 
-# Ignore appsettings.json (sensitive data)
+# Sensitive configuration files (appsettings)
 appsettings.json
 appsettings.Development.json
 appsettings.Secrets.json
 
-
-# Azure specific
-azure-pipelines.yml
+# Azure specific files
+azure-pipelines.yml        # Azure Pipelines configuration
 serviceWorker.js
-
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-appsettings.json
 
 # Backup & build files
 *.bak
@@ -49,16 +42,16 @@ appsettings.json
 *.patch
 *.log
 
-# Azure SQL related
-sqlbackup*.bak
-sql*.db
+# Database related
+sqlbackup*.bak             # SQL Server backup files
+sql*.db                    # SQL database files
 
-# Log file
+# Log files
 *.log
 
 # Miscellaneous
-Thumbs.db
+Thumbs.db                  # Windows thumbnail cache files
 
-# Production specific
-/wwwroot
-/hostingstart.html
+# Production specific files
+/wwwroot                   # Static files for production deployment
+/hostingstart.html         # Default hosting start page
