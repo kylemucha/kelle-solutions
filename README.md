@@ -3,7 +3,7 @@
 
 This project is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. The application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
-## Team Members
+## Team Scrumbags Members
 - Nancy Zhu
 - Steven Cao
 - Brandon Kmiec
@@ -11,7 +11,7 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 - Jalen Grant Hall
 - Kestine Tran
 - Kyle Mucha
-- Sergio Rodriguez
+- Sergio Rodriguez (Team Lead)
 
 
 ## Features
@@ -37,11 +37,18 @@ Follow these steps to get the application up and running:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/razor-pages-ef-core.git
-cd razor-pages-ef-core
+git clone https://github.com/kestra13/kelle-solutions.git
+cd kelle-solutions
 ```
 
-### 2. Install Dependencies
+### 2. Restore and Build the Project
+```
+dotnet tool install --global dotnet-ef
+dotnet restore
+dotnet build
+```
+
+## 3. Install Dependencies (if necessary!)
 
 Install the required NuGet packages if they are not installed:
 
@@ -50,12 +57,15 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 
-### 3. Set Up the Database Connection
+### 4. Set Up the Database Connection
 
-Update the `appsettings.json` file:
+Update the `appsettings.json` file with your database connection settings. Here is the recommended setup:
 
-```json
+```
 {
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
@@ -64,21 +74,19 @@ Update the `appsettings.json` file:
   },
   "AllowedHosts": "*"
 }
+
 ```
 
-### 4. Create the Database
+### 5. Apply Migrations and Create the Database
 
-Apply the initial Entity Framework migration to create the database schema:
+Use Enitity Framework Core to apply migrations and create the database schema:
 
 ```bash
-dotnet restore
-dotnet build
-dotnet tool install --global dotnet-ef
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
-### 5. Run the Application
+### 6. Run the Application
 
 Use the following command to run the application locally:
 
@@ -86,7 +94,7 @@ Use the following command to run the application locally:
 dotnet run
 ```
 
-The application will start on `https://localhost:5001` or `http://localhost:5000`. Navigate to `/Students` to view the CRUD interface for managing student data.
+The application will start on `https://localhost:5072` or `http://localhost:5000`. Upon running the application, the terminal should list the address!
 
 ## Project Structure
 
@@ -114,3 +122,4 @@ If you'd like to contribute to the project:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
