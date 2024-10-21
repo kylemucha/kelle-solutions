@@ -10,6 +10,9 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 - Evan Brizendine
 - Jalen Grant Hall
 - Kestine Tran
+- 
+-
+
 
 ## Features
 
@@ -64,6 +67,9 @@ Update the `appsettings.json` file to point to your SQL Server or LocalDB:
 Apply the initial Entity Framework migration to create the database schema:
 
 ```bash
+dotnet restore
+dotnet build
+dotnet tool install --global dotnet-ef
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
