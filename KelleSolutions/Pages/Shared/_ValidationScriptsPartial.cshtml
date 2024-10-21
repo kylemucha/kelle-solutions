@@ -1,2 +1,10 @@
-﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+﻿@* 
+    This partial view includes client-side validation scripts for use in forms. 
+    These scripts validate form inputs in the browser before they are submitted to the server, improving the user experience.
+*@
+
+@* jQuery Validation library: Adds basic validation rules to form fields *@
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+@* jQuery Unobtrusive Validation: Enhances validation with unobtrusive attributes (e.g., data-val) *@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

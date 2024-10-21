@@ -1,52 +1,85 @@
-﻿<!DOCTYPE html>
+﻿@* 
+    Summary: 
+    This is the layout page for Kelle Solutions. It provides the overall structure for the application by defining common HTML elements like the header, navigation bar, and footer, as well as rendering the main content of each page.
+    Features:
+    - Responsive layout using Bootstrap
+    - Navigation links to Home and Privacy pages
+    - Dynamic content insertion using Razor's `@RenderBody()` and `@RenderSectionAsync()`
+    - Includes a partial view for login/logout functionality
+    - Footer with privacy link
+    - External resources for Bootstrap and jQuery
+*@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    @* Character encoding and viewport setup for responsiveness *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    @* Title of the page dynamically set from ViewData *@
     <title>@ViewData["Title"] - Kelle Solutions</title>
+
+    @* Linking external Bootstrap stylesheet for styling and custom site styles *@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KelleSolutions.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
+        @* Navigation bar with brand name and links for Home and Privacy pages *@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
+                @* Brand link that redirects to the Index page *@
                 <a class="navbar-brand" asp-area="" asp-page="/Index">Kelle Solutions</a>
+
+                @* Button for toggling the navigation menu on smaller screens *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                @* Main navigation links *@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        @* Commenting out the 'Home' link because the title already redirects users to the Home page *@
+                        <!--
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
+                        -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
+
+                    @* Partial view for login/logout functionality *@
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
+
+    @* Main content area where the body of each page will be rendered *@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    @* Footer with a privacy policy link *@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - Kelle Solutions - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
+    @* JavaScript files for Bootstrap, jQuery, and custom site scripts *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    @* Optional section for additional scripts specific to each page *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

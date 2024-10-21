@@ -1,44 +1,57 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* 
+    This CSS file provides styling for the layout of Kelle Solutions.
+    It styles key elements such as the navigation bar, buttons, links, and the footer. 
+    Specific styles are applied to ensure a responsive and visually cohesive design.
+*/
 
+/* Adjusts the brand link in the navbar to center text and break long words */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
 }
 
+/* Sets the default color for all anchor tags to a custom shade of blue */
 a {
   color: #0077cc;
 }
 
+/* Styles the primary button with specific background and border colors */
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
+/* Applies styles to active or selected navigation pills */
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
+/* Adds a thin top border to elements with this class */
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
+
+/* Adds a thin bottom border to elements with this class */
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
 }
 
+/* Creates a subtle box shadow for depth and emphasis */
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+/* Styles for the "Accept Policy" button, adjusting font size and line height */
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
 
+/* Ensures the footer sticks to the bottom of the page and has a consistent height */
 .footer {
   position: absolute;
   bottom: 0;
