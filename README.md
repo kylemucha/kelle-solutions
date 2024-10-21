@@ -52,13 +52,17 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 ### 3. Set Up the Database Connection
 
-Update the `appsettings.json` file to point to your SQL Server or LocalDB:
+Update the `appsettings.json` file:
 
 ```json
 {
-  "ConnectionStrings": {
-    "SchoolContext": "Server=(localdb)\mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;MultipleActiveResultSets=true"
-  }
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
 }
 ```
 
@@ -96,14 +100,6 @@ The application will start on `https://localhost:5001` or `http://localhost:5000
 - Entity Framework Core
 - SQL Server / LocalDB
 - Bootstrap (for simple page styling)
-
-## Screenshots
-
-### List of Students
-![Students List](screenshots/students-list.png)
-
-### Create Student
-![Create Student](screenshots/create-student.png)
 
 ## How to Contribute
 
