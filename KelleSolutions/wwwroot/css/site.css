@@ -1,22 +1,46 @@
+/* 
+  This CSS file contains global styles for the Kelle Solutions website. It defines font sizes, responsive media queries,
+  button focus styles, and layout settings for the HTML and body elements. Additionally, specific styling for the carousel 
+  component has been added to reduce its vertical height while maintaining image proportions.
+
+  Purpose:
+  - Establish consistent font sizes across devices.
+  - Provide default styles for buttons, form controls, and focus states.
+  - Maintain the minimum height of the HTML body and reserve space for the footer.
+  - Apply custom styling to the carousel component for better display.
+*/
+
+/* Global font size */
 html {
   font-size: 14px;
 }
 
+/* Increase font size for larger screens */
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
 
+/* Focus styles for buttons, links, and form controls */
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+/* Set relative positioning and ensure minimum height for the page */
 html {
   position: relative;
   min-height: 100%;
 }
 
+/* Reserve space at the bottom of the body to avoid footer overlap */
 body {
   margin-bottom: 60px;
+}
+
+/* ------------------ Carousel Specific Styles ------------------ */
+/* Reduce the vertical height of the carousel and ensure proper image scaling */
+.carousel-inner img {
+    height: 50vh; /* 50% of the viewport height */
+    object-fit: cover; /* Ensures images maintain aspect ratio and fill the container */
 }

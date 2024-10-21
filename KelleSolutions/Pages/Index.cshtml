@@ -11,3 +11,48 @@
     @* Large heading welcoming users to the site *@
     <h1 class="display-4">Welcome</h1>
 </div>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  @* Carousel indicators (small dots at the bottom for navigating between slides) *@
+  <div class="carousel-indicators">
+    @* Button for the first slide, active by default *@
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    @* Button for the second slide *@
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    @* Button for the third slide *@
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    @* Button for the fourth slide *@
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+
+  @* Carousel inner: contains all slides *@
+  <div class="carousel-inner">
+    @* First slide, set as active to be displayed initially *@
+    <div class="carousel-item active">
+      <img src="~/images/carousel/image1.jpg" class="d-block w-100" alt="Image 1">
+    </div>
+    @* Second slide *@
+    <div class="carousel-item">
+      <img src="~/images/carousel/image2.jpg" class="d-block w-100" alt="Image 2">
+    </div>
+    @* Third slide *@
+    <div class="carousel-item">
+      <img src="~/images/carousel/image3.jpg" class="d-block w-100" alt="Image 3">
+    </div>
+    @* Fourth slide *@
+    <div class="carousel-item">
+      <img src="~/images/carousel/image4.jpg" class="d-block w-100" alt="Image 4">
+    </div>
+  </div>
+
+  @* Previous button to navigate to the previous slide *@
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  @* Next button to navigate to the next slide *@
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
