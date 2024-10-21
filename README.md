@@ -10,7 +10,7 @@ This project is a simple Razor Pages web application built with ASP.NET Core and
 - Evan Brizendine
 - Jalen Grant Hall
 - Kestine Tran
-- 
+- Kyle Mucha
 -
 
 
