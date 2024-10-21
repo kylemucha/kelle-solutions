@@ -20,6 +20,12 @@ wwwroot/                   # Static files like CSS, JS, images
 **/project.lock.json
 **/project.fragment.lock.json
 
+# Ignore appsettings.json (sensitive data)
+appsettings.json
+appsettings.Development.json
+appsettings.Secrets.json
+
+
 # Azure specific
 azure-pipelines.yml
 serviceWorker.js
