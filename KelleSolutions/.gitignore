@@ -36,6 +36,7 @@ serviceWorker.js
 *.user
 *.userosscache
 *.sln.docstates
+appsettings.json
 
 # Backup & build files
 *.bak
