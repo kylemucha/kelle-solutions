@@ -27,7 +27,7 @@
 <body>
     <header>
         @* Navigation bar with brand name and links for Home and Privacy pages *@
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
             <div class="container">
                 @* Brand link that redirects to the Index page *@
                 <a class="navbar-brand" asp-area="" asp-page="/Index">Kelle Solutions</a>
@@ -44,11 +44,11 @@
                         @* Commenting out the 'Home' link because the title already redirects users to the Home page *@
                         <!--
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
 

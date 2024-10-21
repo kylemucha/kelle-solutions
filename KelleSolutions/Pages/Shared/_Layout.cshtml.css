@@ -4,6 +4,21 @@
     Specific styles are applied to ensure a responsive and visually cohesive design.
 */
 
+/* Gradient background for the navbar (black to brown) */
+.navbar {
+  background: linear-gradient(90deg, black, rgb(102, 67, 67)); /* Black to brown gradient */
+  color: white; /* Ensure text is visible over the gradient */
+}
+
+/* Customize the navbar link colors */
+.navbar .nav-link {
+  color: white; /* Make links white to contrast with the gradient */
+}
+
+.navbar .nav-link:hover {
+  color: lightgray; /* Optional hover effect */
+}
+
 /* Adjusts the brand link in the navbar to center text and break long words */
 a.navbar-brand {
   white-space: normal;
