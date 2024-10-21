@@ -52,7 +52,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 ### 3. Set Up the Database Connection
 
-Update the `appsettings.json` file to point to your SQL Server or LocalDB:
+Update the `appsettings.json` file:
 
 ```json
 {
