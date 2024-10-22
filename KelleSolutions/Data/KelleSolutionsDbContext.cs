@@ -11,8 +11,5 @@ namespace KelleSolutions.Data
         {
         }
 
-        // Add DbSets for our entities, for example:
-        // public DbSet<User> Users { get; set; }
-        // public DbSet<Properties> Properties { get; set; }
     }
 }
