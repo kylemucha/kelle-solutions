@@ -77,8 +77,8 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Last Name is required.")]
             public string LastName { get; set; }
 
-            [Required(ErrorMessage = "Affiliate is required.")]
-            public string Affiliate { get; set; }
+            [Required(ErrorMessage = "Affiliation is required.")]
+            public string Affiliation { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -131,7 +131,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                 // Set custom fields from Input model
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                user.Affiliate = Input.Affiliate;
+                user.Affiliation = Input.Affiliation;
                 user.PhoneNumber = Input.PhoneNumber;
 
 

@@ -25,51 +25,49 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string Username { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
+
+            [Required(ErrorMessage = "First Name is required.")]
+            [RegularExpression(@"^[A-Za-z\s\-]+$", ErrorMessage = "First Name can only contain letters, spaces, and hyphens.")]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessage = "Last Name is required.")]
+            [RegularExpression(@"^[A-Za-z\s\-]+$", ErrorMessage = "Last Name can only contain letters, spaces, and hyphens.")]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required(ErrorMessage = "Affiliation is required.")]
+            [Display(Name = "Affiliation")]
+            public string Affiliation { get; set; }
+
+            [Phone(ErrorMessage = "Enter a valid phone number.")]
+            [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
         }
 
         private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            var affiliation = user.Affiliation;
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
-
+            Username = user.UserName;
             Input = new InputModel
             {
+                FirstName = firstName,
+                LastName = lastName,
+                Affiliation = affiliation,
                 PhoneNumber = phoneNumber
             };
         }
@@ -99,7 +97,23 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
+            // Update First Name, Last Name, and Affiliation fields directly if changed
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
 
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            if (Input.Affiliation != user.Affiliation)
+            {
+                user.Affiliation = Input.Affiliation;
+            }
+
+            // Update Phone Number if it has changed
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -111,6 +125,15 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            // Attempt to update the user information in the database
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to update profile information.";
+                return RedirectToPage();
+            }
+
+            // Refresh page to apply changes
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
