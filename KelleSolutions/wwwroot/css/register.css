@@ -1,0 +1,147 @@
+body {
+    background-color: black; /* setting the background to black*/
+}
+
+.form-label {
+    color: rgb(119, 110, 110); /* setting field of inputs text to gray*/
+    font-weight: 550;
+    font-family: 'Roboto', sans-serif;
+}
+
+p {
+    font-weight: 600; /* setting the font weight */
+    color: rgb(207, 207, 207); /* color of the text */
+    text-align: center; /* centering the text */
+    font-size: 20px;
+}
+
+img {
+    /*resizing KELLE's logo and centering it*/
+    height: auto;
+    width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#cbpolicy {
+    width: 30px;
+    height: 40px;
+    bottom: 1px;
+    position: relative;
+    top: 30px;
+    left: 90px;
+    accent-color: black;
+}
+
+#policies {
+    color: white;
+    font-weight: 560;
+    font-size: 16px;
+    bottom: 1px;
+    position: relative;
+    top: 15px;
+    left: 95px;
+}
+
+.form-control {
+    border-radius: 0px;
+}
+
+#border {
+    border: 5px solid white; /* outer border */
+    width: 1000px;
+    height: 550px;
+}
+
+#email {
+    width: 500px;
+    height: 50px;
+
+}
+
+#phonenum {
+    width: 270px;
+    height: 50px;
+}
+
+#emailtextbox{ /*position of the email text box*/
+    position: relative;
+    left: 90px;
+}
+
+#phonenumtextbox {
+    position: relative;
+    left: 30px;
+}
+
+#fname, #lname, #affiliation { /*defining text boxes width and height for first row*/
+    width: 250px;
+    height: 50px;
+}
+
+/*fixing position*/
+
+#fnametextbox, #lnametextbox, #affiliationtextbox{ 
+    position: center;
+    top: 10px;
+    margin: auto;
+}
+
+#emailtextbox, #phonenumtextbox {
+    position: relative;
+    top: 10px;
+}
+
+#fnametextbox {
+    position: center;
+    left: 90px;
+}
+
+#lnametextbox {
+    position: center;
+    left: 30px;
+}
+
+#affiliationtextbox {
+    position: center;
+    right: 30px;
+}
+
+#pass, #confirmpass {
+    width: 450px;
+    height: 50px;
+}
+
+
+#passtextbox {
+    position: center;
+    left: 90px;
+    top: 10px;
+}
+
+#confirmpasstextbox {
+    position: center;
+    left: 90px;
+    top: 20px;
+}
+
+
+.checkbox-container label { /*changing cursor to pointer when user on the policy label*/
+    cursor: pointer;
+}
+
+
+button {
+    position: relative;
+    left: 400px;
+    top: 45px;
+    width: 200px;
+    height: 40px;
+    background-color:rgb(217, 217, 217);
+}
+
+#Submit {
+    color:black;
+    font-weight: 600;
+}
