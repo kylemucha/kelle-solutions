@@ -9,76 +9,85 @@
     - External resources for Bootstrap and jQuery
 *@
 
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<KelleSolutions.Models.User> SignInManager
+@inject UserManager<KelleSolutions.Models.User> UserManager
+@{
+    var currentPath = Context.Request.Path;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @* Character encoding and viewport setup for responsiveness *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    @* Title of the page dynamically set from ViewData *@
     <title>@ViewData["Title"] - Kelle Solutions</title>
 
-    @* Linking external Bootstrap stylesheet for styling and custom site styles *@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KelleSolutions.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        @* Navigation bar with brand name and links for Home and Privacy pages *@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
             <div class="container">
-                @* Brand link that redirects to the Index page *@
                 <a class="navbar-brand" asp-area="" asp-page="/Index">Kelle Solutions</a>
-
-                @* Button for toggling the navigation menu on smaller screens *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                @* Main navigation links *@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @* Commenting out the 'Home' link because the title already redirects users to the Home page *@
-                        <!--
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        -->
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
 
-                    @* Partial view for login/logout functionality *@
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
 
-    @* Main content area where the body of each page will be rendered *@
+    @* Collapsible Sidebar Navbar, only visible when the user is signed in and on AT_Dashboard *@
+@if (SignInManager.IsSignedIn(User) && currentPath == "/AT_Dashboard")
+{
+    <div class="d-flex">
+        <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar" aria-expanded="false" aria-controls="sideNavbar">
+            &#9776; <!-- Hamburger icon -->
+        </button>
+
+        <div class="collapse" id="sideNavbar">
+            <nav class="sidebar-nav flex-column" id="sideNavContent">
+                <a class="sidebar-link" href="/AT_Dashboard">Dashboard</a>
+                <a class="sidebar-link" href="/Roles">Roles</a>
+                <a class="sidebar-link" href="/Affiliations">Affiliations</a>
+                <a class="sidebar-link" href="/Transactions">Transactions</a>
+                <a class="sidebar-link" href="/Listings">Listings</a>
+                <a class="sidebar-link" href="/Properties">Properties</a>
+                <a class="sidebar-link" href="/People">People</a>
+                <a class="sidebar-link" href="/Leads">Leads</a>
+            </nav>
+        </div>
+    </div>
+}
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    @* Footer with a privacy policy link *@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - Kelle Solutions - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
-    @* JavaScript files for Bootstrap, jQuery, and custom site scripts *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @* Optional section for additional scripts specific to each page *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

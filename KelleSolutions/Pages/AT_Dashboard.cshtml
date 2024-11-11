@@ -1,0 +1,34 @@
+@page
+@model KelleSolutions.Pages.AT_DashboardModel
+
+@using Microsoft.AspNetCore.Identity
+@using KelleSolutions.Models
+
+@* Injecting SignInManager and UserManager services to handle user authentication *@
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Welcome to Your Dashboard</h2>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>Hello, @UserManager.GetUserName(User)</p>
+}
+else
+{
+    <p>You are not logged in. Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to access your dashboard.</p>
+}
+
+<div>
+    <h3>Your Dashboard Overview</h3>
+    <p>This is where you can add relevant information for users, such as their recent activities, updates, or links to other parts of the site.</p>
+    <ul>
+        <li>Example Item 1</li>
+        <li>Example Item 2</li>
+        <li>Example Item 3</li>
+    </ul>
+</div>

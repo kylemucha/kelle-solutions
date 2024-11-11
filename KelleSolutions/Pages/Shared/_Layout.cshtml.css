@@ -1,16 +1,18 @@
 ﻿/* 
     This CSS file provides styling for the layout of Kelle Solutions.
-    It styles key elements such as the navigation bar, buttons, links, and the footer. 
+    It styles key elements such as the main navigation bar, sidebar navigation, buttons, links, and the footer.
     Specific styles are applied to ensure a responsive and visually cohesive design.
 */
 
-/* Gradient background for the navbar (black to brown) */
+/* ---------------- Main Navbar Styles ---------------- */
+
+/* Gradient background for the main navbar (black to brown) */
 .navbar {
   background: linear-gradient(90deg, black, rgb(102, 67, 67)); /* Black to brown gradient */
   color: white; /* Ensure text is visible over the gradient */
 }
 
-/* Customize the navbar link colors */
+/* Customize the main navbar link colors */
 .navbar .nav-link {
   color: white; /* Make links white to contrast with the gradient */
 }
@@ -19,7 +21,7 @@
   color: lightgray; /* Optional hover effect */
 }
 
-/* Adjusts the brand link in the navbar to center text and break long words */
+/* Adjusts the brand link in the main navbar to center text and break long words */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -74,3 +76,54 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+/* ---------------- Sidebar Navbar Styles ---------------- */
+
+/* Sidebar Navbar Container */
+.sidebar-nav {
+  background-color: #333; /* Solid dark gray background for sidebar */
+  color: white;
+  width: 200px; /* Fixed width for the sidebar */
+  position: fixed; /* Fixed positioning to stay in place */
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding-top: 20px; /* Padding at the top for spacing */
+  display: flex;
+  flex-direction: column; /* Vertical layout */
+}
+
+/* Sidebar Navbar Links */
+.sidebar-link {
+  color: white; /* White text color for sidebar links */
+  padding: 10px 15px; /* Padding for a larger clickable area */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Full-width clickable area */
+}
+
+.sidebar-link:hover {
+  color: lightgray; /* Light gray hover color */
+}
+
+/* Specific styling to ensure sidebar links remain white */
+.sidebar-nav .navbar-light .sidebar-link {
+  color: white;
+}
+
+/* Sidebar Toggle Button (Burger Icon) */
+#sideNavbarToggle {
+  color: black; /* Set the icon to black */
+  background: transparent; /* Transparent background for the button */
+  border: none; /* Remove border for a clean look */
+}
+
+/* Burger icon styling using inline SVG for color customization */
+#sideNavbarToggle .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='black' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Collapsible Sidebar Show/Hide Transition */
+.collapse.show {
+  transition: width 0.3s ease-in-out; /* Smooth transition for sidebar appearance */
+}
+

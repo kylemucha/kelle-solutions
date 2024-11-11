@@ -9,7 +9,12 @@
 <ul class="navbar-nav">
     @* Check if the user is signed in *@
     @if (SignInManager.IsSignedIn(User))
-    {
+    {   
+        @* Dashboard link that only appears when the user is signed in *@
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/AT_Dashboard">Dashboard</a>
+        </li>
+
         @* Display the user's name with a link to manage their account *@
         <li class="nav-item">
             <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
@@ -29,7 +34,7 @@
             <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Page("/AT_Dashboard")">Login</a>
         </li>
     }
 </ul>
