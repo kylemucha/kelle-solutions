@@ -72,21 +72,41 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
 
         }
 
+
         public IActionResult OnGet(string code = null)
         {
+            #if DEBUG
+
+            // dummy code to bypass token validation page for the time being
+
+            if (code == null)
+            {
+                Input = new InputModel
+                {
+                    Code = Convert.ToBase64String(Encoding.UTF8.GetBytes("test123")),
+                    Email = "test@example.com"
+                };
+
+                return Page();
+            }
+
+            #endif
+
             if (code == null)
             {
                 return BadRequest("A code must be supplied for password reset.");
             }
+
             else
             {
                 Input = new InputModel
                 {
                     Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
                 };
+
                 return Page();
             }
-        }
+}
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -101,6 +121,17 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                 // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
+
+            #if DEBUG
+
+            // dummy code that acts as if resetting your password was valid
+
+            if (Input.Code == "test123")
+            {
+                Input.Code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            }
+
+            #endif
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
