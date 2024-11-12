@@ -14,6 +14,26 @@
 
 <h2>Welcome to Your Admin/Tenant Dashboard</h2>
 
+<!-- Display the success message if it exists in TempData -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" id="successMessage">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Hide the success message after 5 seconds
+        setTimeout(function () {
+            var message = document.getElementById("successMessage");
+            if (message) {
+                message.style.display = "none";
+            }
+        }, 5000);
+    </script>
+}
+
 @if (SignInManager.IsSignedIn(User))
 {
     <p>Hello, @UserManager.GetUserName(User)</p>
@@ -28,16 +48,16 @@ else
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="/Listing/CreateListing">Create a Listing</a>
+                <a class="nav-link" href="/Listings/CreateListing">Create a Listing</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/Property/CreateProperty">Create a Property</a>
+                <a class="nav-link" href="/Properties/CreateProperty">Create a Property</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/People/CreatePeople">Create People</a>
+                <a class="nav-link" href="/People/CreatePerson">Create Person</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/Lead/CreateLead">Create a Lead</a>
+                <a class="nav-link" href="/Leads/CreateLead">Create a Lead</a>
             </li>
         </ul>
     </div>

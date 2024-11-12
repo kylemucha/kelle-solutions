@@ -14,6 +14,5 @@ namespace KelleSolutions.Data
         // DbSet for Properties
         public DbSet<Property> Properties { get; set; }
         
-
     }
 }

@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using KelleSolutions.Data;
 using KelleSolutions.Models;
+using System.Threading.Tasks;
 
 namespace KelleSolutions.Pages.Properties
 {
@@ -13,11 +13,10 @@ namespace KelleSolutions.Pages.Properties
         public CreatePropertyModel(KelleSolutionsDbContext context)
         {
             _context = context;
-            Property = new Property();
         }
 
         [BindProperty]
-        public Property? Property { get; set; }
+        public Property Property { get; set; }
 
         public IActionResult OnGet()
         {
@@ -26,16 +25,19 @@ namespace KelleSolutions.Pages.Properties
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Property == null || !ModelState.IsValid)
-                {
-                    return Page();
-                }
-
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             _context.Properties.Add(Property);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index"); // Redirect to the properties index page after creation
+            // Set a success message in TempData
+            TempData["SuccessMessage"] = "Property successfully added!";
+
+            // Redirect to the AT_Dashboard page
+            return RedirectToPage("/AT_Dashboard");
         }
     }
 }
