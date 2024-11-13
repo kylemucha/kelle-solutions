@@ -1,0 +1,57 @@
+# Ignore build output directories
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.sln.docstates
+*.vspxproj.user
+
+# Razor Pages specific
+*.cshtml.cs                # Razor Page code-behind files
+*.cshtml                   # Razor Page view files
+wwwroot/                   # Static files like CSS, JS, images
+
+# ASP.NET Core specific
+.vscode/                   # Visual Studio Code settings
+.vs/                       # Visual Studio folder
+.vscode-server/            # VS Code server settings (for remote dev)
+*.swp                      # Swap files from editing
+**/project.lock.json       # Lock file for .NET project
+**/project.fragment.lock.json
+
+# Sensitive configuration files (appsettings)
+appsettings.json
+appsettings.Development.json
+appsettings.Secrets.json
+
+# Azure specific files
+azure-pipelines.yml        # Azure Pipelines configuration
+serviceWorker.js
+
+# Backup & build files
+*.bak
+*.dll
+*.exe
+*.pdb
+*.cache
+*.tmp
+*.diff
+*.patch
+*.log
+
+# Database related
+sqlbackup*.bak             # SQL Server backup files
+sql*.db                    # SQL database files
+
+# Log files
+*.log
+
+# Miscellaneous
+Thumbs.db                  # Windows thumbnail cache files
+
+# Production specific files
+/wwwroot                   # Static files for production deployment
+/hostingstart.html         # Default hosting start page
