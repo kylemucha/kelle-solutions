@@ -4,45 +4,70 @@
     ViewData["Title"] = "Affiliations";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <!-- Updated Font Awesome CDN link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-dyB9aRlgFQzKkCxj3MrSa6AXW7B6QxH/Oa0EZW/5L1Bo+hFPCOHRm3ojGyjW72lQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+</head>
+<body>
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-3 bg-light">
-            <!-- Sidebar -->
+            <!-- Sidebar with Font Awesome icons -->
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold active" href="/Home">Home</a>
+                    <a class="nav-link text-black fw-bold active" href="/Home">
+                        <i class="fas fa-home text-dark"></i> Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold active" href="/Roles">Roles</a>
+                    <a class="nav-link text-black fw-bold active" href="/Roles">
+                        <i class="fas fa-user text-dark"></i> Roles
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Affiliations">Affiliations</a>
+                    <a class="nav-link text-black fw-bold" href="/Affiliations">
+                        <i class="fas fa-network-wired text-dark"></i> Affiliations
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold active" href="/Transactions">Transactions</a>
+                    <a class="nav-link text-black fw-bold active" href="/Transactions">
+                        <i class="fas fa-dollar-sign text-dark"></i> Transactions
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Listings">Listings</a>
+                    <a class="nav-link text-black fw-bold" href="/Listings">
+                        <i class="fas fa-chart-line text-dark"></i> Listings
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Properties">Properties</a>
+                    <a class="nav-link text-black fw-bold" href="/Properties">
+                        <i class="fas fa-building text-dark"></i> Properties
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/People">People</a>
+                    <a class="nav-link text-black fw-bold" href="/People">
+                        <i class="fas fa-users text-dark"></i> People
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Leads">Leads</a>
+                    <a class="nav-link text-black fw-bold" href="/Leads">
+                        <i class="fas fa-question-circle text-dark"></i> Leads
+                    </a>
                 </li>
             </ul>
         </div>
         <div class="col-md-9">
             <!-- Affiliations Table -->
             <h3>Affiliations</h3>
-
             <!-- Add New Button aligned to the right -->
-            <div class="d-flex justify-content-between mb-3">
-                <h4></h4>
-                <button class="btn btn-light rounded-3" data-toggle="modal" data-target="#createAffiliateModal">Add New</button>
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-light rounded-3" data-toggle="modal" data-target="#createAffiliateModal">+ Add New</button>
             </div>
 
             <table class="table table-striped">
@@ -62,14 +87,20 @@
                             <td>@item.Name</td>
                             <td>@item.Description</td>
                             <td>
-                                <!-- Update Button -->
-                                <form method="get" asp-page-handler="Update" asp-route-id="@item.Id">
-                                    <button type="submit" class="btn btn-link">Update</button>
-                                </form>
-                                <!-- Delete Button -->
-                                <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this affiliate?');">
-                                    <button type="submit" class="btn btn-link">Delete</button>
-                                </form>
+                                <div class="d-flex align-items-center">
+                                    <!-- Update Button -->
+                                    <form method="get" asp-page-handler="Update" asp-route-id="@item.Id">
+                                        <button type="submit" class="btn btn-link">Update</button>
+                                    </form>
+
+                                    <!-- Vertical Line Divider -->
+                                    <span class="mx-2 border-left" style="height: 100%;"></span>
+
+                                    <!-- Delete Button -->
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this affiliate?');">
+                                        <button type="submit" class="btn btn-link">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -129,3 +160,5 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 }
+</body>
+</html>
