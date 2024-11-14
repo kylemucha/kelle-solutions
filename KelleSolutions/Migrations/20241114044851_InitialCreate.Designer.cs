@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20241111234749_InitialCreate")]
+    [Migration("20241114044851_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
