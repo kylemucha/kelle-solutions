@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20241111234225_AddPropertyModel")]
+    [Migration("20241112191806_AddPropertyModel")]
     partial class AddPropertyModel
     {
         /// <inheritdoc />

@@ -1,0 +1,25 @@
+@page
+@model KelleSolutions.Pages.Roles.RoleUsersModel
+
+@{
+    ViewData["Title"] = "Users in Role: " + Model.RoleName;
+}
+
+<h2>Users in Role: @Model.RoleName</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Affiliate</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>License Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- The table body will be populated later with users, once you implement data fetching -->
+    </tbody>
+</table>

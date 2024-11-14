@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20241111234310_PropertyTable")]
+    [Migration("20241112191852_PropertyTable")]
     partial class PropertyTable
     {
         /// <inheritdoc />

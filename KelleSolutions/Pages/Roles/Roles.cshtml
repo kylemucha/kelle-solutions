@@ -1,0 +1,30 @@
+@page
+@model RolesModel
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h2>Roles</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Role Name</th>
+            <th>Normalized Role Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model.Roles)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>@role.NormalizedName</td>
+                <td>
+                    <a class="btn btn-primary" href="@Url.Page("/Roles/RoleUsers", new { roleName = role.Name })">Update</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
