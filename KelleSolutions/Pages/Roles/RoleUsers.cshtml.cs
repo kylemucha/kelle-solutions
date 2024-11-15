@@ -11,7 +11,7 @@ namespace KelleSolutions.Pages.Roles
             // Store the roleName from the query string for later use
             RoleName = roleName;
 
-            // You can use this RoleName to fetch users in the future
+            // Can use RoleName to fetch users in the future
         }
     }
 }
