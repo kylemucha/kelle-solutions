@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace KelleSolutions.Areas.Identity.Pages.Account
 {
@@ -45,27 +46,31 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Required (ErrorMessage = "Please enter a valid Email or Phone Number.")]
+            public string EmailOrPhoneNum {get; set;}
+
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                //finding if the user exists by phone number or email
+
+                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == Input.EmailOrPhoneNum || u.Email == Input.EmailOrPhoneNum);
+
+                if (user == null)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./PasswordRecoverVerification");
+                    // Don't go to the next page if user does not exists
+                    ModelState.AddModelError("", "Invalid email or phone number.");
+                    return Page();
                 }
 
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                
+
                 // Make var code available for use in PasswordRecoverVerification
                 TempData["PasswordResetCode"] = code;
 
@@ -77,10 +82,10 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                 );
 
                 await _emailSender.SendEmailAsync(
-                    Input.Email,
+                    Input.EmailOrPhoneNum,
                     "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
-                );
+                    );
 
                 return RedirectToPage("./PasswordRecoverVerification");
             }
