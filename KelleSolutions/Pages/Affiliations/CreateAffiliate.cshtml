@@ -4,152 +4,88 @@
     ViewData["Title"] = "Affiliations";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <!-- Updated Font Awesome CDN link -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-dyB9aRlgFQzKkCxj3MrSa6AXW7B6QxH/Oa0EZW/5L1Bo+hFPCOHRm3ojGyjW72lQ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-3 bg-light">
-            <!-- Sidebar with Font Awesome icons -->
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold active" href="/Home">
-                        <i class="fas fa-home text-dark"></i> Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold active" href="/Roles">
-                        <i class="fas fa-user text-dark"></i> Roles
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Affiliations">
-                        <i class="fas fa-network-wired text-dark"></i> Affiliations
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold active" href="/Transactions">
-                        <i class="fas fa-dollar-sign text-dark"></i> Transactions
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Listings">
-                        <i class="fas fa-chart-line text-dark"></i> Listings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Properties">
-                        <i class="fas fa-building text-dark"></i> Properties
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/People">
-                        <i class="fas fa-users text-dark"></i> People
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="/Leads">
-                        <i class="fas fa-question-circle text-dark"></i> Leads
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-9">
-            <!-- Affiliations Table -->
-            <h3>Affiliations</h3>
-            <!-- Add New Button aligned to the right -->
-            <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-light rounded-3" data-toggle="modal" data-target="#createAffiliateModal">+ Add New</button>
-            </div>
+<link rel="stylesheet" href="~/css/affiliations.css" />
 
-            <table class="table table-striped">
-                <thead class="thead-dark bg-dark text-white">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Affiliates)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Name</td>
-                            <td>@item.Description</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <!-- Update Button -->
-                                    <form method="get" asp-page-handler="Update" asp-route-id="@item.Id">
-                                        <button type="submit" class="btn btn-link">Update</button>
-                                    </form>
+<div class="header-section">
+    <h3>Affiliations</h3>
+    <a href="#" class="add-new-btn" data-toggle="modal" data-target="#createAffiliateModal">Add New</a>
+</div>
 
-                                    <!-- Vertical Line Divider -->
-                                    <span class="mx-2 border-left" style="height: 100%;"></span>
+<div class="affiliations-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Affiliates)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <!-- Update Button -->
+                            <form method="get" asp-page-handler="Update" asp-route-id="@item.Id">
+                                <button type="submit" class="btn btn-link">Update</button>
+                            </form>
 
-                                    <!-- Delete Button -->
-                                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this affiliate?');">
-                                        <button type="submit" class="btn btn-link">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            <!-- Divider -->
+                            <span class="mx-2 border-left" style="height: 100%;"></span>
 
-            <!-- Pagination and Add New button -->
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <!-- Previous Button -->
-                    <li class="page-item disabled">
-                        <a class="page-link btn btn-light text-dark rounded-3" href="#">Previous</a>
-                    </li>
-                    <!-- Page Number -->
-                    <li class="page-item active">
-                        <a class="page-link btn btn-dark text-dark bg-light rounded-3" href="#">1</a>
-                    </li>
-                    <!-- Next Button  -->
-                    <li class="page-item">
-                        <a class="page-link btn btn-light text-dark rounded-3" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Modal for Add New Affiliate -->
-            <div class="modal fade" id="createAffiliateModal" tabindex="-1" aria-labelledby="createAffiliateModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="createAffiliateModalLabel">Add New Affiliate</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" asp-page-handler="Create">
-                                <div class="form-group">
-                                    <label for="Name">Name</label>
-                                    <input type="text" class="form-control" id="Name" name="Name" value="@Model.NewAffiliate.Name" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="Description">Description</label>
-                                    <input type="text" class="form-control" id="Description" name="Description" value="@Model.NewAffiliate.Description" required />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Create</button>
+                            <!-- Delete Button -->
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this affiliate?');">
+                                <button type="submit" class="btn btn-link">Delete</button>
                             </form>
                         </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-section">
+    <div class="page-navigation">
+        <div class="page-item">
+            <a class="page-link">Previous</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link active">1</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link">Next</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Add New Affiliate -->
+<div class="modal fade" id="createAffiliateModal" tabindex="-1" aria-labelledby="createAffiliateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createAffiliateModalLabel">Add New Affiliate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="Create">
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control" id="Name" name="Name" value="@Model.NewAffiliate.Name" required />
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" name="Description" value="@Model.NewAffiliate.Description" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
             </div>
         </div>
     </div>
@@ -160,5 +96,3 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 }
-</body>
-</html>
