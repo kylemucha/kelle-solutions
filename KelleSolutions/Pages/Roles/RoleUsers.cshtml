@@ -2,14 +2,18 @@
 @model KelleSolutions.Pages.Roles.RoleUsersModel
 
 @{
+    // Set the page title using the role name from the model.
     ViewData["Title"] = "Users in Role: " + Model.RoleName;
 }
 
+<!-- Display the role name as the page header -->
 <h2>Users in Role: @Model.RoleName</h2>
 
+<!-- Define a table to display the user information for this role -->
 <table class="table">
     <thead>
         <tr>
+            <!-- Define columns for each user attribute to be displayed -->
             <th>First Name</th>
             <th>Last Name</th>
             <th>Affiliate</th>
@@ -20,6 +24,7 @@
         </tr>
     </thead>
     <tbody>
-        <!-- The table body will be populated later with users, once you implement data fetching -->
+        <!-- Placeholder for user rows.
+             The table body will be populated with user information once data fetching is implemented. -->
     </tbody>
 </table>

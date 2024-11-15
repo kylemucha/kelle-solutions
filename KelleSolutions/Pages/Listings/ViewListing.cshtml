@@ -1,0 +1,61 @@
+@page
+@model KelleSolutions.Pages.Listings.ViewListingModel
+
+@{
+    ViewData["Title"] = $"Listings - {Model.UserName}";
+}
+
+<link rel="stylesheet" href="~/css/listings.css" />
+
+<div class="header-section">
+    <h3>Listings - @Model.UserName</h3>
+    <a href="/Listings/CreateListing" class="add-new-btn">Add New</a>
+</div>
+
+<div class="listings-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Created</th>
+                <th>Status</th>
+                <th>Operator</th>
+                <th>Team</th>
+                <th>Price</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Listings)
+            {
+                <tr>
+                    <td class="text-primary">@item.Id</td>
+                    <td>@item.Created</td>
+                    <td>@item.Status</td>
+                    <td>@item.Operator</td>
+                    <td>@item.Team</td>
+                    <td>@item.Price</td>
+                    <td>@item.Address</td>
+                    <td>
+                        <a href="#" class="text-primary">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-section">
+    <div class="page-navigation">
+        <div class="page-item">
+            <a class="page-link">Previous</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link active">1</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link">Next</a>
+        </div>
+    </div>
+</div>
