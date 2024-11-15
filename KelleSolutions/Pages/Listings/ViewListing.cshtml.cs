@@ -6,12 +6,11 @@ namespace KelleSolutions.Pages.Listings
     public class ViewListingModel : PageModel
     {
         public string UserName { get; set; }
-        public List<UserListing> Listings { get; set; }
+        public List<UserListing> Listings { get; set; } = new List<UserListing>(); // Initialize as an empty list
 
         public void OnGet(int userId)
         {
             // sample data matching the mockup
-
             if (userId == 1)
             {
                 UserName = "Randall Watts";
@@ -29,12 +28,12 @@ namespace KelleSolutions.Pages.Listings
                     }
                 };
             }
-            
             else if (userId == 2)
             {
                 UserName = "John Doe";
-                Listings = new List<UserListing>();
+                Listings = new List<UserListing>(); // John Doe has no listings, but Listings is still initialized
             }
+            // Default case: if userId does not match any conditions, Listings remains an empty list
         }
     }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace KelleSolutions.Models
 {
     // Represents a real estate property entity in the system
-    public class Property
+    public class RealEstateProperty
     {
         // Primary key for the Property entity
         public int Id { get; set; }
@@ -19,6 +19,9 @@ namespace KelleSolutions.Models
         // City where the property is located - required field
         [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
+
+        // County where the property is located - optional field
+        public string County { get; set; }
 
         // State or province where the property is located - required field
         [Required(ErrorMessage = "State/Province is required")]

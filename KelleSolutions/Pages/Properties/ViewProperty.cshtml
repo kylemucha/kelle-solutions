@@ -1,0 +1,66 @@
+@page
+@model KelleSolutions.Pages.Properties.ViewPropertyModel
+
+@{
+    ViewData["Title"] = "View Properties";
+}
+
+<link rel="stylesheet" href="~/css/listings.css" />
+
+<div class="header-section">
+    <h3>Properties</h3>
+    <a href="/Properties/CreateProperty" class="add-new-btn">Create Properties</a>
+</div>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/Listings/ViewListing">View Listings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Properties/ViewProperty">View Properties</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/People/ViewPeople">View People</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Leads/ViewLeads">View Leads</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="listings-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Created</th>
+                <th>County</th>
+                <th>City</th>
+                <th>Postal</th>
+                <th>Street</th>
+                <th>Layout</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-primary">@Model.Property.Id</td>
+                <td>@Model.Property.DateListed.ToString("MM/dd/yyyy")</td>
+                <td>@Model.Property.County</td>
+                <td>@Model.Property.City</td>
+                <td>@Model.Property.ZipCode</td>
+                <td>@Model.Property.StreetAddress</td>
+                <td>@($"{Model.Property.Bedrooms} bed, {Model.Property.Bathrooms} bath")</td>
+                <td>
+                    <a href="#" class="text-primary">Update</a> | 
+                    <a href="#" class="text-primary">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

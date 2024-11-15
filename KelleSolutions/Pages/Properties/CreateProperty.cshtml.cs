@@ -16,7 +16,7 @@ namespace KelleSolutions.Pages.Properties
         }
 
         [BindProperty]
-        public Property Property { get; set; }
+        public RealEstateProperty RealEstateProperty { get; set; }
 
         public IActionResult OnGet()
         {
@@ -30,7 +30,7 @@ namespace KelleSolutions.Pages.Properties
                 return Page();
             }
 
-            _context.Properties.Add(Property);
+            _context.Properties.Add(RealEstateProperty);
             await _context.SaveChangesAsync();
 
             // Set a success message in TempData

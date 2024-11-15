@@ -52,7 +52,7 @@
 
     @* Collapsible Sidebar Navbar, only visible when the user is signed in and on specified pages *@
 @if (SignInManager.IsSignedIn(User) && (currentPath == "/AT_Dashboard" || currentPath == "/Roles/Roles" || currentPath == "/Listings/Listings"
-    || currentPath == "/Listings/ViewListing"))
+    || currentPath == "/Listings/ViewListing" || currentPath == "/Properties/ViewProperty"))
 {
     <div class="d-flex">
         <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar" aria-expanded="false" aria-controls="sideNavbar">

@@ -9,70 +9,70 @@
 <form method="post">
     <!-- Street Address with autocomplete for selecting an address -->
     <div class="form-group">
-        <label asp-for="Property.StreetAddress" class="control-label">Street Address *</label>
-        <input asp-for="Property.StreetAddress" id="StreetAddress" class="form-control" placeholder="Start typing an address..." autocomplete="off" />
-        <span asp-validation-for="Property.StreetAddress" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.StreetAddress" class="control-label">Street Address *</label>
+        <input asp-for="RealEstateProperty.StreetAddress" id="StreetAddress" class="form-control" placeholder="Start typing an address..." autocomplete="off" />
+        <span asp-validation-for="RealEstateProperty.StreetAddress" class="text-danger"></span>
         <ul id="propertySuggestions" class="list-group"></ul> <!-- List for displaying address suggestions -->
     </div>
 
     <!-- Apartment or Unit Number -->
     <div class="form-group">
-        <label asp-for="Property.UnitNumber" class="control-label">Apartment/Unit Number</label>
-        <input asp-for="Property.UnitNumber" class="form-control" />
+        <label asp-for="RealEstateProperty.UnitNumber" class="control-label">Apartment/Unit Number</label>
+        <input asp-for="RealEstateProperty.UnitNumber" class="form-control" />
     </div>
 
     <!-- City -->
     <div class="form-group">
-        <label asp-for="Property.City" class="control-label">City *</label>
-        <input asp-for="Property.City" class="form-control" />
-        <span asp-validation-for="Property.City" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.City" class="control-label">City *</label>
+        <input asp-for="RealEstateProperty.City" class="form-control" />
+        <span asp-validation-for="RealEstateProperty.City" class="text-danger"></span>
     </div>
 
     <!-- State or Province -->
     <div class="form-group">
-        <label asp-for="Property.State" class="control-label">State/Province *</label>
-        <input asp-for="Property.State" class="form-control" />
-        <span asp-validation-for="Property.State" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.State" class="control-label">State/Province *</label>
+        <input asp-for="RealEstateProperty.State" class="form-control" />
+        <span asp-validation-for="RealEstateProperty.State" class="text-danger"></span>
     </div>
 
     <!-- Zip Code -->
     <div class="form-group">
-        <label asp-for="Property.ZipCode" class="control-label">Zip Code *</label>
-        <input asp-for="Property.ZipCode" class="form-control" type="text" />
-        <span asp-validation-for="Property.ZipCode" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.ZipCode" class="control-label">Zip Code *</label>
+        <input asp-for="RealEstateProperty.ZipCode" class="form-control" type="text" />
+        <span asp-validation-for="RealEstateProperty.ZipCode" class="text-danger"></span>
     </div>
 
     <!-- Property Price -->
     <div class="form-group">
-        <label asp-for="Property.Price" class="control-label">Price *</label>
-        <input asp-for="Property.Price" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="Property.Price" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.Price" class="control-label">Price *</label>
+        <input asp-for="RealEstateProperty.Price" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="RealEstateProperty.Price" class="text-danger"></span>
     </div>
 
     <!-- Property Description -->
     <div class="form-group">
-        <label asp-for="Property.Description" class="control-label">Description</label>
-        <textarea asp-for="Property.Description" class="form-control"></textarea>
+        <label asp-for="RealEstateProperty.Description" class="control-label">Description</label>
+        <textarea asp-for="RealEstateProperty.Description" class="form-control"></textarea>
     </div>
 
     <!-- Bedrooms -->
     <div class="form-group">
-        <label asp-for="Property.Bedrooms" class="control-label">Bedrooms *</label>
-        <input asp-for="Property.Bedrooms" class="form-control" type="number" min="1" />
-        <span asp-validation-for="Property.Bedrooms" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.Bedrooms" class="control-label">Bedrooms *</label>
+        <input asp-for="RealEstateProperty.Bedrooms" class="form-control" type="number" min="1" />
+        <span asp-validation-for="RealEstateProperty.Bedrooms" class="text-danger"></span>
     </div>
 
     <!-- Bathrooms -->
     <div class="form-group">
-        <label asp-for="Property.Bathrooms" class="control-label">Bathrooms *</label>
-        <input asp-for="Property.Bathrooms" class="form-control" type="number" min="1" />
-        <span asp-validation-for="Property.Bathrooms" class="text-danger"></span>
+        <label asp-for="RealEstateProperty.Bathrooms" class="control-label">Bathrooms *</label>
+        <input asp-for="RealEstateProperty.Bathrooms" class="form-control" type="number" min="1" />
+        <span asp-validation-for="RealEstateProperty.Bathrooms" class="text-danger"></span>
     </div>
 
     <!-- Date Listed -->
     <div class="form-group">
-        <label asp-for="Property.DateListed" class="control-label">Date Listed</label>
-        <input asp-for="Property.DateListed" class="form-control" type="date" />
+        <label asp-for="RealEstateProperty.DateListed" class="control-label">Date Listed</label>
+        <input asp-for="RealEstateProperty.DateListed" class="form-control" type="date" />
     </div>
 
     <!-- Submit and Cancel buttons -->
