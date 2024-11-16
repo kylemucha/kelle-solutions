@@ -10,6 +10,7 @@
 .navbar {
   background: linear-gradient(90deg, black, rgb(102, 67, 67)); /* Black to brown gradient */
   color: white; /* Ensure text is visible over the gradient */
+  height:70px
 }
 
 /* Customize the main navbar link colors */
@@ -126,4 +127,3 @@ button.accept-policy {
 .collapse.show {
   transition: width 0.3s ease-in-out; /* Smooth transition for sidebar appearance */
 }
-
