@@ -1,0 +1,46 @@
+@page
+@model KelleSolutions.Pages.People.ViewPeopleModel
+
+@{
+    ViewData["Title"] = "View People";
+}
+
+<link rel="stylesheet" href="~/css/listings.css" />
+
+<div class="header-section">
+    <h3>People</h3>
+    <a href="/People/CreatePerson" class="add-new-btn">Add New</a>
+</div>
+
+<div class="listings-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Created</th>
+                <th>Operator</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in Model.People)
+            {
+                <tr>
+                    <td class="text-primary">@person.Id</td>
+                    <td>@person.Name</td>
+                    <td>@person.PhoneNumber</td>
+                    <td>@person.Email</td>
+                    <td>@person.Created.ToString("MM/dd/yyyy")</td>
+                    <td>@person.OperatorName</td>
+                    <td>
+                        <a href="#" class="text-primary">Update</a> | 
+                        <a href="#" class="text-primary">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
