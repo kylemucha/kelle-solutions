@@ -14,17 +14,17 @@
         <li class="nav-item">
             <a class="nav-link" asp-page="/AT_Dashboard">Dashboard</a>
         </li>
-
-        @* Display the user's name with a link to manage their account *@
-        <li class="nav-item">
-            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-        </li>
-        
         @* Logout form with a button to sign out, redirecting back to the home page *@
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                 <button id="logout" type="submit" class="nav-link btn btn-link border-0">Logout</button>
             </form>
+        </li>
+        @* Display the user's name with a link to manage their account *@
+        <li class="nav-item">
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <img class ="img-fluid"src="/images/profileicon.png" alt="profileicon" style="width:35px;height:35px;position:relative; right:5px;">
+            </a>
         </li>
     }
     else

@@ -1,0 +1,19 @@
+#box {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between boxes */
+    padding: 20px;
+}
+
+.box {
+    background-color: white; /* color of box */
+    width: 340px; /* box width */
+    border: 3px solid #0000002b; /* outer border color */
+    padding: 10px;
+    height: 350px; /* box height */
+    border-radius: 20px; /* rounded corners */
+    font-weight:660;
+    font-family: 'Roboto', sans-serif; /*text font*/
+    color:rgb(88,88,88,100); /*color of text*/
+    text-align: center; /*centering text*/
+}

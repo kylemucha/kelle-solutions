@@ -8,6 +8,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
+<link rel="stylesheet" href="~/css/AT_dashboard.css" />
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -68,8 +69,19 @@ else
     <h3>Your Dashboard Overview</h3>
     <p>This is where you can add relevant information for users, such as their recent activities, updates, or links to other parts of the site.</p>
     <ul>
-        <li>Example Item 1</li>
-        <li>Example Item 2</li>
-        <li>Example Item 3</li>
+        <!-- first row of boxes include Listings By Status, Active Listings, Closed Listings, and Open House Listings-->
+        <div class="container" id="box">
+            <div class="box" id="=text">Listings By Status</div>
+            <div class="box" id="=text">Active Listings</div>
+            <div class="box" id="=text">Closed Listings</div>
+            <div class="box" id="=text">Open House Listings</div>
+        </div>
+        <!-- second row of boxes include Priority Actions, Latest Properties*, Latest Entities*, and Latest App Info*-->
+        <div class="container" id="box">
+            <div class="box">Priority Actions*</div>
+            <div class="box">Latest Properties*</div>
+            <div class="box">Latest Entities*</div>
+            <div class="box">Latest App Info*</div>
+        </div>
     </ul>
 </div>
