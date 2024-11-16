@@ -3,28 +3,48 @@
 
 @{
     // Set the page title using the role name from the model.
-    ViewData["Title"] = "Users in Role: " + Model.RoleName;
+    ViewData["Title"] = Model.RoleName + "Users";
 }
 
+<link rel="stylesheet" href="~/css/roles.css" />
+
 <!-- Display the role name as the page header -->
-<h2>Users in Role: @Model.RoleName</h2>
+<div class="header-section">
+    <h3>Roles > Users > @Model.RoleName</h3>
+</div>
 
 <!-- Define a table to display the user information for this role -->
-<table class="table">
-    <thead>
-        <tr>
-            <!-- Define columns for each user attribute to be displayed -->
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Affiliate</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>License Number</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Placeholder for user rows.
-             The table body will be populated with user information once data fetching is implemented. -->
-    </tbody>
-</table>
+<div class="roles-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <!-- Define columns for each user attribute to be displayed -->
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Affiliate</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>License Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Placeholder for user rows.
+                 The table body will be populated with user information once data fetching is implemented. -->
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-section">
+    <div class="page-navigation">
+        <div class="page-item">
+            <a class="page-link">Previous</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link active">1</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link">Next</a>
+        </div>
+    </div>
+</div>

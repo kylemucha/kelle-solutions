@@ -1,40 +1,36 @@
 @page
 @model RolesModel
-
 @{
-    // Sets the title of the page to "Roles" to display in the browser title bar
     ViewData["Title"] = "Roles";
 }
 
-<h2>Roles</h2>
+<link rel="stylesheet" href="~/css/roles-transactions.css" />
 
-<!-- Table to display a list of roles with columns for Role Name, Normalized Role Name, and Actions -->
-<table class="table">
-    <thead>
-        <tr>
-            <!-- Header for Role Name column -->
-            <th>Role Name</th>
-            <!-- Header for Normalized Role Name column -->
-            <th>Normalized Role Name</th>
-            <!-- Header for Actions column, containing action buttons -->
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Loops through each role in the Roles list in the model -->
-        @foreach (var role in Model.Roles)
-        {
+<div class="header-section">
+    <h3>Roles</h3>
+</div>
+
+<div class="roles-container">
+    <table class="table">
+        <thead>
             <tr>
-                @*Displays the role's name in the Role Name column*@
-                <td>@role.Name</td>
-                @*Displays the normalized version of the role's name in the Normalized Role Name column*@
-                <td>@role.NormalizedName</td>
-                <td>
-                    @*Button that links to the RoleUsers page, passing the role name as a parameter in the URL.
-                         When clicked, it navigates to the RoleUsers page for the specific role.*@
-                    <a class="btn btn-primary" href="@Url.Page("/Roles/RoleUsers", new { roleName = role.Name })">Update</a>
-                </td>
+                <th>Role Name</th>
+                <th>Normalized Role Name</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                    <td>@role.NormalizedName</td>
+                    <td>
+                        <!-- Update Button -->
+                        <a href="@Url.Page("/Roles/RoleUsers", new { roleName = role.Name })">Update</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
