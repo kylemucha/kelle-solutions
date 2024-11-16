@@ -53,6 +53,11 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             [Phone(ErrorMessage = "Enter a valid phone number.")]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
+
+            [Required(ErrorMessage = "Agent License Number is required.")]
+            [RegularExpression(@"^\d{8}$", ErrorMessage = "License Number must be an 8-digit number.")]
+            [Display(Name = "Agent License Number")]
+            public string LicenseNumber { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -62,13 +67,16 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             var lastName = user.LastName;
             var affiliation = user.Affiliation;
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var licenseNumber = user.LicenseNumber;
+
             Username = user.UserName;
             Input = new InputModel
             {
                 FirstName = firstName,
                 LastName = lastName,
                 Affiliation = affiliation,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                LicenseNumber = licenseNumber
             };
         }
 
@@ -97,7 +105,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
-            // Update First Name, Last Name, and Affiliation fields directly if changed
+            // Update First Name, Last Name, Affiliation, and License Number fields directly if changed
             if (Input.FirstName != user.FirstName)
             {
                 user.FirstName = Input.FirstName;
@@ -111,6 +119,11 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             if (Input.Affiliation != user.Affiliation)
             {
                 user.Affiliation = Input.Affiliation;
+            }
+
+            if (Input.LicenseNumber != user.LicenseNumber)
+            {
+                user.LicenseNumber = Input.LicenseNumber;
             }
 
             // Update Phone Number if it has changed

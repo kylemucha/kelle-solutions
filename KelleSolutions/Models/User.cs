@@ -4,9 +4,10 @@ namespace KelleSolutions.Models
 {
     public class User : IdentityUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Affiliation { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Affiliation { get; set; }
+        public required string LicenseNumber { get; set; }
 
     }
 }

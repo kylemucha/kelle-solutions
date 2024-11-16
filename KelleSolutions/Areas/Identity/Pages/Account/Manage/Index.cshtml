@@ -40,6 +40,12 @@
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
+            <!-- Agent License Number -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LicenseNumber" class="form-control" placeholder="Agent License Number" />
+                <label asp-for="Input.LicenseNumber"></label>
+                <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
+            </div>
             <!-- Save button -->
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>

@@ -45,12 +45,11 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            // Custom validation allows for both email or phone number input
-            [Required]
-            [EmailOrPhoneNumber] // Custom validation for email or phone
+
+            [Required(ErrorMessage = "Email or Phone Number is required.")]
             public string EmailOrPhone { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Password is required.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

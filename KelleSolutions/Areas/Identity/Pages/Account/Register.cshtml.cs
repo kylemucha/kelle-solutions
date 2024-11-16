@@ -46,29 +46,13 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
             [Required(ErrorMessage = "First Name is required.")]
@@ -80,10 +64,6 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Affiliation is required.")]
             public string Affiliation { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required(ErrorMessage = "Email is required.")]
             [EmailAddress(ErrorMessage = "Enter a valid email address.")]
             [Display(Name = "Email")]
@@ -92,21 +72,16 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Phone Number is required.")]
             public string PhoneNumber { get; set; }
 
+            [Required(ErrorMessage = "License Number is required.")]
+            [RegularExpression(@"^\d{8}$", ErrorMessage = "The License Number must be exactly 8 digits.")]
+            public string LicenseNumber { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required(ErrorMessage = "Password is required.")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -133,6 +108,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.Affiliation = Input.Affiliation;
                 user.PhoneNumber = Input.PhoneNumber;
+                user.LicenseNumber = Input.LicenseNumber;
 
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
