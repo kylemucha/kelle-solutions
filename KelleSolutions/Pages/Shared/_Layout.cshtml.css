@@ -10,7 +10,7 @@
 .navbar {
   background: linear-gradient(90deg, black, rgb(102, 67, 67)); /* Black to brown gradient */
   color: white; /* Ensure text is visible over the gradient */
-  height:70px
+  height:60px;
 }
 
 /* Customize the main navbar link colors */
@@ -82,28 +82,31 @@ button.accept-policy {
 
 /* Sidebar Navbar Container */
 .sidebar-nav {
-  background-color: #333; /* Solid dark gray background for sidebar */
+  background-color: #F1F1F1; /* light gray background for sidebar */
   color: white;
   width: 200px; /* Fixed width for the sidebar */
-  position: fixed; /* Fixed positioning to stay in place */
-  top: 0;
+  position: absolute; /* absolute positioning to stay in place */
+  top: 60px;
   left: 0;
   height: 100%;
   padding-top: 20px; /* Padding at the top for spacing */
   display: flex;
   flex-direction: column; /* Vertical layout */
+  z-index: 9; /*making sure there's no overlapping*/
+  /*height:450px /*height adjustment if needed*/
 }
 
 /* Sidebar Navbar Links */
 .sidebar-link {
-  color: white; /* White text color for sidebar links */
+  color: #585858; /* gray text color for sidebar links */
   padding: 10px 15px; /* Padding for a larger clickable area */
   text-decoration: none; /* Remove underline */
   display: block; /* Full-width clickable area */
 }
 
-.sidebar-link:hover {
-  color: lightgray; /* Light gray hover color */
+.sidebar-link:hover, .closebtn:hover{ /*change opacity when hover over close button*/
+  opacity:40%;
+  /*background-color: #e3e3e3; /*this changes the background color to light gray when hovered over -- idk which one we should to do so I'm going to leave it here*/
 }
 
 /* Specific styling to ensure sidebar links remain white */
@@ -126,4 +129,29 @@ button.accept-policy {
 /* Collapsible Sidebar Show/Hide Transition */
 .collapse.show {
   transition: width 0.3s ease-in-out; /* Smooth transition for sidebar appearance */
+}
+
+/*adjusting all icons on menu panel*/
+#icons {
+  height:15px;
+  position:relative;
+  bottom:1px;
+}
+#other { /*people and affiliations icon had to be adjusted separately bc these are smaller*/
+  height:20px;
+  position:relative;
+  bottom:1px;
+  right:2px;
+}
+
+.closebtn {
+  color:#585858; /*color of close button*/
+  border:none;
+  position:absolute;
+  right:1px;
+  font-size: 30px;
+  transition: none;
+  cursor:pointer; /*making cursor pointer when hover over close button*/
+  background: transparent; /*making background transparent*/
+  top:-10px;
 }

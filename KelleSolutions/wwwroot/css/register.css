@@ -50,4 +50,11 @@ body {
     accent-color: #007bff;
 }
 
-
+img {
+    /*resizing KELLE's logo and centering it*/
+    height: auto;
+    width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
