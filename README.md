@@ -25,6 +25,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
+- [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
 - [How to Contribute](#how-to-contribute)
 - [License](#license)
@@ -181,6 +182,14 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 | `Models/User.cs`               | The `User` entity class, representing any agent, tenant, or admin who logs in.                  |
 | `Data/KelleSolutionsDbContext.cs` | The database context class for managing the database connection and querying the `Properties` and `Affiliates` model. |
 
+<h2 id="timeline">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/timeline.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/timelinelight.png">
+  <img alt="Example Image" src="images/timeline.png">
+  </picture>
+  Timeline
+</h2>
 
 <h2 id="technologies-used">
   <picture>
