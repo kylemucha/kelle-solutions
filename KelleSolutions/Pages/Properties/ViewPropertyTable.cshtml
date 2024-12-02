@@ -1,0 +1,51 @@
+@page
+@model KelleSolutions.Pages.Properties.ViewPropertyModel
+
+<h2>Property Listings</h2>
+
+<table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date Listed</th>
+            <th>Street Address</th>
+            <th>Unit Number</th>
+            <th>City</th>
+            <th>County</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Price</th>
+            <th>Bedrooms</th>
+            <th>Bathrooms</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Properties != null && Model.Properties.Count > 0)
+        {
+            foreach (var property in Model.Properties)
+            {
+                <tr>
+                    <td>@property.Id</td>
+                    <td>@property.DateListed.ToShortDateString()</td>
+                    <td>@property.StreetAddress</td>
+                    <td>@property.UnitNumber</td>
+                    <td>@property.City</td>
+                    <td>@property.County</td>
+                    <td>@property.State</td>
+                    <td>@property.ZipCode</td>
+                    <td>@property.Price.ToString("C")</td>
+                    <td>@property.Bedrooms</td>
+                    <td>@property.Bathrooms</td>
+                    <td>@property.Description</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="12">No properties available</td>
+            </tr>
+        }
+    </tbody>
+</table>

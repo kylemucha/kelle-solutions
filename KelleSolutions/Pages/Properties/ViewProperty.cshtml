@@ -12,7 +12,6 @@
     <a href="/Properties/CreateProperty" class="add-new-btn">Create Properties</a>
 </div>
 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
@@ -20,7 +19,7 @@
                 <a class="nav-link" href="/Listings/ViewListing">View Listings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/Properties/ViewProperty">View Properties</a>
+                <a class="nav-link active" href="/Properties/ViewProperty">View Properties</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/People/ViewPeople">View People</a>
@@ -31,7 +30,6 @@
         </ul>
     </div>
 </nav>
-
 
 <div class="listings-container">
     <table class="table">
@@ -48,19 +46,31 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-primary">@Model.Property.Id</td>
-                <td>@Model.Property.DateListed.ToString("MM/dd/yyyy")</td>
-                <td>@Model.Property.County</td>
-                <td>@Model.Property.City</td>
-                <td>@Model.Property.ZipCode</td>
-                <td>@Model.Property.StreetAddress</td>
-                <td>@($"{Model.Property.Bedrooms} bed, {Model.Property.Bathrooms} bath")</td>
-                <td>
-                    <a href="#" class="text-primary">Update</a> | 
-                    <a href="#" class="text-primary">Delete</a>
-                </td>
-            </tr>
+            @if (Model.Properties != null && Model.Properties.Count > 0)
+            {
+                foreach (var property in Model.Properties)
+                {
+                    <tr>
+                        <td class="text-primary">@property.Id</td>
+                        <td>@property.DateListed.ToString("MM/dd/yyyy")</td>
+                        <td>@property.County</td>
+                        <td>@property.City</td>
+                        <td>@property.ZipCode</td>
+                        <td>@property.StreetAddress</td>
+                        <td>@($"{property.Bedrooms} bed, {property.Bathrooms} bath")</td>
+                        <td>
+                            <a href="#" class="text-primary">Update</a> |
+                            <a href="#" class="text-primary">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center">No properties available.</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

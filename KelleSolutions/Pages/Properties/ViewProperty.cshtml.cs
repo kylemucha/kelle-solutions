@@ -1,27 +1,27 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using KelleSolutions.Models;
-using System;
+using KelleSolutions.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace KelleSolutions.Pages.Properties
 {
     public class ViewPropertyModel : PageModel
     {
-        public RealEstateProperty Property { get; set; }
+        private readonly KelleSolutionsDbContext _context;
 
-        public void OnGet()
+        public ViewPropertyModel(KelleSolutionsDbContext context)
         {
-            // Provide a default object if no data-fetching logic is implemented
-            Property = new RealEstateProperty
-            {
-                Id = 1,
-                DateListed = new DateTime(2024, 11, 6),
-                County = "Sacramento",
-                City = "Sacramento",
-                ZipCode = "95825",
-                StreetAddress = "J St.",
-                Bedrooms = 1,
-                Bathrooms = 2
-            };
+            _context = context;
+        }
+
+        public List<RealEstateProperty> Properties { get; set; }
+
+        public async Task OnGetAsync()
+        {
+            // Fetch all properties from the database
+            Properties = await _context.Properties.ToListAsync();
         }
     }
 }
