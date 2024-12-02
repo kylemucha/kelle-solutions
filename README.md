@@ -27,7 +27,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Project Structure](#project-structure)
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
-- [How to Contribute](#how-to-contribute)
+- [How to Contribute](#contribute)
 - [License](#license)
 
 <h2 id="team-scrumbags-members">
@@ -261,7 +261,14 @@ git push origin main
 git pull origin main
 ```
 
-## How to Contribute
+<h2 id="contribute">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/contribute.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/contributelight.png">
+  <img alt="Example Image" src="images/contribute.png">
+  </picture>
+  How to Contribute
+</h2>
 
 If you'd like to contribute to the project:
 
@@ -283,5 +290,13 @@ git push origin feature/my-feature
 git pull origin main
 ```
 
-## License
+<h2 id="license">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/license.png">
+  <source media="(prefers-color-scheme: light)" srcset="images/licenselight.png">
+  <img alt="Example Image" src="images/license.png">
+  </picture>
+  License
+</h2>
+
 All rights are observed. This project is not open source.
