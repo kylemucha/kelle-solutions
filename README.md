@@ -4,9 +4,9 @@
 # Kelle Solutions
 Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
-| Mockup Dashboard | Current Working Dashboard |
+| Create Account Page | Current Dashboard |
 |--------------------------|--------------------------|
-| ![Image 1](images/mockupdashboard.JPG)   | ![Image 2](images/dashboard.png)   |
+| ![Image 1](images/createaccount.png)   | ![Image 2](images/dashboard.png)   |
 
 ## Synopsis
 Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features with tenants having advanced permissions.
@@ -191,6 +191,17 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Timeline
 </h2>
 
+#### Key Milestones
+- Update styling for created pages
+- Create all pages needed for the site
+  - Tenant/Admin Asset Pages
+  - User Specific Asset Pages
+  - Data Entry Pages
+- Integrate Sendgrid for account creation and password reset
+- Create roles and their corresponding permissions
+- Testing
+- Deploy Project
+
 <h2 id="technologies-used">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/technologiesused.png">
@@ -273,3 +284,4 @@ git pull origin main
 ```
 
 ## License
+All rights are observed. This project is not open source.
