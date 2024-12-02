@@ -193,7 +193,8 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 
 - ASP.NET Core Razor Pages
 - Entity Framework Core
-- SQL Server / LocalDB
+- SQL Server / LocalDB (In development)
+- Azure AQL Server Hosting (In testing)
 - Bootstrap (for simple page styling)
 
 <h2 id="testing">
