@@ -224,6 +224,13 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Developer Instructions
 </h2>
 
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Prepare changes to be staged (`git add .`)
+4. Commit your changes (`git commit -m 'Add my feature'`)
+5. Push to the branch (`git push origin main`)
+6. Create a new Pull Request
+
 ## How to Contribute
 
 If you'd like to contribute to the project:
