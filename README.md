@@ -27,6 +27,9 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Project Structure](#project-structure)
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
+- [Testing](#testing)
+- [Deployment](#deploy)
+- [Developer Instructions](#instructions)
 - [How to Contribute](#contribute)
 - [License](#license)
 
@@ -111,8 +114,12 @@ dotnet build
 Install the required NuGet packages if they are not installed:
 
 ```bash
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add package Microsoft.AspNetCore.Identity.UI
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 ```
 
 ### 4. Set Up the Database Connection
@@ -227,6 +234,12 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Testing
 </h2>
 
+This section will include:
+- Unit testing for critical functionalities (e.g. CRUD operations).
+- Integration testing for database and authentication flows.
+- Load testing to ensure application performance under concurrent usage.
+- User acceptance testing to verify role-based dashboards and features.
+
 <h2 id="deploy">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/deploy.png">
@@ -235,6 +248,10 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   </picture>
   Deploy
 </h2>
+
+This section will outline:
+- Publishing the web application to Azure App Services.
+- Testing deployment on the live environment for accuracy and reliability.
 
 <h2 id="instructions">
   <picture>
