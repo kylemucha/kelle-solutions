@@ -1,0 +1,65 @@
+@page
+@model KelleSolutions.Pages.Roles.ViewTransactionModel
+@{
+    ViewData["Title"] = "View Transaction";
+}
+
+<h2>Add a transaction</h2>
+
+
+<form method="post" class="form-group">
+    <!-- Row for Date Fields -->
+    <div class="row mb-3">
+        <!-- Deposit Date -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="DepositDate" class="form-label"></label>
+                <input asp-for="DepositDate" type="date" class="form-control" />
+                <span asp-validation-for="DepositDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Inspection Date -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="InspectionDate" class="form-label"></label>
+                <input asp-for="InspectionDate" type="date" class="form-control" />
+                <span asp-validation-for="InspectionDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Loan Date -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="LoanDate" class="form-label"></label>
+                <input asp-for="LoanDate" type="date" class="form-control" />
+                <span asp-validation-for="LoanDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Appraisal Date -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="AppraisalDate" class="form-label"></label>
+                <input asp-for="AppraisalDate" type="date" class="form-control" />
+                <span asp-validation-for="AppraisalDate" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Information -->
+    <div class="mb-3">
+        <label asp-for="PropertyInformation" class="form-label"></label>
+        <input asp-for="PropertyInformation" class="form-control" />
+        <span asp-validation-for="PropertyInformation" class="text-danger"></span>
+    </div>
+
+    <!-- Transition Details -->
+    <div class="mb-3">
+        <label asp-for="TransitionDetails" class="form-label"></label>
+        <input asp-for="TransitionDetails" class="form-control" />
+        <span asp-validation-for="TransitionDetails" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
