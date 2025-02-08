@@ -1,0 +1,403 @@
+@page
+@model KelleSolutions.Pages.Admin.adminDashboardModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+    .btn-gray {
+        background-color: #f1f1f1 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .btn-gray:hover {
+        background-color: #e3e3e3 !important;
+    }
+
+    .btn-purple-active {
+        background-color: #4a154b !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .btn-purple-active .btn-text {
+        color: white !important;
+    }
+
+    .logo {
+        max-height: 60px;
+        margin: 10px;
+    }
+
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn-icon {
+        height: 20px;
+        width: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .btn-text {
+        color: #585858;
+    }
+
+    /* Widget container styles */
+    .widget {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .widget-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+
+    .widget-header h5 {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .widget-header .btn-link {
+        position: absolute;
+        right: 0;
+    }
+
+    /* Calendar date box styles */
+    .task-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        gap: 15px;
+    }
+
+    .date-box {
+        background: #4a154b;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        min-width: 70px;
+    }
+
+    .date-box .day {
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .date-box .month {
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+    .task-content {
+        flex: 1;
+    }
+
+    .task-title {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .progress-bar {
+        height: 6px;
+        background: #f1f1f1;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: #4a154b;
+        border-radius: 3px;
+    }
+
+    .add-task-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f8f9fa;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: #4a154b;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .add-task-btn:hover {
+        background: #e9ecef;
+    }
+
+    /* Add grid layout styles */
+    .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .dashboard-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Make widgets fill their container */
+    .widget {
+        height: 100%;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Add styles for the donut chart widget */
+    .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+    }
+
+    .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    /* Status colors */
+    .status-active { background-color: #FFB84C; }
+    .status-onhold { background-color: #82DBF7; }
+    .status-openhouse { background-color: #FF6B6B; }
+    .status-closed { background-color: #59CE8F; }
+
+    .logo-link {
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .logo-link:hover {
+        opacity: 0.9;  /* Optional: adds a subtle hover effect */
+    }
+</style>
+
+<div class="header-section">
+    <a href="/" class="logo-link">
+        <img src="~/images/KELLE_logo_fullcolor.png" alt="Company Logo" class="logo">
+    </a>
+    <div class="button-container">
+        <a href="/Admin/adminDashboard" class="btn btn-primary btn-purple-active rounded-pill">
+            <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Dashboard</span>
+        </a>
+        <a href="/Admin/Listings" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/listing_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Listings</span>
+        </a>
+        <a href="/Admin/Actions" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/actions_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Actions</span>
+        </a>
+        <a href="/Admin/Leads" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Leads</span>
+        </a>
+        <a href="/Admin/People" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">People</span>
+        </a>
+    </div>
+</div>
+
+<!-- Dashboard Content -->
+<div class="dashboard-container">
+    <!-- Left Column -->
+    <div class="dashboard-column">
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Coming up next</h5>
+                <button class="btn btn-link p-0">⋮</button>
+            </div>
+            
+            <!-- Task items -->
+            <div class="task-item">
+                <div class="date-box" style="background: #927393">
+                    <div class="day">18</div>
+                    <div class="month">NOV</div>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">Create new front end for real estate platform</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="date-box" style="background: #927393">
+                    <div class="day">28</div>
+                    <div class="month">NOV</div>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">Perform real estate market analysis</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="date-box" style="background: #e01e5a">
+                    <div class="day">10</div>
+                    <div class="month">DEC</div>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">Analyze real estate markets, trends and best practices</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="date-box" style="background: #927393">
+                    <div class="day">1</div>
+                    <div class="month">JAN</div>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">Search open listings to find properties</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 15%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="add-task-btn">
+                <span>Add</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Middle Column -->
+    <div class="dashboard-column">
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Listings by status (132)</h5>
+                <button class="btn btn-link p-0">⋮</button>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="listingsChart"></canvas>
+            </div>
+
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color status-active"></div>
+                    <span>Active</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-onhold"></div>
+                    <span>On hold</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-openhouse"></div>
+                    <span>Open house</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-closed"></div>
+                    <span>Closed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placeholder for Open house listings widget -->
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Open house listings</h5>
+                <button class="btn btn-link p-0">⋮</button>
+            </div>
+            <!-- We'll add the listings content next -->
+        </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="dashboard-column">
+        <!-- Placeholder for Active listings widget -->
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('listingsChart')?.getContext('2d');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Active', 'On hold', 'Open house', 'Closed'],
+                        datasets: [{
+                            data: [45, 25, 20, 42],
+                            backgroundColor: [
+                                '#FFB84C',
+                                '#82DBF7',
+                                '#FF6B6B',
+                                '#59CE8F'
+                            ],
+                            borderWidth: 0,
+                            cutout: '75%'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}
