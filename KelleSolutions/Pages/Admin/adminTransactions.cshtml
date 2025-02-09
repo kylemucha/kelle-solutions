@@ -1,0 +1,348 @@
+@page
+@model KelleSolutions.Pages.Admin.TransactionsModel
+@{
+    ViewData["Title"] = "Admin Transactions";
+    ViewData["HideFooter"] = true;
+    ViewData["HideNavBar"] = true;
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Header and Navigation Styles (keeping consistent with your dashboard) */
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .logo {
+        max-height: 60px;
+        margin: 10px;
+    }
+
+    /* Button Styles */
+    .btn-gray {
+        background-color: #f1f1f1 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .btn-gray:hover {
+        background-color: #e3e3e3 !important;
+    }
+
+    .btn-purple-active {
+        background-color: #4a154b !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .btn-purple-active .btn-text {
+        color: white !important;
+    }
+
+    .btn-icon {
+        height: 20px;
+        width: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .btn-text {
+        color: #585858;
+    }
+
+    /* Transactions Table Styles */
+    .transactions-container {
+        padding: 20px;
+        padding-bottom: 100px; /* Adjust this value based on your footer height */
+        font-family: 'Sora', sans-serif;
+    }
+
+    .transactions-table {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .transactions-table th {
+        background: #f6f6f8;
+        padding: 15px;
+        font-weight: 600;
+        color: #4a154b;
+    }
+
+    .transactions-table td {
+        padding: 15px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    /* Status Badge Styles */
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .status-accepted {
+        background-color: #ecf8f3;
+        color: #2ebc83;
+    }
+
+    .status-incomplete {
+        background-color: #fff4e5;
+        color: #e01e5a;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+        padding: 6px;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .action-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* File Link Style */
+    .file-link {
+        color: #4a154b;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .file-link:hover {
+        text-decoration: underline;
+    }
+
+    .file-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Footer Styles */
+    .custom-footer {
+        background-color: white;
+        padding: 20px 40px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .footer-logo {
+        height: 24px;
+    }
+
+    .copyright {
+        color: #616061;
+        font-size: 14px;
+    }
+
+    .footer-nav {
+        display: flex;
+        gap: 20px;
+    }
+
+    .footer-link {
+        color: #616061;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .footer-link:hover {
+        color: #1d1c1d;
+        text-decoration: underline;
+    }
+
+    /* Hide the default nav bar */
+    .navbar {
+        display: none !important;
+    }
+
+    .top-right-icons {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .icon-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .menu-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .profile-circle {
+        width: 40px;
+        height: 40px;
+        border: 4px solid transparent;
+        border-radius: 50%;
+        overflow: hidden;
+        background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box;
+        cursor: pointer;
+    }
+
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<!-- Add this at the top of your page content -->
+<div class="top-right-icons" style="right: 140px; top: 50px;">
+    <button class="icon-button">
+        <img src="~/images/threeByThree_dots_button.svg" alt="Menu" class="menu-icon">
+    </button>
+    <a href="/Identity/Account/Manage" style="text-decoration: none;">
+        <div class="profile-circle" style="width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; overflow: hidden; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box; cursor: pointer;">
+            <img src="~/images/profilePhoto_example_1.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </a>
+</div>
+
+<!-- Header Section -->
+<div class="header-section">
+    <a href="/" class="logo-link">
+        <img src="~/images/KELLE_logo_fullcolor.png" alt="Company Logo" class="logo">
+    </a>
+    <div class="button-container">
+        <a href="/Admin/adminDashboard" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/dashboard_logo_Selected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Dashboard</span>
+        </a>
+         <a href="/Admin/Listings" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/listing_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Listings</span>
+        </a>
+        <a href="/Admin/Actions" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/actions_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Actions</span>
+        </a>
+        <a href="/Admin/Leads" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Leads</span>
+        </a>
+        <a href="/Admin/People" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">People</span>
+        </a>
+       <a href="/Admin/adminTransactions" class="btn btn-primary btn-purple-active rounded-pill">
+            <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Transactions</span>
+        </a>
+    </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="transactions-container">
+    <table class="transactions-table">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Property</th>
+                <th>Client</th>
+                <th>Agent</th>
+                <th>Submitted Date</th>
+                <th>Files</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#TRX-001</td>
+                <td>8581 Cord Way</td>
+                <td>Sarah Johnson</td>
+                <td>John Smith</td>
+                <td>Nov 18, 2023</td>
+                <td>
+                    <a href="#" class="file-link">
+                        <img src="~/images/document_button.svg" alt="Document" class="file-icon">
+                        Purchase Agreement
+                    </a>
+                </td>
+                <td><span class="status-badge status-accepted">Accepted</span></td>
+                <td>
+                    <button class="action-btn">
+                        <img src="~/images/pencil_button.svg" alt="Edit">
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>#TRX-002</td>
+                <td>6716 Castro Verde Way</td>
+                <td>Michael Brown</td>
+                <td>Emma Davis</td>
+                <td>Nov 20, 2023</td>
+                <td>
+                    <a href="#" class="file-link">
+                        <img src="~/images/document_button.svg" alt="Document" class="file-icon">
+                        Disclosure Forms
+                    </a>
+                </td>
+                <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                <td>
+                    <button class="action-btn">
+                        <img src="~/images/pencil_button.svg" alt="Edit">
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add this at the bottom of your transactions content -->
+<footer class="custom-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <img src="~/images/KELLE_footer_logo.svg" alt="Kelle" class="footer-logo">
+            <span class="copyright">© 2025 Kelle, Inc.</span>
+        </div>
+        <div class="footer-right">
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Accessibility</a>
+                <a href="#" class="footer-link">Security</a>
+                <a href="#" class="footer-link">Docs</a>
+                <a href="#" class="footer-link">Support</a>
+            </nav>
+        </div>
+    </div>
+</footer>
+
