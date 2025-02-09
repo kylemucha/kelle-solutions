@@ -166,7 +166,7 @@
     .dashboard-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        gap: 24px;
         padding: 20px;
         font-family: 'Sora', sans-serif;
     }
@@ -181,37 +181,82 @@
         background: #f6f6f8;
         border-radius: 12px;
         padding: 20px;
+        height: 400px;  /* Fixed height for all widgets */
+        display: flex;
+        flex-direction: column;
     }
 
-    /* Add styles for the donut chart widget */
+    .widget-header {
+        flex-shrink: 0;  /* Prevent header from shrinking */
+    }
+
+    /* Make the content area scrollable */
+    .widget-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-top: 15px;
+    }
+
+    /* Update existing scrollable areas to use widget-content */
+    .properties-list,
+    .listing-items,
+    .chart-container {
+        overflow-y: auto;
+        margin-top: 15px;
+    }
+
+    /* Custom scrollbar styling (already exists, but now applies to widget-content) */
+    .widget-content::-webkit-scrollbar,
+    .properties-list::-webkit-scrollbar,
+    .listing-items::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .widget-content::-webkit-scrollbar-track,
+    .properties-list::-webkit-scrollbar-track,
+    .listing-items::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    .widget-content::-webkit-scrollbar-thumb,
+    .properties-list::-webkit-scrollbar-thumb,
+    .listing-items::-webkit-scrollbar-thumb {
+        background: #927393;
+        border-radius: 3px;
+    }
+
+    /* Adjust chart container for optimal size */
     .chart-container {
         position: relative;
         width: 100%;
-        max-width: 300px;
+        height: 220px;  /* Decreased from 250px */
+        max-width: 220px;  /* Decreased from 250px */
         margin: 0 auto;
     }
 
     .chart-legend {
-        margin-top: 20px;
+        margin-top: 12px;  /* Decreased from 15px */
     }
 
     .legend-row {
         display: flex;
         justify-content: center;
-        gap: 40px;
-        margin-bottom: 10px;
+        gap: 20px;  /* Decreased from 25px */
+        margin-bottom: 6px;  /* Decreased from 8px */
     }
 
     .legend-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        min-width: 120px;
+        gap: 5px;  /* Decreased from 6px */
+        min-width: 85px;  /* Decreased from 90px */
+        font-size: 12px;  /* Decreased from 13px */
     }
 
     .legend-color {
-        width: 12px;
-        height: 12px;
+        width: 8px;  /* Decreased from 10px */
+        height: 8px;
         border-radius: 50%;
     }
 
@@ -370,21 +415,6 @@
         height: 20px;
     }
 
-    /* Custom scrollbar styling */
-    .properties-list::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .properties-list::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 3px;
-    }
-
-    .properties-list::-webkit-scrollbar-thumb {
-        background: #927393;
-        border-radius: 3px;
-    }
-
     .custom-footer {
         padding: 20px 40px;
         background: white;
@@ -440,6 +470,11 @@
         align-items: center;
         gap: 12px;
     }
+
+    /* Add style for double-height widget */
+    .widget-double {
+        height: 824px;  /* 400px * 2 + 24px gap */
+    }
 </style>
 
 <div class="header-section">
@@ -491,73 +526,76 @@
 <div class="dashboard-container">
     <!-- Left Column -->
     <div class="dashboard-column">
-        <div class="widget">
+        <div class="widget widget-double">
             <div class="widget-header">
                 <h5>Coming up next</h5>
                 <button class="btn btn-link p-0">
                     <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
-                </button>s
+                </button>
             </div>
             
-            <!-- Task items -->
-            <div class="task-item">
-                <div class="date-box" style="background: #927393">
-                    <div class="day">18</div>
-                    <div class="month">NOVEMBER </div>
-                </div>
-                <div class="task-content">
-                    <div class="task-title">Create new front end for real estate platform</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 30%"></div>
+            <div class="widget-content">
+                <!-- Task items -->
+                <div class="task-item">
+                    <div class="date-box" style="background: #927393">
+                        <div class="day">18</div>
+                        <div class="month">NOVEMBER </div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Create new front end for real estate platform</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="task-item">
-                <div class="date-box" style="background: #927393">
-                    <div class="day">28</div>
-                    <div class="month">NOVEMBER</div>
-                </div>
-                <div class="task-content">
-                    <div class="task-title">Perform real estate market analysis</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 45%"></div>
+                <div class="task-item">
+                    <div class="date-box" style="background: #927393">
+                        <div class="day">28</div>
+                        <div class="month">NOVEMBER</div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Perform real estate market analysis</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="task-item">
-                <div class="date-box" style="background: #e01e5a">
-                    <div class="day">10</div>
-                    <div class="month">DECEMBER</div>
-                </div>
-                <div class="task-content">
-                    <div class="task-title">Analyze real estate markets, trends and best practices</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 75%"></div>
+                <div class="task-item">
+                    <div class="date-box" style="background: #e01e5a">
+                        <div class="day">10</div>
+                        <div class="month">DECEMBER</div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Analyze real estate markets, trends and best practices</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="task-item">
-                <div class="date-box" style="background: #927393">
-                    <div class="day">1</div>
-                    <div class="month">JANUARY</div>
-                </div>
-                <div class="task-content">
-                    <div class="task-title">Search open listings to find properties</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 15%"></div>
+                <div class="task-item">
+                    <div class="date-box" style="background: #927393">
+                        <div class="day">1</div>
+                        <div class="month">JANUARY</div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Search open listings to find properties</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="add-button-container">
-                <button class="gradient-add-button">
-                    Add <span class="plus-sign">
-                        <img src="~/images/plus_button.svg" alt="+" class="plus-icon">
-                    </span>
-                </button>
+                
+                <!-- Move add button here, inside widget-content -->
+                <div class="add-button-container" style="margin-top: 15px;">
+                    <button class="gradient-add-button">
+                        Add <span class="plus-sign">
+                            <img src="~/images/plus_button.svg" alt="+" class="plus-icon">
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -567,34 +605,33 @@
         <div class="widget">
             <div class="widget-header">
                 <h5>Listings by status (132)</h5>
-                <button class="btn btn-link p-0">
-                    <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
-                </button>
             </div>
             
-            <div class="chart-container">
-                <canvas id="listingsChart"></canvas>
-            </div>
-
-            <div class="chart-legend">
-                <div class="legend-row">
-                    <div class="legend-item">
-                        <div class="legend-color status-active"></div>
-                        <span>Active</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color status-onhold"></div>
-                        <span>On hold</span>
-                    </div>
+            <div class="widget-content">
+                <div class="chart-container">
+                    <canvas id="listingsChart"></canvas>
                 </div>
-                <div class="legend-row">
-                    <div class="legend-item">
-                        <div class="legend-color status-openhouse"></div>
-                        <span>Open house</span>
+
+                <div class="chart-legend">
+                    <div class="legend-row">
+                        <div class="legend-item">
+                            <div class="legend-color status-active"></div>
+                            <span>Active</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color status-onhold"></div>
+                            <span>On hold</span>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color status-closed"></div>
-                        <span>Closed</span>
+                    <div class="legend-row">
+                        <div class="legend-item">
+                            <div class="legend-color status-openhouse"></div>
+                            <span>Open house</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color status-closed"></div>
+                            <span>Closed</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -609,7 +646,7 @@
                 </button>
             </div>
 
-            <div class="listing-items properties-list">
+            <div class="widget-content listing-items properties-list">
                 <div class="listing-item">
                     <img src="~/images/houseExample_1.png" alt="House" class="listing-image">
                     <div class="listing-details">
@@ -671,7 +708,7 @@
             </div>
 
             <!-- Listing items -->
-            <div class="listing-items">
+            <div class="widget-content listing-items">
                 <div class="listing-item">
                     <img src="~/images/houseExample_3.png" alt="House" class="listing-image">
                     <div class="listing-details">
@@ -689,6 +726,33 @@
                         <div class="listing-id">(#119)</div>
                     </div>
                 </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -698,7 +762,7 @@
                 <h5>Latest properties</h5>
             </div>
 
-            <div class="properties-list">
+            <div class="widget-content properties-list">
                 <div class="property-item">
                     <div class="property-info">
                         <div class="property-title">4465 Granite Drive</div>
