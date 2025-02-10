@@ -6,7 +6,6 @@
 
 <h2>Add a transaction</h2>
 
-
 <form method="post" class="form-group">
     <!-- Row for Date Fields -->
     <div class="row mb-3">
@@ -61,5 +60,26 @@
         <span asp-validation-for="TransitionDetails" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+      <!-- Status Dropdown -->
+      <div class="mb-3">
+          <label asp-for="Status" class="form-label"></label>
+          <select asp-for="Status" class="form-control form-select">
+              <option value="">Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="On-Hold">On-Hold</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+          </select>
+          <span asp-validation-for="Status" class="text-danger"></span>
+      </div>
+
+      <!-- Comments Section -->
+    <div class="mb-3">
+        <label asp-for="Comments" class="form-label"></label>
+        <textarea asp-for="Comments" class="form-control" rows="4" placeholder="Add your comments here..."></textarea>
+        <span asp-validation-for="Comments" class="text-danger"></span>
+    </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </form>

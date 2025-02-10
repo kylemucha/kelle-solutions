@@ -42,6 +42,15 @@ namespace KelleSolutions.Pages.Roles
         [Display(Name = "Transition Details")]
         public string TransitionDetails { get; set; }
 
+        // Status Details
+        [BindProperty]
+        [Display(Name = "Status")]
+        public string Status { get; set; }
+
+        // Comments
+        [BindProperty]
+        [Display(Name = "Comments")]
+        public string Comments { get; set; }
         public void OnGet()
         {
             // If you are editing an existing transaction, load data here

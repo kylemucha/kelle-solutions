@@ -1,8 +1,11 @@
 @page
-@model RolesModel
+@model KelleSolutions.Pages.Roles.TransactionsModel
 @{
     ViewData["Title"] = "Transactions";
 }
+
+<!-- main transactions page displaying a table of all transactions -->
+<!-- table includes ids, dates, status badges, and view action buttons -->
 
 <link rel="stylesheet" href="~/css/roles-transactions.css" />
 
@@ -10,7 +13,6 @@
     <h3>Transactions</h3>
     <a href="/Transactions/ViewTransaction" class="add-new-btn">Add New</a>
 </div>
-
 <div class="transactions-container">
     <table class="table">
         <thead>
@@ -24,8 +26,25 @@
             </tr>
         </thead>
         <tbody>
-
-
+              @foreach (var transaction in Model.Transactions)
+              {
+                  <tr>
+                      <td>@transaction.TransactionId</td>
+                      <td>@transaction.ListingId</td>
+                      <td>@transaction.ContractDate.ToShortDateString()</td>
+                      <td>@transaction.ClosingDate.ToShortDateString()</td>
+                      <td>
+                          <span class="status-badge @transaction.Status.ToLower()">
+                              @transaction.Status
+                          </span>
+                      </td>
+                      <td>@transaction.Comments</td>
+                      <td>
+                          <a href="/Transactions/ViewTransaction?id=@transaction.TransactionId" class="btn btn-sm btn-primary">View</a>
+                      </td>
+                  </tr>
+              }
         </tbody>
     </table>
+  </div>
 </div>
