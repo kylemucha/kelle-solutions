@@ -1,0 +1,49 @@
+@page
+@model KelleSolutions.Pages.Entities.EntitiesModel
+@{
+    ViewData["Title"] = "User Entities";
+}
+
+<link rel="stylesheet" href="~/css/listings.css" />
+
+<div class="header-section">
+    <h3>User Entities</h3>
+</div>
+
+<div class="listings-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UserEntities)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a href="/Entities/ViewEntities?userId=@item.Id" class="view-listings">View Entities</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-section">
+    <div class="page-navigation">
+        <div class="page-item">
+            <a class="page-link">Previous</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link active">1</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link">Next</a>
+        </div>
+    </div>
+</div>

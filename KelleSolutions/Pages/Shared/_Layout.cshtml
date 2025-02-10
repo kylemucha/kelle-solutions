@@ -52,7 +52,8 @@
 
     @* Collapsible Sidebar Navbar, only visible when the user is signed in and on specified pages *@
 @if (SignInManager.IsSignedIn(User) && (Context.Request.Path == "/AT_Dashboard" || Context.Request.Path == "/Roles/Roles" || Context.Request.Path == "/Listings/Listings"
-    || Context.Request.Path == "/Listings/ViewListing" || Context.Request.Path == "/Affiliations/CreateAffiliate" || Context.Request.Path == "/Transactions/Transactions"))
+    || Context.Request.Path == "/Listings/ViewListing" || Context.Request.Path == "/Affiliations/CreateAffiliate" || Context.Request.Path == "/Transactions/Transactions"
+    || Context.Request.Path == "/Entities/Entities" || Context.Request.Path == "/Entities/ViewEntities"))
 {
     <div class="d-flex">
         <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar" aria-expanded="false" aria-controls="sideNavbar">
@@ -93,7 +94,7 @@
                     <img class ="img-fluid"src="/images/leads.png" id="icons" alt="leadsicon">
                     Leads
                 </a>
-                <a class="sidebar-link" href="/Entities">
+                <a class="sidebar-link" href="/Entities/Entities">
                     <img class ="img-fluid"src="/images/entities.png" id="icons" alt="entitiesicon">
                     Entities
                 </a>

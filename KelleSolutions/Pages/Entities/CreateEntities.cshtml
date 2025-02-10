@@ -1,0 +1,46 @@
+@page
+@model KelleSolutions.Pages.Entities.CreateEntitiesModel
+@{
+    ViewData["Title"] = "Create New Entity";
+}
+
+<h2>Create New Entity</h2>
+
+<form method="post" class="form-group">
+    <div class="mb-3">
+        <label asp-for="Entity.Name" class="form-label"></label>
+        <input asp-for="Entity.Name" class="form-control" />
+        <span asp-validation-for="Entity.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Entity.Category" class="form-label"></label>
+        <select asp-for="Entity.Category" class="form-control form-select">
+            <option value="">Select Category</option>
+            <option value="Real Estate Agent">Real Estate Agent</option>
+            <option value="Real Estate Broker">Real Estate Broker</option>
+            <option value="Title Company">Title Company</option>
+            <option value="Transaction Coordinator">Transaction Coordinator</option>
+        </select>
+        <span asp-validation-for="Entity.Category" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Entity.Phone" class="form-label"></label>
+        <input asp-for="Entity.Phone" class="form-control" />
+        <span asp-validation-for="Entity.Phone" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Entity.Location" class="form-label"></label>
+        <input asp-for="Entity.Location" class="form-control" />
+        <span asp-validation-for="Entity.Location" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Entity</button>
+    <a asp-page="ViewEntities" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -16,6 +16,8 @@ namespace KelleSolutions.Data
 
         // DbSet for Affiliates (Add this line)
         public DbSet<Affiliate> Affiliates { get; set; }
-        
+
+        // DbSet for Entities
+        public DbSet<Entity> Entities { get; set; }
     }
 }
