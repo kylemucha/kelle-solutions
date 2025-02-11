@@ -1,0 +1,49 @@
+@page
+@model KelleSolutions.Pages.Properties.PropertiesModel
+@{
+    ViewData["Title"] = "Properties";
+}
+
+<link rel="stylesheet" href="~/css/listings.css" />
+
+<div class="header-section">
+    <h3>Properties</h3>
+</div>
+
+<div class="listings-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UserProperties)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.UserName</td>
+                    <td>
+                        <a href="/Properties/ViewProperty?userId=@item.Id" class="view-listings">View Properties</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-section">
+    <div class="page-navigation">
+        <div class="page-item">
+            <a class="page-link">Previous</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link active">1</a>
+        </div>
+        <div class="page-item">
+            <a class="page-link">Next</a>
+        </div>
+    </div>
+</div>
