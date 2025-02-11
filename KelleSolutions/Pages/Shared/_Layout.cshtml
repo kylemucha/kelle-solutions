@@ -53,7 +53,8 @@
     @* Collapsible Sidebar Navbar, only visible when the user is signed in and on specified pages *@
 @if (SignInManager.IsSignedIn(User) && (Context.Request.Path == "/AT_Dashboard" || Context.Request.Path == "/Roles/Roles" || Context.Request.Path == "/Listings/Listings"
     || Context.Request.Path == "/Listings/ViewListing" || Context.Request.Path == "/Affiliations/CreateAffiliate" || Context.Request.Path == "/Transactions/Transactions"
-    || Context.Request.Path == "/Entities/Entities" || Context.Request.Path == "/Entities/ViewEntities"))
+    || Context.Request.Path == "/Entities/Entities" || Context.Request.Path == "/Entities/ViewEntities" || Context.Request.Path == "/People/People" 
+    || Context.Request.Path == "/People/ViewPeople"))
 {
     <div class="d-flex">
         <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar" aria-expanded="false" aria-controls="sideNavbar">
@@ -86,7 +87,7 @@
                     <img class ="img-fluid"src="/images/properties.png" id="icons" alt="propertiesicon">
                     Properties
                 </a>
-                <a class="sidebar-link" href="/People">
+                <a class="sidebar-link" href="/People/People">
                     <img class ="img-fluid"src="/images/people.png" id="other" alt="peopleicon">
                     People
                 </a>
