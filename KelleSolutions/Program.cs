@@ -10,7 +10,7 @@ builder.Services.AddDbContext<KelleSolutionsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Update Identity to use the custom User class (User instead of IdentityUser)
-builder.Services.AddDefaultIdentity<User>() 
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<KelleSolutionsDbContext>();
 builder.Services.AddRazorPages();
