@@ -5,49 +5,58 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
+<head>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/manageaccount.css" />
+</head>
+
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <!-- Username (Disabled) -->
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+            <div class="card-body">
+                <!-- Username (Disabled) -->
+                <div class="mb-3">
+                    <label for="Username" class="form-label">Username</label>
+                    <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                </div>
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label for="First Name" class="form-label"> First Name</label>
+                    <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <!-- Last Name -->
+                <div class="mb-3">
+                    <label for="Last Name" class="form-label"> Last Name</label>
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                <!-- Affiliation -->
+                <div class="mb-3">
+                    <label for="Affiliation" class="form-label">Affiliation</label>
+                    <input asp-for="Input.Affiliation" class="form-control" placeholder="Affiliation" />
+                    <span asp-validation-for="Input.Affiliation" class="text-danger"></span>
+                </div>
+                <!-- Phone Number -->
+                <div class="mb-3">
+                    <label for="Phone Number" class="form-label">Phone Number</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <!-- Agent License Number -->
+                <div class="mb-3">
+                    <label for="License Number" class="form-label">License Number</label>
+                    <input asp-for="Input.LicenseNumber" class="form-control" placeholder="Agent License Number" />
+                    <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
+                </div>
+                <!-- Save button -->
+                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
             </div>
-            <!-- First Name -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
-                <label asp-for="Input.FirstName"></label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <!-- Last Name -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
-                <label asp-for="Input.LastName"></label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            <!-- Affiliation -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Affiliation" class="form-control" placeholder="Affiliation" />
-                <label asp-for="Input.Affiliation"></label>
-                <span asp-validation-for="Input.Affiliation" class="text-danger"></span>
-            </div>
-            <!-- Phone Number -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <!-- Agent License Number -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LicenseNumber" class="form-control" placeholder="Agent License Number" />
-                <label asp-for="Input.LicenseNumber"></label>
-                <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
-            </div>
-            <!-- Save button -->
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+
         </form>
     </div>
 </div>
