@@ -23,8 +23,8 @@ namespace KelleSolutions.Pages.Entities
         public async Task OnGetAsync(int userId)
         {
             UserId = userId;
-            Entities = await _context.Entities.ToListAsync();
-            UserName = userId == 1 ? "Randall Watts" : "John Doe";
+            Entities = await _context.Entities.Where(e => e.UserId == userId).ToListAsync();
+            UserName = userId == 1 ? "Randall Watts" : "Luis Gallarzo";
         }
 
         public async Task<IActionResult> OnPostCreateAsync(int userId)
@@ -34,10 +34,27 @@ namespace KelleSolutions.Pages.Entities
                 Name = Request.Form["Name"],
                 Category = Request.Form["Category"],
                 Phone = Request.Form["Phone"],
-                Location = Request.Form["Location"]
+                Location = Request.Form["Location"],
+                UserId = userId
             };
             
             _context.Entities.Add(entity);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage(new { userId = userId });
+        }
+
+        public async Task<IActionResult> OnPostUpdateAsync(int id, int userId)
+        {
+            var existingEntity = await _context.Entities.FindAsync(id);
+            if (existingEntity != null)
+            {
+                existingEntity.Name = Request.Form["Name"];
+                existingEntity.Category = Request.Form["Category"];
+                existingEntity.Phone = Request.Form["Phone"];
+                existingEntity.Location = Request.Form["Location"];
+            };
+
             await _context.SaveChangesAsync();
 
             return RedirectToPage(new { userId = userId });

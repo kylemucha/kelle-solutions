@@ -1,0 +1,229 @@
+body {
+    font-family: Sora;
+}
+
+/*Above Table*/
+
+.header-section p {
+    display: inline-flex; /* Allows items to be aligned horizontally */
+    align-items: center; /* Centers them vertically */
+    gap: 8px; /* Adds space between the icon and the text */
+    font-size: 13px; /* Adjust font size as needed */
+    font-weight: 250;
+}
+
+.header-section svg {
+    vertical-align: middle; /* Ensures the SVG aligns vertically with the text */
+    margin-top: -3px; /* Manually adjust the position */
+    fill: #1264a3;
+}
+
+.header-section span {
+    margin-left: 1px; /* Adjust the gap size here */
+}
+
+.pagename-text {
+    color: #5f6368; /* Change this to your desired color */
+}
+
+.button-label {
+    display: block; /* Ensures the label is a block-level element, so it sits above the button */
+    /*margin-bottom: 10px; /* Adds some space between the label and the button */
+    font-size: 10px; /* Adjust the font size for the label */   
+}
+
+.btn-outline {
+    border: 1px solid #5f6368;  /* Custom border color */
+    color: #5f6368;             /* Custom text color */
+    background-color: transparent;
+    font-size: 13px; /* Adjust font size as needed */
+    font-weight: 250;
+    box-shadow: none !important; /* Remove Bootstrap's glow */
+    width: 150px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-menu {
+    font-size: 13px; /* Adjust font size as needed */
+    font-weight: 250;
+    min-width: 100% !important;  /* Change width */
+    overflow-y: auto;
+    color: #000000;
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.gradient-button {
+    position: relative;
+    border: none;
+    color: #fff;
+    background-image: linear-gradient(90deg, #ffa600, #ff004c);
+    border-radius: 20px;
+    background-size: 100% auto;
+    font-weight: 250;
+    font-size: 15px;
+    padding: .6em;
+    padding-left: 1em;
+    padding-right: 2.8em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.gradient-button svg {
+    position: absolute;
+    left: 77.6%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Centering the SVG */
+    z-index: 1;
+    fill: #ff004c;
+}
+
+.gradient-button::after {
+    content: "";
+    position: absolute;
+    right: 8px; /* Adjust distance from text */
+    width: 24px; /* Size of the hole */
+    height: 24px;
+    background: white; /* Background color matches the page */
+    border-radius: 50%;
+    pointer-events: none; /* Ensures clicks still register */
+    z-index: 0; /* Places the circle behind the SVG */
+}
+
+.gradient-button:hover {
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse512 1.5s infinite;
+}
+
+@keyframes pulse512 {
+    0% {
+     box-shadow: 0 0 0 0 #ff004c;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+/* container and table styles */
+
+.content-container {
+    border-radius: 0;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: collapse;
+    background-color: transparent;
+}
+
+.table thead tr {
+    color: black;
+}
+
+.table thead th {
+    padding: 12px 16px;
+    font-weight: bold;
+    border-bottom: none;
+}
+
+.table tbody td {
+    padding: 10px 16px;
+    border: none;
+    border-top: 1px solid #c1c6de;
+    border-bottom: 1px solid #c1c6de;
+    align-content: center;
+}
+
+/*Below Table*/
+
+/* pagination styling */
+
+/*everything in this section*/
+.pagination-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*dropdown and its label*/
+.rows-per-page-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/*just dropdown with svg*/
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/*just dropdown*/
+#pageSize {
+    width: 70px;
+    padding-right: 30px; /* Space for the icon */
+    appearance: none; /* Removes default browser dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.dropdown-outline {
+    border: 1px solid #c1c6de;
+}
+
+/*the dropdown icon*/
+.dropdown-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents the icon from interfering with user clicks */
+}
+
+/*label for dropdown*/
+.rowamount-label {
+    white-space: nowrap; /* Prevents the label from wrapping */
+    flex-shrink: 0;  /* Ensures that the label does not shrink */
+    color: #5f6368;
+}
+
+/*page number and arrow btns*/
+.page-navigation {
+    display: flex;
+    align-items: center;
+}
+
+/*arrow btns*/
+.page-btn {
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+}
+
+/*page number*/
+.page-desc {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the page number text */
+    flex-grow: 1; /* Allow this part to take available space */
+    padding: 0 20px; /* Add some padding for spacing */
+    text-align: center;
+}

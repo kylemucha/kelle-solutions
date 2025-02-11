@@ -6,6 +6,8 @@ namespace KelleSolutions.Models
     public class Entity
     {
         public int Id { get; set; }
+
+        public int UserId { get; set; }
         
         [Required]
         public string Name { get; set; }

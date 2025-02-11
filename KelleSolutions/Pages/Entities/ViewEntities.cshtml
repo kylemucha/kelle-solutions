@@ -34,7 +34,8 @@
                     <td>@entity.Phone</td>
                     <td>@entity.Location</td>
                     <td>
-                        <form method="post" asp-page-handler="Delete" asp-route-id="@entity.Id" asp-route-userId="@Model.UserId"
+                        <a href="#" class="text-primary" style="margin-right: 12px;" onclick="prepareUpdate(@entity.Id, '@entity.Name', '@entity.Category', '@entity.Phone', '@entity.Location')" data-bs-toggle="modal" data-bs-target="#updateEntityModal">Update</a> |
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@entity.Id" asp-route-userId="@Model.UserId" 
                               style="display: inline;" 
                               onsubmit="return confirm('Are you sure you want to delete this entity?');">
                             <button type="submit" class="btn btn-link text-primary">Delete</button>
@@ -65,10 +66,9 @@
                     <div class="form-group">
                         <label for="Category">Category</label>
                         <select class="form-control form-select" id="Category" name="Category" required>
-                            <option value="Real Estate Agent">Real Estate Agent</option>
-                            <option value="Real Estate Broker">Real Estate Broker</option>
-                            <option value="Title Company">Title Company</option>
-                            <option value="Transaction Coordinator">Transaction Coordinator</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Agent">Agent</option>
+                            <option value="Tenant">Tenant</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -86,7 +86,56 @@
     </div>
 </div>
 
+<div class="modal fade" id="updateEntityModal" tabindex="-1" aria-labelledby="updateEntityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateEntityModalLabel">Update Entity</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="Update">
+                    <input type="hidden" id="updateId" name="id" />
+                    <input type="hidden" name="userId" value="@Model.UserId" />
+                    <div class="form-group">
+                        <label for="updateName">Entity Name</label>
+                        <input type="text" class="form-control" id="updateName" name="Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateCategory">Category</label>
+                        <select class="form-control form-select" id="updateCategory" name="Category" required>
+                            <option value="Admin">Admin</option>
+                            <option value="Agent">Agent</option>
+                            <option value="Tenant">Tenant</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updatePhone">Phone</label>
+                        <input type="tel" class="form-control" id="updatePhone" name="Phone" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateLocation">Location</label>
+                        <input type="text" class="form-control" id="updateLocation" name="Location" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function prepareUpdate(id, name, category, phone, location) {
+            document.getElementById('updateId').value = id;
+            document.getElementById('updateName').value = name;
+            document.getElementById('updateCategory').value = category;
+            document.getElementById('updatePhone').value = phone;
+            document.getElementById('updateLocation').value = location;
+        }
+    </script>
 }
