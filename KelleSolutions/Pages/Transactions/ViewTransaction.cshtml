@@ -82,4 +82,62 @@
     </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+</form>
+
+<div class="modal fade" id="updateTransactionModal" tabindex="-1" aria-labelledby="updateTransactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateTransactionModalLabel">Update Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="Update">
+                    <input type="hidden" id="updateId" name="id"/>
+                    <div class="form-group">
+                        <label for="updateDepositDate">DepositDate</label>
+                        <input type="date" class="form-control" id="updateDepositDate" name="DepositDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateInspectionDate">Inspection Date</label>
+                        <input type="date" class="form-control" id="updateInspectionDate" name="InspectionDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateLoanDate">Loan Date</label>
+                        <input type="date" class="form-control" id="updateLoanDate" name="LoanDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateAppraisalDate">Appraisal Date</label>
+                        <input type="date" class="form-control" id="updateAppraisalDate" name="AppraisalDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updatePropertyInfo">Property Information</label>
+                        <input type="text" class="form-control" id="updatePropertyInfo" name="PropertyInfo" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateTransitionDetails">Transition Details</label>
+                        <input type="text" class="form-control" id="updateTransitionDetails" name="TransitionDetails" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="updateStatus">Status</label>
+                        <select class="form-control" id="updateStatus" name="Status" required>
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                            <option value="On-Hold">On-Hold</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Canceled">Canceled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateComments">Comments</label>
+                        <input type="text" class="form-control" id="updateComments" name="Comments" required />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
