@@ -28,14 +28,6 @@ namespace KelleSolutions.Migrations
                 keyColumn: "Id",
                 keyValue: "fdef5211-ac96-49eb-9025-75ec22931824");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "PropertyType",
-                table: "Properties",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
-
             migrationBuilder.CreateTable(
                 name: "Leads",
                 columns: table => new
@@ -88,13 +80,15 @@ namespace KelleSolutions.Migrations
                 keyColumn: "Id",
                 keyValue: "c853a50f-b497-4b2e-8058-9fc46defaf90");
 
-            migrationBuilder.AlterColumn<string>(
+            migrationBuilder.DropColumn(
+                name: "PropertyType",
+                table: "Properties");
+            
+            migrationBuilder.AddColumn<string>(
                 name: "PropertyType",
                 table: "Properties",
                 type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
+                nullable: false);
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",

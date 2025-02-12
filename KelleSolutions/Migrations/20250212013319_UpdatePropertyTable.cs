@@ -56,14 +56,16 @@ namespace KelleSolutions.Migrations
                 table: "Properties",
                 newName: "GarageCount");
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.DropColumn(
+                name: "GarageCount",
+                table: "Properties");
+
+            migrationBuilder.AddColumn<int>(
                 name: "GarageCount",
                 table: "Properties",
                 type: "int",
                 nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .OldAnnotation("SqlServer:Identity", "1, 1");
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "PropertyID",
@@ -207,14 +209,13 @@ namespace KelleSolutions.Migrations
                 table: "Properties",
                 newName: "StreetAddress");
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.DropColumn(
                 name: "Id",
-                table: "Properties",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .Annotation("SqlServer:Identity", "1, 1");
+                table: "Properties");
+
+            migrationBuilder.DropColumn(
+                name: "Id",
+                table: "Properties");
 
             migrationBuilder.AddColumn<string>(
                 name: "County",
@@ -240,7 +241,7 @@ namespace KelleSolutions.Migrations
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Properties",
                 table: "Properties",
-                column: "Id");
+                column: "PropertyId");
         }
     }
 }
