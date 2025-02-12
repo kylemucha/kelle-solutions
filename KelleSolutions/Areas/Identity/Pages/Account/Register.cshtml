@@ -37,19 +37,33 @@
                             </div>
                         </div>
 
-                        <!-- Email, Phone Number, License Number -->
+                        <!-- Email and Phone Number -->
                         <div class="row g-3 mt-3">
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
                                 <input asp-for="Input.Email" id="email" class="form-control" />
                                 <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label for="phoneNumber" class="form-label">Phone Number</label>
-                                <input asp-for="Input.PhoneNumber" id="phoneNumber" class="form-control" />
+                                <input asp-for="Input.PhoneNumber" id="phoneNumber" class="form-control" maxlength="10" />
                                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                             </div>
-                            <div class="col-md-3">
+                        </div>
+
+                        <!-- Role and License Number -->
+                        <div class="row g-3 mt-3">
+                            <div class="col-md-6">
+                                <label for="role" class="form-label">Role</label>
+                                <select asp-for="Input.Role" id="role" class="form-select" required>
+                                    <option value="" disabled selected style="color: grey;">Select Role</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Broker">Broker</option>
+                                    <option value="Agent">Agent</option>
+                                </select>
+                                <span asp-validation-for="Input.Role" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="licenseNumber" class="form-label">License Number</label>
                                 <input asp-for="Input.LicenseNumber" id="licenseNumber" class="form-control" maxlength="8" />
                                 <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>

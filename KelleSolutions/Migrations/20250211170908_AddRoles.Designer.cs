@@ -4,6 +4,7 @@ using KelleSolutions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    partial class KelleSolutionsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250211170908_AddRoles")]
+    partial class AddRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,73 +84,55 @@ namespace KelleSolutions.Migrations
                     b.ToTable("Entities");
                 });
 
-            modelBuilder.Entity("KelleSolutions.Models.Property", b =>
+            modelBuilder.Entity("KelleSolutions.Models.RealEstateProperty", b =>
                 {
-                    b.Property<int>("PropertyID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PropertyID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BathCount")
+                    b.Property<int>("Bathrooms")
                         .HasColumnType("int");
 
-                    b.Property<int>("BedCount")
+                    b.Property<int>("Bedrooms")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GarageCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsComplex")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRemodeled")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LandSize")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("PartialCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PropertyType")
+                    b.Property<string>("County")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Size")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateListed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("YearConstructed")
-                        .HasColumnType("int");
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnitNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PropertyID");
+                    b.HasKey("Id");
 
                     b.ToTable("Properties");
                 });

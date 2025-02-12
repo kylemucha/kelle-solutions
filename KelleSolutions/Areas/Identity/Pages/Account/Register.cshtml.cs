@@ -70,11 +70,15 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required(ErrorMessage = "Phone Number is required.")]
+            [RegularExpression(@"^\d{10}$", ErrorMessage = "Enter a valid phone number with exactly 10 digits.")]
             public string PhoneNumber { get; set; }
 
             [Required(ErrorMessage = "License Number is required.")]
             [RegularExpression(@"^\d{8}$", ErrorMessage = "The License Number must be exactly 8 digits.")]
             public string LicenseNumber { get; set; }
+
+            [Required(ErrorMessage = "Role selection is required.")]
+            public string Role { get; set; }
 
             [Required(ErrorMessage = "Password is required.")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -118,6 +122,23 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Set the selected user role dynamically
+                    var selectedRole = Input.Role;
+                    if (!string.IsNullOrEmpty(Input.Role))
+                    {
+                        var roleAssignResult = await _userManager.AddToRoleAsync(user, Input.Role);
+                        if (!roleAssignResult.Succeeded)
+                        {
+                            ModelState.AddModelError("", "Failed to assign role.");
+                            return Page();
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Input.Role", "Role selection is required.");
+                        return Page();
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

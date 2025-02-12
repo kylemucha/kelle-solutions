@@ -23,6 +23,11 @@
                     <label for="Username" class="form-label">Username</label>
                     <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
                 </div>
+                <!-- Role (Disabled) -->
+                <div class="mb-3">
+                    <label for="Role" class="form-label">Role</label>
+                    <input type="text" class="form-control" value="@Model.UserRole" disabled />
+                </div>
                 <!-- First Name -->
                 <div class="mb-3">
                     <label for="First Name" class="form-label"> First Name</label>

@@ -44,3 +44,10 @@ body {
     height: 50vh; /* 50% of the viewport height */
     object-fit: cover; /* Ensures images maintain aspect ratio and fill the container */
 }
+
+/* ------------------ Navbar and Username Alignment Styles ------------------ */
+/* Adjust the vertical alignment of the username in the navbar dropdown */
+.username-align {
+    position: relative;
+    top: 5px; /* Adjust to align with other navbar elements */
+}

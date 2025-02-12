@@ -31,6 +31,9 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
         public string StatusMessage { get; set; }
 
         [BindProperty]
+        public string UserRole { get; set; }
+
+        [BindProperty]
         public InputModel Input { get; set; }
 
         public class InputModel
@@ -50,7 +53,8 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Affiliation")]
             public string Affiliation { get; set; }
 
-            [Phone(ErrorMessage = "Enter a valid phone number.")]
+            [Required(ErrorMessage = "Enter a valid 10-digit phone number (e.g., 1234567890).")]
+            [RegularExpression(@"^\d{10}$")]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
@@ -68,6 +72,10 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             var affiliation = user.Affiliation;
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var licenseNumber = user.LicenseNumber;
+
+            // Fetch User role
+            var roles = await _userManager.GetRolesAsync(user);
+            UserRole = roles.Count > 0 ? roles[0] : "No Role Assigned";
 
             Username = user.UserName;
             Input = new InputModel
