@@ -36,5 +36,8 @@ namespace KelleSolutions.Data
 
         // DbSet for Entities
         public DbSet<Entity> Entities { get; set; }
+
+        // DbSet for Leads
+        public DbSet<Lead> Leads { get; set; }
     }
 }
