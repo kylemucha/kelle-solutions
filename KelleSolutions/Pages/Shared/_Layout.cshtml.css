@@ -155,3 +155,14 @@ button.accept-policy {
   background: transparent; /*making background transparent*/
   top:-10px;
 }
+
+/* For required input fields */
+label.required::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

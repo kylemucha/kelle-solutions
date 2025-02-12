@@ -1,147 +1,420 @@
 @page
 @model KelleSolutions.Pages.Properties.CreatePropertyModel
-@{
-    ViewData["Title"] = "Create New Property";
-}
-
-<h2>Create New Property</h2>
+@{ ViewData["Title"] = "Create New Property"; }
+<!--
+Date: 02/11/2025 
+Updating CreateProperty.cshtml to reflect new and modified input fields needed to create Property entity
+to be stored in the Properties table.
+Adding comments to better explain documentation.
+-->
+<head>
+    <link rel="stylesheet" href="~/wwwroot/css/CreateProperty.css" asp-append-version="true">
+    <h2>Create New Property</h2>
+</head>
 
 <form method="post">
-    <!-- Street Address with autocomplete for selecting an address -->
+    <!-- Address input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.StreetAddress" class="control-label">Street Address *</label>
-        <input asp-for="RealEstateProperty.StreetAddress" id="StreetAddress" class="form-control" placeholder="Start typing an address..." autocomplete="off" />
-        <span asp-validation-for="RealEstateProperty.StreetAddress" class="text-danger"></span>
-        <ul id="propertySuggestions" class="list-group"></ul> <!-- List for displaying address suggestions -->
+        <label asp-for="Property.Address" class="control-label required">Address</label>
+        <input asp-for="Property.Address" id="Address" class="form-control"
+            placeholder="Start typing an address..." autocomplete="off"/>
+        <span asp-validation-for="Property.Address" class="text-danger"></span>
+
+        <!-- Address with auto-suggestions for selecting an address (Populates field via PropertyApiController.cs) -->
+        <!-- Side note: "d-none" keeps the suggestions hidden until needed for autocomplete -->
+        <ul id="propertySuggestions" class="list-group d-none"></ul>
     </div>
 
-    <!-- Apartment or Unit Number -->
+    <!-- City input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.UnitNumber" class="control-label">Apartment/Unit Number</label>
-        <input asp-for="RealEstateProperty.UnitNumber" class="form-control" />
+        <label asp-for="Property.City" class="control-label required">City</label>
+        <input asp-for="Property.City" class="form-control"/>
+        <span asp-validation-for="Property.City" class="text-danger"></span>
     </div>
 
-    <!-- City -->
+    <!-- State input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.City" class="control-label">City *</label>
-        <input asp-for="RealEstateProperty.City" class="form-control" />
-        <span asp-validation-for="RealEstateProperty.City" class="text-danger"></span>
+        <label asp-for="Property.State" class="control-label required">State</label>
+        <input asp-for="Property.State" class="form-control"/>
+        <span asp-validation-for="Property.State" class="text-danger"></span>
     </div>
 
-    <!-- State or Province -->
+    <!-- Zip Code input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.State" class="control-label">State/Province *</label>
-        <input asp-for="RealEstateProperty.State" class="form-control" />
-        <span asp-validation-for="RealEstateProperty.State" class="text-danger"></span>
+        <label asp-for="Property.ZipCode" class="control-label required">Zip Code</label>
+        <input asp-for="Property.ZipCode" class="form-control" type="text"/>
+        <span asp-validation-for="Property.ZipCode" class="text-danger"></span>
     </div>
 
-    <!-- Zip Code -->
+    <!-- Size input field (Optional) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.ZipCode" class="control-label">Zip Code *</label>
-        <input asp-for="RealEstateProperty.ZipCode" class="form-control" type="text" />
-        <span asp-validation-for="RealEstateProperty.ZipCode" class="text-danger"></span>
+        <label asp-for="Property.Size" class="control-label">Property Size (sq ft)</label>
+        <input asp-for="Property.Size" class="form-control" type="number" min="0" step="1"
+            placeholder="Enter the size in square feet"/>
+        <span asp-validation-for="Property.Size" class="text-danger"></span>
     </div>
 
-    <!-- Property Price -->
+    <!-- Land Size input (Optional) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.Price" class="control-label">Price *</label>
-        <input asp-for="RealEstateProperty.Price" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="RealEstateProperty.Price" class="text-danger"></span>
+        <label asp-for="Property.LandSize" class="control-label">Land Size</label>
+
+        <!-- Radio buttons prompting user to selected an input type -->
+        <div>
+            <input type="radio" id="sqftOption" name="landSizeUnit" value="sqft" checked>
+            <label for="sqftOption">in Square Feet</label>
+
+            <input type="radio" id="acreOption" name="landSizeUnit" value="acre">
+            <label for="acreOption">in Acres</label>
+        </div>
+
+        <!-- Actual Land Size input field -->
+        <div class="input-group">
+            <input asp-for="Property.LandSize" id="LandSizeInput" class="form-control"
+                type="number" min="0" step="1" placeholder="Enter the land size"/>
+            <span asp-validation-for="Property.LandSize" class="text-danger">sq ft</span>
+        </div>
+
+        <!-- Approximate Converted Value -->
+        <div>
+            <strong>Converted Size:</strong> <span id="ConvertedSize">0</span>
+            <span id="ConvertedUnit">acres</span>
+        </div>
     </div>
 
-    <!-- Property Description -->
+    <!-- Bedroom Count input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.Description" class="control-label">Description</label>
-        <textarea asp-for="RealEstateProperty.Description" class="form-control"></textarea>
+        <label asp-for="Property.BedCount" class="control-label required">Bedrooms</label>
+        <input asp-for="Property.BedCount" class="form-control" type="number" min="0" value="0"/>
+        <span asp-validation-for="Property.BedCount" class="text-danger"></span>
+    </div>
+    
+    <!-- Bathroom Count input field (Required) -->
+    <div class="form-group">
+        <label asp-for="Property.BathCount" class="control-label required">Bathrooms</label>
+        <input asp-for="Property.BathCount" class="form-control" type="number" min="0" value="0"/>
+        <span asp-validation-for="Property.BathCount" class="text-danger"></span>
     </div>
 
-    <!-- Bedrooms -->
+    <!-- Garage Count input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.Bedrooms" class="control-label">Bedrooms *</label>
-        <input asp-for="RealEstateProperty.Bedrooms" class="form-control" type="number" min="1" />
-        <span asp-validation-for="RealEstateProperty.Bedrooms" class="text-danger"></span>
+        <label asp-for="Property.GarageCount" class="control-label required">Garages</label>
+        <input asp-for="Property.GarageCount" class="form-control" type="number" min="0" value="0"/>
+        <span asp-validation-for="Property.GarageCount" class="text-danger"></span>
     </div>
 
-    <!-- Bathrooms -->
+    <!-- Checkbox if Property is Complex or not, default unchecked -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.Bathrooms" class="control-label">Bathrooms *</label>
-        <input asp-for="RealEstateProperty.Bathrooms" class="form-control" type="number" min="1" />
-        <span asp-validation-for="RealEstateProperty.Bathrooms" class="text-danger"></span>
+        <label asp-for="Property.IsComplex" class="control-label">is the Property Complex?</label>
+        <input asp-for="Property.IsComplex" id="IsComplexCheckbox" type="checkbox" class="form-check-input"/>
     </div>
 
-    <!-- Date Listed -->
+    <!-- Partial Count input field (Initially hidden) -->
+    <div class="form-group" id="PartialCountContainer">
+        <label asp-for="Property.PartialCount" class="control-label"></label>
+        <input asp-for="Property.PartialCount" class="form-control" type="number" min="0" value="0"/>
+    </div>
+
+    <!-- Year Constructed input field (Required) -->
     <div class="form-group">
-        <label asp-for="RealEstateProperty.DateListed" class="control-label">Date Listed</label>
-        <input asp-for="RealEstateProperty.DateListed" class="form-control" type="date" />
+        <label asp-for="Property.YearConstructed" class="control-label required"></label>
+        <input asp-for="Property.YearConstructed" class="form-control" type="number" min="1500"
+            max="" maxlength="4"/>
+        <span asp-asp-validation-for="Property.YearConstructed" class="text-danger"></span>
+    </div>
+
+    <!-- Checkbox if Property is Remodeled or not, default unchecked -->
+    <div class="form-group">
+        <label asp-for="Property.IsRemodeled" class="control-label"></label>
+        <input asp-for="Property.IsRemodeled" id="IsRemodeledCheckbox" class="form-check-input" type="checkbox"/>
+    </div>
+
+    <!-- Notes input field (Optional) -->
+    <div class="form-group">
+        <label asp-for="Property.Notes" class="control-label"></label>
+        <textarea asp-for="Property.Notes" id="Notes" class="form-control" rows="4" maxlength="255"
+            placeholder="Enter additional notes here (max 255 characters)..."></textarea>
+        <span asp-asp-validation-for="Property.Notes" class="text-danger"></span>
+    </div>
+
+    <!-- Property Type drop-down list (Required) -->
+    <div class="form-group">
+        <label asp-for="Property.PropertyType" class="control-label"></label>
+        <select asp-for="Property.PropertyType" asp-items="Html.GetEnumSelectList<Models.Property.PropertyTypes>()" class="form-control searchable-dropdown"></select>
+        <option value=""></option>
+        <span asp-validation-for="Property.PropertyType" class="text-danger"></span>
     </div>
 
     <!-- Submit and Cancel buttons -->
     <button type="submit" class="btn btn-primary">Create Property</button>
-    <a asp-page="/AT_Dashboard" class="btn btn-secondary" onclick="return confirmCancelIfDirty();">Cancel</a>
+    <a asp-page="/AT_Dashboard" id="cancelButton" class="btn btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <!-- ASP.NET has built-in validation scripts that can be imported via this line -->
+    <partial name="_ValidationScriptsPartial"/>
 
+    <!-- Loads jQuery from Google CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!-- Adds auto-suggestions feature, populates a dropdown list with suggested addresses -->
     <script>
         $(document).ready(function () {
-            // Listen for input in the StreetAddress field
-            $('#StreetAddress').on('input', function () {
-                var query = $(this).val();
-                
-                // Trigger the AJAX request if the query length is more than 1 character
+            // These are selectors for address input and suggestions list
+            var addressInput = $('#Address');
+            var suggestionsList = $('#propertySuggestions');
+
+            // Function to fetch and display property suggestions
+            function fetchPropertySuggestions(query) {
+                // Only fetch suggestions when user types more than 1 character
                 if (query.length > 1) {
                     $.ajax({
-                        url: '/api/PropertiesApi/GetPropertySuggestions', // API endpoint
-                        data: { term: query }, // Send the user input as the 'term' parameter
+                        // API endpoint for suggestions
+                        url: '/api/PropertiesApi/GetPropertySuggestions',
+                        // Send user input as the 'term' parameter
+                        data: { term: query },
                         success: function (data) {
-                            $('#propertySuggestions').empty(); // Clear previous suggestions
-                            
-                            // Loop through the returned data and display each item
+                            // Clear previous suggestions
+                            suggestionsList.empty();
+                            if (data.length === 0) {
+                                suggestionsList.append('<li class="list-group-item text-muted">No results found</li>');
+                                return;
+                            }
+                            // Loop through returned data and append each result as a list item
                             data.forEach(function (item) {
-                                $('#propertySuggestions').append(
-                                    '<li class="list-group-item suggestion-item" data-id="' + item.id + '">' + item.streetAddress + ', ' + item.city + ', ' + item.state + '</li>'
+                                suggestionsList.append(
+                                    `<li class="list-group-item suggestion-item" data-id="${item.id}">
+                                        ${item.Address}, ${item.city}, ${item.state}
+                                    </li>`
                                 );
                             });
+                        },
+                        error: function () {
+                            console.error('Error fetching property suggestions.');
                         }
                     });
-                } else {
-                    $('#propertySuggestions').empty(); // Clear suggestions if input is too short
                 }
+                else {
+                    // Clear suggestions if input is too short
+                    suggestionsList.empty();
+                }
+            }
+
+            // Event listener: Fetch suggestions when user types in the address input
+            addressInput.on('input', function () {
+                fetchPropertySuggestions($(this).val());
             });
 
-            // Click event for selecting a suggestion
+            // Event listener: Click event to fill input field when a suggestion is selected
             $(document).on('click', '.suggestion-item', function () {
-                var selectedAddress = $(this).text(); // Get the selected address
-                $('#StreetAddress').val(selectedAddress); // Set it in the input field
-                $('#propertySuggestions').empty(); // Clear the suggestions list
+                // Get selected suggestion text
+                var selectedAddress = $(this).text();
+                // Set it as input value
+                addressInput.val(selectedAddress);
+                // Clear the suggestions list
+                suggestionsList.empty();
             });
 
-            // Hide suggestions when clicking outside the input or suggestions
+            // Event listener: Hide suggestions when user clicks outside the input or suggestions list
             $(document).click(function (e) {
-                if (!$(e.target).closest('#StreetAddress, #propertySuggestions').length) {
-                    $('#propertySuggestions').empty(); // Hide suggestions
+                if (!$(e.target).closest('#Address, #propertySuggestions').length) {
+                    // Hide suggestions
+                    suggestionsList.empty();
                 }
             });
         });
     </script>
     
+    <!-- Handles Cancel button and how it behaves -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the Cancel button by its ID
+            var cancelButton = document.getElementById("cancelButton");
+
+            // This if-statement ensures the button exists before adding an event listener (prevents errors)
+            if (cancelButton) {
+                cancelButton.addEventListener("click", function (event) {
+                    // Calls confirmCancelIfDirty() to check for unsaved changes
+                    // If the user has made changes, a confirmation prompt appears
+                    // If the user confirms, the page navigates as expected
+                    // If the user cancels, the navigation is prevented using event.preventDefault()
+                    if (!confirmCancelIfDirty()) {
+                        // Stops navigation if user cancels
+                        event.preventDefault();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Checks if any form input fields have unsaved changes. If changes exist, it prompts the user
+        for confirmation before canceling.
+        Returns Boolean values:
+            True if there are no unsaved changes or user confirms cancel,
+            False otherwise.
+    -->
     <script>
         function confirmCancelIfDirty() {
-            // Get all input and textarea fields in the form
+            // This line selects all text, number, and textarea fields
             const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea');
-            
-            // Check if any input field has a non-empty value
+            // This line selects all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            // Check if any text, number, or textarea field has a non-empty value
             for (let input of inputs) {
                 if (input.value.trim() !== "") {
                     return confirm("Are you sure you want to cancel? Unsaved changes will be lost.");
                 }
             }
-            
-            // No data in fields, allow navigation without confirmation
+            // Check if any checkbox is checked
+            for (let checkbox of checkboxes) {
+                if (checkbox.checked) {
+                    return confirm("Are you sure you want to cancel? Unsaved changes will be lost.");
+                }
+            }
+            // No unsaved changes, allow canceling without a confirmation prompt
             return true;
         }
     </script>
 
+    <!-- This handles the calculations for Land Size Conversion -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select input and output elements
+            const landSizeInput = document.getElementById("LandSizeInput");
+            const convertedSize = document.getElementById("ConvertedSize");
+            const convertedUnit = document.getElementById("ConvertedUnit");
+            const unitLabel = document.getElementById("unitLabel");
+            const sqftOption = document.getElementById("sqftOption");
+            const acreOption = document.getElementById("acreOption");
+
+            // Ensures all required elements exist before running the script
+            if (!landSizeInput || !convertedSize || !convertedUnit || !unitLabel || !sqftOption || !acreOption) {
+                console.warn("Land size conversion script skipped: One or more required elements are missing.");
+                // Exits script early to prevent errors
+                return;
+            }
+
+            // Conversion factor: 1 acre = 43,560 square feet
+            const SQFT_PER_ACRE = 43560;
+
+            // Converts the entered land size between square feet and acres
+            // Updates the displayed converted value and unit as needed
+            function convertSize() {
+                let value = parseFloat(landSizeInput.value);
+                // Handles invalid input or negative values
+                if (isNaN(value) || value < 0) {
+                    convertedSize.textContent = "0";
+                    convertedUnit.textContent = sqftOption.checked ? "acres" : "sq ft";
+                    return;
+                }
+                // Convers based on the selected units
+                if (sqftOption.checked) {
+                    convertedSize.textContent = (value / SQFT_PER_ACRE).toFixed(2);
+                    convertedUnit.textContent = "acres";
+                }
+                else {
+                    convertedSize.textContent = Math.round(value * SQFT_PER_ACRE);
+                    convertedUnit.textContent = "sq ft";
+                }
+            }
+
+            // Updates the input step size and unit label when the user changes the measurement unit
+            function updateUnitLabel() {
+                if (sqftOption.checked) {
+                    unitLabel.textContent = "sq ft";
+                     // Whole numbers for square feet
+                    landSizeInput.step = "1";
+                }
+                else {
+                    unitLabel.textContent = "acres";
+                    // Allows decimals for acres
+                    landSizeInput.step = "0.01";
+                }
+                // Recalculate conversion when unit changes
+                convertSize();
+            }
+
+            // Event listeners
+            sqftOption.addEventListener("change", updateUnitLabel});
+            acreOption.addEventListener("change", updateUnitLabel});
+            landSizeInput.addEventListener("input", convertSize);
+        });
+    </script>
+
+    <!-- Shows or hides PartialCount based on IsComplex checkbox -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Selects the checkbox and the PartialCount container
+            var isComplexCheckbox = document.getElementById("IsComplexCheckbox");
+            var partialCountContainer = document.getElementById("PartialCountContainer");
+            // Ensure required elements exist before adding event listeners
+            if (!isComplexCheckbox || !partialCountContainer) {
+                console.warn("Show/Hide PartialCount script skipped: Required elements are missing.");
+                // Exit script early to prevent errors
+                return;
+            }
+            // Toggles the visiblity of the PartialCount input field when IsComplexCheckbox is checked or unchecked
+            function togglePartialCountVisibility() {
+                // If checked, remove the hidden class to show the input field
+                if (isComplexCheckbox.checked) {
+                    partialCountContainer.classList.remove("hidden");
+                } 
+                // If unchecked, add the hidden class to hide the input field
+                else {
+                    partialCountContainer.classList.add("hidden");
+                }
+            }
+            // Running it just once when the Page loads to set the correct visibility state
+            togglePartialCountVisibility();
+
+            // Add an event listener to the checkbox for when its state changes
+            isComplexCheckbox.addEventListener("change", togglePartialCountVisibility);
+        });
+    </script>
+
+    <!-- Validates whether year of construction is reasonable -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Selects the YearConstructed input field and error message element
+            var yearInput = document.getElementById("YearConstructed");
+            var yearError = document.getElementById("yearError");
+
+            // Ensure the required elements exist before running the script
+            if (!yearInput) {
+                console.warn("Year validation script skipped: #YearConstructed input is missing.");
+                // Exit script early to prevent errors
+                return;
+            }
+
+            if (!yearError) {
+                console.warn("Year validation script warning: #yearError is missing. Validation will still work, but no error message will be displayed.");
+            }
+
+            // Set max year dynamically to prevent selecting future years
+            var currentYear = new Date().getFullYear();
+            yearInput.setAttribute("max", currentYear);
+
+            // Validates the Year Contructed field
+            // Ensures the entered year is within a reasonable range (1800 to current year)
+            function validateYearInput() {
+                var enteredYear = parseInt(yearInput.value, 10);
+
+                // Check if the year is out of the valid range or if the user enters more than 4 digits
+                if (enteredYear > currentYear || enteredYear < 1800 || yearInput.value.length > 4) {
+                    // Show error message if yearError exists
+                    if (yearError) yearError.style.display = "block";
+                    // Prevent form submission
+                    yearInput.setCustomValidity("Invalid year");
+                }
+                else {
+                    // Hide error message if yearError exists
+                    if (yearError) yearError.style.display = "none";
+                    // Allow form submission
+                    yearInput.setCustomValidity("");
+                }
+            }
+
+            // Event listener for year input changes
+            yearInput.addEventListener("input", validateYearInput});
+        });
+    </script>
 }
