@@ -500,12 +500,16 @@
     <button class="btn d-flex align-items-center justify-content-center p-2" style="width: 40px; height: 40px; border: none; background: none;">
         <img src="~/images/threeByThree_dots_button.svg" alt="Menu" style="width: 24px; height: 24px;">
     </button>
-    <div class="d-flex align-items-center ms-3">
-        <a href="/Identity/Account/Manage" style="text-decoration: none;">
-            <div class="profile-circle" style="width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; overflow: hidden; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box; cursor: pointer;">
-                <img src="~/images/profilePhoto_example_1.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-        </a>
+    <div class="d-flex align-items-center ms-3 dropdown">
+        <div class="profile-circle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; overflow: hidden; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box; cursor: pointer;">
+            <img src="~/images/profilePhoto_example_1.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/Identity/Account/#">My activity</a></li>
+            <li><a class="dropdown-item" href="/Identity/Account/Manage">Account settings</a></li>
+            <li><a class="dropdown-item" href="/Identity/Account/#">Administration</a></li>
+            <li><a class="dropdown-item" href="/Identity/Account/Logout">Sign out</a></li>
+        </ul>
     </div>
 </div>
 
