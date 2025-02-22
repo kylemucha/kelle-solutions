@@ -54,7 +54,8 @@
 @if (SignInManager.IsSignedIn(User) && (Context.Request.Path == "/AT_Dashboard" || Context.Request.Path == "/Roles/Roles" || Context.Request.Path == "/Listings/Listings"
     || Context.Request.Path == "/Listings/ViewListing" || Context.Request.Path == "/Affiliations/CreateAffiliate" || Context.Request.Path == "/Transactions/Transactions"
     || Context.Request.Path == "/Entities/Entities" || Context.Request.Path == "/Entities/ViewEntities" || Context.Request.Path == "/People/People" 
-    || Context.Request.Path == "/People/ViewPeople" || Context.Request.Path == "/Properties/Properties" || Context.Request.Path == "/Properties/ViewProperty"))
+    || Context.Request.Path == "/People/ViewPeople" || Context.Request.Path == "/Properties/Properties" || Context.Request.Path == "/Leads/Leads" || Context.Request.Path == "/Properties/ViewProperty"))
+    
 {
     <div class="d-flex">
         <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar" aria-expanded="false" aria-controls="sideNavbar">
@@ -91,7 +92,7 @@
                     <img class ="img-fluid"src="/images/people.png" id="other" alt="peopleicon">
                     People
                 </a>
-                <a class="sidebar-link" href="/Leads">
+                <a class="sidebar-link" href="/Leads/Leads">
                     <img class ="img-fluid"src="/images/leads.png" id="icons" alt="leadsicon">
                     Leads
                 </a>
