@@ -1,7 +1,7 @@
 @page
-@model KelleSolutions.Pages.Admin.adminDashboardModel
+@model KelleSolutions.Pages.Broker.brokerDashboardModel
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Broker Dashboard";
     ViewData["HideFooter"] = true;
 }
 
@@ -462,6 +462,33 @@
     .widget-double {
         height: 824px;  /* 400px * 2 + 24px gap */
     }
+
+    .gradient-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(45deg, #FF6B6B, #FFB84C);
+        color: white;
+        cursor: pointer;
+        font-weight: 500;
+        transition: opacity 0.2s;
+    }
+
+    .gradient-button:hover {
+        opacity: 0.9;
+    }
+
+    .add-button-wrapper {
+        position: sticky;
+        bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 20px;
+        background: linear-gradient(transparent, #f6f6f8 50%);
+    }
 </style>
 
 <div class="header-section">
@@ -469,7 +496,7 @@
         <img src="~/images/KELLE_logo_fullcolor.png" alt="Company Logo" class="logo">
     </a>
     <div class="button-container">
-        <a href="/Admin/adminDashboard" class="btn btn-primary btn-purple-active rounded-pill">
+        <a href="/Broker/brokerDashboard" class="btn btn-primary btn-purple-active rounded-pill">
             <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
             <span class="btn-text">Dashboard</span>
         </a>
@@ -489,7 +516,7 @@
             <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">People</span>
         </a>
-        <a href="/Admin/Settings" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center p-2 position-absolute" style="width: 40px; height: 40px; right: 130px; top: 85px;">
+        <a href="/Broker/Settings" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center p-2 position-absolute" style="width: 40px; height: 40px; right: 130px; top: 85px;">
             <img src="~/images/vertical_dots_button.svg" alt="" style="width: 24px; height: 24px;">
         </a>
     </div>
@@ -525,7 +552,7 @@
                 </button>
             </div>
             
-            <div class="widget-content">
+            <div class="widget-content" style="position: relative;">
                 <!-- Task items -->
                 <div class="task-item">
                     <div class="date-box" style="background: #927393">
@@ -577,6 +604,16 @@
                             <div class="progress-fill" style="width: 15%"></div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Add button at the bottom -->
+                <div class="add-button-wrapper">
+                    <button class="gradient-button">
+                        Add
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white">
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>

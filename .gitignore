@@ -16,7 +16,9 @@ wwwroot/                   # Static files like CSS, JS, images
 
 # ASP.NET Core specific
 .vscode/                   # Visual Studio Code settings
+/KelleSolutions/.vscode/
 .vs/                       # Visual Studio folder
+/KelleSolutions/.vs/
 .vscode-server/            # VS Code server settings (for remote dev)
 *.swp                      # Swap files from editing
 **/project.lock.json       # Lock file for .NET project

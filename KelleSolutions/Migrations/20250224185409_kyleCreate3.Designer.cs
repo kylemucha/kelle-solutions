@@ -4,6 +4,7 @@ using KelleSolutions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    partial class KelleSolutionsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250224185409_kyleCreate3")]
+    partial class kyleCreate3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,19 +307,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2ee01d8b-32e8-4308-b5b3-ba140a796dcd",
+                            Id = "5e3cbea3-6cf9-4727-a5ac-e9da4c8eec51",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "b613267a-4cb4-43ec-adfa-4b42ccc7fde6",
+                            Id = "d31981aa-e4f1-402a-be18-0c637c85ed27",
                             Name = "Broker",
                             NormalizedName = "Broker"
                         },
                         new
                         {
-                            Id = "c46b2537-733a-42f4-9268-47cfc3592b4b",
+                            Id = "6be6b3ce-5c0e-4bbc-ad88-94ced8a6bdc1",
                             Name = "Agent",
                             NormalizedName = "Agent"
                         });
