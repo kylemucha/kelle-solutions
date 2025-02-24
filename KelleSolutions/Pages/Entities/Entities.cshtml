@@ -1,32 +1,80 @@
 @page
 @model KelleSolutions.Pages.Entities.EntitiesModel
 @{
-    ViewData["Title"] = "User Entities";
+    ViewData["Title"] = "Vendors";
 }
 
-<link rel="stylesheet" href="~/css/listings.css" />
+<link rel="stylesheet" href="~/css/mainpages.css" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
 
 <div class="header-section">
-    <h3>User Entities</h3>
+    <p>
+        <a href="/AT_Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
+        </a>
+        <span>/</span> <span class="pagename-text">Vendors</span>
+    </p>
 </div>
 
-<div class="listings-container">
+<div class="buttons">
+    <div class="d-flex">
+        <div class="dropdown me-2">
+            <label for="dropdownButton" class="button-label">Vendor type</label>
+            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Options
+            </button>
+            <ul class="dropdown-menu p-2">
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="broker">
+                    <label class="form-check-label" for="broker">Broker</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="contractor">
+                    <label class="form-check-label" for="contractor">Contractor</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="escrow">
+                    <label class="form-check-label" for="escrow">Escrow</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <a href="/Entities/CreateEntities">
+        <button class="gradient-button">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+            </svg>
+        </button>
+    </a>
+</div>
+
+<div class="content-container">
     <table class="table">
         <thead>
             <tr>
-                <th>#</th>
-                <th>User</th>
+                <th>ID</th>
+                <th>Business Name</th>
+                <th>Category</th>
+                <th>Phone</th>
+                <th>Location</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.UserEntities)
+            @foreach (var entity in Model.Entities)
             {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.UserName</td>
+                    <td>@entity.Id</td>
+                    <td>@entity.Name</td>
+                    <td>@entity.Category</td>
+                    <td>@entity.Phone</td>
+                    <td>@entity.Location</td>
                     <td>
-                        <a href="/Entities/ViewEntities?userId=@item.Id" class="view-listings">View Entities</a>
+                        <button class="btn btn-primary me-2" onclick="prepareUpdate(@entity.Id, '@entity.Name', '@entity.Category', '@entity.Phone', '@entity.Location')" data-bs-toggle="modal" data-bs-target="#editEntityModal">Edit</button>
+                        <button class="btn btn-danger" onclick="prepareDelete(@entity.Id)" data-bs-toggle="modal" data-bs-target="#deleteEntityModal">Delete</button>
                     </td>
                 </tr>
             }
@@ -34,16 +82,101 @@
     </table>
 </div>
 
-<div class="pagination-section">
-    <div class="page-navigation">
-        <div class="page-item">
-            <a class="page-link">Previous</a>
-        </div>
-        <div class="page-item">
-            <a class="page-link active">1</a>
-        </div>
-        <div class="page-item">
-            <a class="page-link">Next</a>
+<!-- Edit Modal -->
+<div class="modal fade" id="editEntityModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Vendor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="Update">
+                    <input type="hidden" id="updateId" name="id" />
+                    
+                    <div class="mb-3">
+                        <label for="updateName" class="form-label">Business Name</label>
+                        <input type="text" class="form-control" id="updateName" name="Name" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="updateCategory" class="form-label">Category</label>
+                        <select class="form-control" id="updateCategory" name="Category" required>
+                            <option value="Broker">Broker</option>
+                            <option value="Contractor">Contractor</option>
+                            <option value="Escrow">Escrow</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="updatePhone" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="updatePhone" name="Phone" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="updateLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="updateLocation" name="Location" required />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteEntityModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Vendor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this vendor?</p>
+                <form method="post" asp-page-handler="Delete">
+                    <input type="hidden" id="deleteId" name="id" />
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".dropdown").forEach(dropdown => {
+                const checkboxes = dropdown.querySelectorAll(".option-checkbox");
+                const dropdownButton = dropdown.querySelector(".dropdown-toggle");
+    
+                function updateButtonText() {
+                    const checkedCount = dropdown.querySelectorAll(".option-checkbox:checked").length;
+                    dropdownButton.textContent = checkedCount > 0 ? `${checkedCount} selected` : "Select Options";
+                }
+    
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener("change", updateButtonText);
+                });
+            });
+        });
+
+        function prepareUpdate(id, name, category, phone, location) {
+            document.getElementById('updateId').value = id;
+            document.getElementById('updateName').value = name;
+            document.getElementById('updateCategory').value = category;
+            document.getElementById('updatePhone').value = phone;
+            document.getElementById('updateLocation').value = location;
+        }
+
+        function prepareDelete(id) {
+            document.getElementById('deleteId').value = id;
+        }
+    </script>
+}
