@@ -2,49 +2,129 @@
 @model KelleSolutions.Pages.Roles.RoleUsersModel
 
 @{
-    // Set the page title using the role name from the model.
-    ViewData["Title"] = Model.RoleName + "Users";
+    ViewData["Title"] = Model.RoleName + " Users";
 }
 
 <link rel="stylesheet" href="~/css/roles.css" />
 
-<!-- Display the role name as the page header -->
-<div class="header-section">
-    <h3>Roles > Users > @Model.RoleName</h3>
-</div>
+<!-- Wrap everything in a form so we can post back. -->
+<form method="post">
+    <div class="header-section">
+        <h3>
+            Roles > Users > @Model.RoleName
+            <!-- Button to add a new row -->
+            <button type="submit" formaction="?handler=AddNew" class="btn btn-primary btn-sm" style="margin-left: 20px;">
+                Add New
+            </button>
+        </h3>
+    </div>
 
-<!-- Define a table to display the user information for this role -->
-<div class="roles-container">
-    <table class="table">
-        <thead>
-            <tr>
-                <!-- Define columns for each user attribute to be displayed -->
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Affiliate</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>License Number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Placeholder for user rows.
-                 The table body will be populated with user information once data fetching is implemented. -->
-        </tbody>
-    </table>
-</div>
+    <div class="roles-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Affiliate</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>License Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RoleUsers != null)
+                {
+                    for (int i = 0; i < Model.RoleUsers.Count; i++)
+                    {
+                        var user = Model.RoleUsers[i];
+                        <tr>
+                            <td>
+                                @if (user.IsEditing)
+                                {
+                                    <input asp-for="RoleUsers[@i].FirstName" class="form-control" />
+                                }
+                                else
+                                {
+                                    @user.FirstName
+                                }
+                            </td>
+                            <td>
+                                @if (user.IsEditing)
+                                {
+                                    <input asp-for="RoleUsers[@i].LastName" class="form-control" />
+                                }
+                                else
+                                {
+                                    @user.LastName
+                                }
+                            </td>
+                            <td>
+                                @if (user.IsEditing)
+                                {
+                                    <input asp-for="RoleUsers[@i].Affiliate" class="form-control" />
+                                }
+                                else
+                                {
+                                    @user.Affiliate
+                                }
+                            </td>
+                            <td>
+                                @if (user.IsEditing)
+                                {
+                                    <input asp-for="RoleUsers[@i].Email" class="form-control" />
+                                }
+                                else
+                                {
+                                    @user.Email
+                                }
+                            </td>
+                            <td>
+                                @if (user.IsEditing)
+                                {
+                                    <input asp-for="RoleUsers[@i].PhoneNumber" class="form-control" />
+                                }
+                                else
+                                {
+                                    @user.PhoneNumber
+                                }
+                            </td>
+                            <td>
+                                @if (user.IsEditing)
+                                {
+                                    <input asp-for="RoleUsers[@i].LicenseNumber" class="form-control" />
+                                }
+                                else
+                                {
+                                    @user.LicenseNumber
+                                }
+                            </td>
+                            <td>
+                                <!-- Toggle between 'Enter' and 'Edit' -->
+                                <button class="btn btn-sm btn-secondary"
+                                        type="submit"
+                                        formaction="?handler=ToggleEdit&rowIndex=@i">
+                                    @(user.IsEditing ? "Enter" : "Edit")
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 
-<div class="pagination-section">
-    <div class="page-navigation">
-        <div class="page-item">
-            <a class="page-link">Previous</a>
-        </div>
-        <div class="page-item">
-            <a class="page-link active">1</a>
-        </div>
-        <div class="page-item">
-            <a class="page-link">Next</a>
+    <div class="pagination-section">
+        <div class="page-navigation">
+            <div class="page-item">
+                <a class="page-link">Previous</a>
+            </div>
+            <div class="page-item">
+                <a class="page-link active">1</a>
+            </div>
+            <div class="page-item">
+                <a class="page-link">Next</a>
+            </div>
         </div>
     </div>
-</div>
+</form>

@@ -1,45 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
+using KelleSolutions.Data;
+using KelleSolutions.Models;
+using System.Threading.Tasks;
 
 namespace KelleSolutions.Pages.Entities
 {
     public class CreateEntitiesModel : PageModel
     {
+        private readonly KelleSolutionsDbContext _context;
+
+        public CreateEntitiesModel(KelleSolutionsDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
-        public EntityInputModel Entity { get; set; }
+        public Entity Entity { get; set; }
 
         public IActionResult OnGet()
         {
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            return RedirectToPage("ViewEntities");
+            _context.Entities.Add(Entity);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Entities");
         }
-    }
-
-    public class EntityInputModel
-    {
-        [Required]
-        [Display(Name = "Entity Name")]
-        public string Name { get; set; }
-
-        [Required]
-        public string Category { get; set; }
-
-        [Required]
-        [Phone]
-        [Display(Name = "Phone Number")]
-        public string Phone { get; set; }
-
-        [Required]
-        public string Location { get; set; }
     }
 }
