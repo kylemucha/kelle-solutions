@@ -5,6 +5,10 @@ body {
     font-family: 'sora', sans-serif;
 }
 
+.h2 {
+    color: #332d2d;
+}
+
 /* Form Container Styling 
     Used Gray Extended Color
 */
@@ -35,7 +39,14 @@ body {
     }
 
 /* Button Styling */
-.btn-primary {
+.btn-primary{
+    background-color: #4a154b;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.return-btn {
     background-color: #4a154b;
     border: none;
     font-weight: bold;
