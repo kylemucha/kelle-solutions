@@ -1,0 +1,937 @@
+@page
+@model KelleSolutions.Pages.Broker.brokerDashboardModel
+@{
+    ViewData["Title"] = "Broker Dashboard";
+    ViewData["HideFooter"] = true;
+}
+
+<!-- Add the Google Fonts link -->
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    .btn-gray {
+        background-color: #f1f1f1 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .btn-gray:hover {
+        background-color: #e3e3e3 !important;
+    }
+
+    .btn-purple-active {
+        background-color: #4a154b !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .btn-purple-active .btn-text {
+        color: white !important;
+    }
+
+    .logo {
+        max-height: 60px;
+        margin: 10px;
+    }
+
+    .header-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn-icon {
+        height: 20px;
+        width: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .btn-text {
+        color: #585858;
+    }
+
+    /* Widget container styles */
+    .widget {
+        background-color: #f6f6f8;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .widget-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+
+    .widget-header .btn-link {
+        position: absolute;
+        right: 0;
+    }
+
+    .widget-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .widget-header h5 {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    /* Calendar date box styles */
+    .task-item {
+        background-color: #ffffff;
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        gap: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .date-box {
+        padding: 10px;
+        border-radius: 8px;
+        color: white;
+        text-align: center;
+        min-width: 70px;
+    }
+
+    .day {
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1;
+        margin-bottom: 2px;
+    }
+
+    .month {
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .task-content {
+        flex: 1;
+    }
+
+    .task-title {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .progress-bar {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+        height: 8px;
+        margin-top: 8px;
+    }
+
+    .progress-fill {
+        background-color: #54B4D3;
+        height: 100%;
+        border-radius: 10px;
+        transition: width 0.3s ease;
+    }
+
+    .add-task-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f8f9fa;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: #4a154b;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .add-task-btn:hover {
+        background: #e9ecef;
+    }
+
+    /* Add grid layout styles */
+    .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        padding: 20px;
+        font-family: 'Sora', sans-serif;
+    }
+
+    .dashboard-column {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;  /* Space between widgets */
+    }
+
+    .widget {
+        background: #f6f6f8;
+        border-radius: 12px;
+        padding: 20px;
+        height: 400px;  /* Fixed height for all widgets */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .widget-header {
+        flex-shrink: 0;  /* Prevent header from shrinking */
+    }
+
+    /* Make the content area scrollable */
+    .widget-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-top: 15px;
+    }
+
+    /* Update existing scrollable areas to use widget-content */
+    .properties-list,
+    .listing-items,
+    .chart-container {
+        overflow-y: auto;
+        margin-top: 15px;
+    }
+
+    /* Custom scrollbar styling (already exists, but now applies to widget-content) */
+    .widget-content::-webkit-scrollbar,
+    .properties-list::-webkit-scrollbar,
+    .listing-items::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .widget-content::-webkit-scrollbar-track,
+    .properties-list::-webkit-scrollbar-track,
+    .listing-items::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    .widget-content::-webkit-scrollbar-thumb,
+    .properties-list::-webkit-scrollbar-thumb,
+    .listing-items::-webkit-scrollbar-thumb {
+        background: #927393;
+        border-radius: 3px;
+    }
+
+    /* Adjust chart container for optimal size */
+    .chart-container {
+        position: relative;
+        width: 100%;
+        height: 220px;  /* Decreased from 250px */
+        max-width: 220px;  /* Decreased from 250px */
+        margin: 0 auto;
+    }
+
+    .chart-legend {
+        margin-top: 12px;  /* Decreased from 15px */
+    }
+
+    .legend-row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;  /* Decreased from 25px */
+        margin-bottom: 6px;  /* Decreased from 8px */
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;  /* Decreased from 6px */
+        min-width: 85px;  /* Decreased from 90px */
+        font-size: 12px;  /* Decreased from 13px */
+    }
+
+    .legend-color {
+        width: 8px;  /* Decreased from 10px */
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    /* Status colors */
+    .status-active { background-color: #ecb22e; }
+    .status-onhold { background-color: #2ebc83; }
+    .status-openhouse { background-color: #e01e5a; }
+    .status-closed { background-color: #54b4d3; }
+
+    .logo-link {
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .logo-link:hover {
+        opacity: 0.9;  /* Optional: adds a subtle hover effect */
+    }
+
+    .add-button-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    .plus-sign {
+        background-color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .plus-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Apply Sora font to the dashboard container */
+    .dashboard-container {
+        font-family: 'Sora', sans-serif;
+    }
+
+    /* Ensure headings also use Sora */
+    .widget-header h5 {
+        font-family: 'Sora', sans-serif;
+    }
+
+    /* Apply to task items */
+    .task-item {
+        font-family: 'Sora', sans-serif;
+    }
+
+    .widget-spacer {
+        height: 20px;
+    }
+
+    .listing-items {
+        margin-top: 15px;
+    }
+
+    .listing-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .listing-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .listing-details {
+        flex: 1;
+    }
+
+    .listing-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .listing-location {
+        color: #666;
+        margin-bottom: 2px;
+    }
+
+    .listing-id {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    .properties-list {
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 15px;
+    }
+
+    .property-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .property-info {
+        flex: 1;
+    }
+
+    .property-title {
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    .property-location {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    .property-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .action-btn {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .action-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .custom-footer {
+        padding: 20px 40px;
+        background: white;
+        margin-top: 40px;  /* Keep the spacing between content and footer */
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .footer-logo {
+        height: 24px;
+    }
+
+    .copyright {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .footer-nav {
+        display: flex;
+        gap: 24px;
+    }
+
+    .footer-link {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+        color: #333;
+    }
+
+    /* Remove the bottom padding from dashboard container since footer isn't fixed anymore */
+    .dashboard-container {
+        padding-bottom: 0;
+    }
+
+    .top-right-menu {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Add style for double-height widget */
+    .widget-double {
+        height: 824px;  /* 400px * 2 + 24px gap */
+    }
+
+    .gradient-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(45deg, #FF6B6B, #FFB84C);
+        color: white;
+        cursor: pointer;
+        font-weight: 500;
+        transition: opacity 0.2s;
+    }
+
+    .gradient-button:hover {
+        opacity: 0.9;
+    }
+
+    .add-button-wrapper {
+        position: sticky;
+        bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 20px;
+        background: linear-gradient(transparent, #f6f6f8 50%);
+    }
+</style>
+
+<div class="header-section">
+    <a href="/" class="logo-link">
+        <img src="~/images/KELLE_logo_fullcolor.png" alt="Company Logo" class="logo">
+    </a>
+    <div class="button-container">
+        <a href="/Broker/brokerDashboard" class="btn btn-primary btn-purple-active rounded-pill">
+            <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Dashboard</span>
+        </a>
+        <a href="/Broker/Listings" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/listing_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Listings</span>
+        </a>
+        <a href="/Broker/Actions" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/actions_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Actions</span>
+        </a>
+        <a href="/Broker/Leads" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">Leads</span>
+        </a>
+        <a href="/Broker/People" class="btn btn-primary btn-gray rounded-pill">
+            <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
+            <span class="btn-text">People</span>
+        </a>
+        <a href="/Broker/Settings" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center p-2 position-absolute" style="width: 40px; height: 40px; right: 130px; top: 85px;">
+            <img src="~/images/vertical_dots_button.svg" alt="" style="width: 24px; height: 24px;">
+        </a>
+    </div>
+</div>
+
+<!-- Add this new section only -->
+<div class="top-right-menu position-absolute" style="right: 40px; top: 20px;">
+    <button class="btn d-flex align-items-center justify-content-center p-2" style="width: 40px; height: 40px; border: none; background: none;">
+        <img src="~/images/threeByThree_dots_button.svg" alt="Menu" style="width: 24px; height: 24px;">
+    </button>
+    <div class="d-flex align-items-center ms-3 dropdown">
+        <div class="profile-circle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; overflow: hidden; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box; cursor: pointer;">
+            <img src="~/images/profilePhoto_example_1.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/Identity/Account/#">My activity</a></li>
+            <li><a class="dropdown-item" href="/Identity/Account/Manage">Account settings</a></li>
+            <li><a class="dropdown-item" href="/Identity/Account/#">Administration</a></li>
+            <li><a class="dropdown-item" href="/Identity/Account/Logout">Sign out</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Dashboard Content -->
+<div class="dashboard-container">
+    <!-- Left Column -->
+    <div class="dashboard-column">
+        <div class="widget widget-double">
+            <div class="widget-header">
+                <h5>Coming up next</h5>
+                <button class="btn btn-link p-0">
+                    <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
+                </button>
+            </div>
+            
+            <div class="widget-content" style="position: relative;">
+                <!-- Task items -->
+                <div class="task-item">
+                    <div class="date-box" style="background: #927393">
+                        <div class="day">18</div>
+                        <div class="month">NOVEMBER </div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Create new front end for real estate platform</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="date-box" style="background: #927393">
+                        <div class="day">28</div>
+                        <div class="month">NOVEMBER</div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Perform real estate market analysis</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="date-box" style="background: #e01e5a">
+                        <div class="day">10</div>
+                        <div class="month">DECEMBER</div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Analyze real estate markets, trends and best practices</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="date-box" style="background: #927393">
+                        <div class="day">1</div>
+                        <div class="month">JANUARY</div>
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">Search open listings to find properties</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add button at the bottom -->
+                <div class="add-button-wrapper">
+                    <button class="gradient-button">
+                        Add
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white">
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Middle Column -->
+    <div class="dashboard-column">
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Listings by status (132)</h5>
+            </div>
+            
+            <div class="widget-content">
+                <div class="chart-container">
+                    <canvas id="listingsChart"></canvas>
+                </div>
+
+                <div class="chart-legend">
+                    <div class="legend-row">
+                        <div class="legend-item">
+                            <div class="legend-color status-active"></div>
+                            <span>Active</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color status-onhold"></div>
+                            <span>On hold</span>
+                        </div>
+                    </div>
+                    <div class="legend-row">
+                        <div class="legend-item">
+                            <div class="legend-color status-openhouse"></div>
+                            <span>Open house</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color status-closed"></div>
+                            <span>Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open House Listings Widget -->
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Open House Listings</h5>
+                <button class="btn btn-link p-0">
+                    <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
+                </button>
+            </div>
+
+            <div class="widget-content listing-items properties-list">
+                <div class="listing-item">
+                    <img src="~/images/houseExample_1.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">8581 Cord Way</div>
+                        <div class="listing-location">Sacramento, CA 95814</div>
+                        <div class="listing-id">(#125)</div>
+                    </div>
+                </div>
+
+                <!-- Adding more example items to demonstrate scroll -->
+                <div class="listing-item">
+                    <img src="~/images/houseExample_2.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">6716 Castro Verde Way</div>
+                        <div class="listing-location">Elk Grove, CA 95757</div>
+                        <div class="listing-id">(#126)</div>
+                    </div>
+                </div>
+
+                <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">321 Maple Drive</div>
+                        <div class="listing-location">Sacramento, CA 95816</div>
+                        <div class="listing-id">(#127)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">321 Maple Drive</div>
+                        <div class="listing-location">Sacramento, CA 95816</div>
+                        <div class="listing-id">(#127)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">321 Maple Drive</div>
+                        <div class="listing-location">Sacramento, CA 95816</div>
+                        <div class="listing-id">(#127)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="dashboard-column">
+        <!-- Active listings widget -->
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Active listings</h5>
+                <button class="btn btn-link p-0">
+                    <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
+                </button>
+            </div>
+
+            <!-- Listing items -->
+            <div class="widget-content listing-items">
+                <div class="listing-item">
+                    <img src="~/images/houseExample_3.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">120 Cakebread Circle</div>
+                        <div class="listing-location">Sacramento, CA 95834</div>
+                        <div class="listing-id">(#123)</div>
+                    </div>
+                </div>
+
+                <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
+
+                 <div class="listing-item">
+                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
+                    <div class="listing-details">
+                        <div class="listing-title">57 La Fresa Ct. #4</div>
+                        <div class="listing-location">Sacramento, CA 95823</div>
+                        <div class="listing-id">(#119)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest properties widget -->
+        <div class="widget">
+            <div class="widget-header">
+                <h5>Latest properties</h5>
+            </div>
+
+            <div class="widget-content properties-list">
+                <div class="property-item">
+                    <div class="property-info">
+                        <div class="property-title">4465 Granite Drive</div>
+                        <div class="property-location">Rocklin, CA 95677</div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">
+                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
+                        </button>
+                        <button class="action-btn">
+                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Repeat for other properties -->
+                <div class="property-item">
+                    <div class="property-info">
+                        <div class="property-title">123 Myers</div>
+                        <div class="property-location">West Sacramento, CA 95691</div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">
+                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
+                        </button>
+                        <button class="action-btn">
+                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="property-item">
+                    <div class="property-info">
+                        <div class="property-title">123 Myers</div>
+                        <div class="property-location">West Sacramento, CA 95691</div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">
+                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
+                        </button>
+                        <button class="action-btn">
+                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="property-item">
+                    <div class="property-info">
+                        <div class="property-title">123 Myers</div>
+                        <div class="property-location">West Sacramento, CA 95691</div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">
+                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
+                        </button>
+                        <button class="action-btn">
+                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
+                        </button>
+                    </div>
+                </div>
+
+                 <div class="property-item">
+                    <div class="property-info">
+                        <div class="property-title">123 Myers</div>
+                        <div class="property-location">West Sacramento, CA 95691</div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">
+                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
+                        </button>
+                        <button class="action-btn">
+                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
+                        </button>
+                    </div>
+                </div>
+
+                 <div class="property-item">
+                    <div class="property-info">
+                        <div class="property-title">123 Myers</div>
+                        <div class="property-location">West Sacramento, CA 95691</div>
+                    </div>
+                    <div class="property-actions">
+                        <button class="action-btn">
+                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
+                        </button>
+                        <button class="action-btn">
+                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
+                        </button>
+                    </div>
+                </div>
+                <!-- Add more properties following the same pattern -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this at the bottom of your dashboard content -->
+<footer class="custom-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <img src="~/images/KELLE_footer_logo.svg" alt="Kelle" class="footer-logo">
+            <span class="copyright">© 2025 Kelle, Inc.</span>
+        </div>
+        <div class="footer-right">
+            <nav class="footer-nav">
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Accessibility</a>
+                <a href="#" class="footer-link">Security</a>
+                <a href="#" class="footer-link">Docs</a>
+                <a href="#" class="footer-link">Support</a>
+            </nav>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('listingsChart')?.getContext('2d');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Active', 'Open house', 'On hold', 'Closed'],
+                        datasets: [{
+                            data: [50, 50, 22, 10],
+                            backgroundColor: [
+                                '#ecb22e',
+                                '#e01e5a',
+                                '#2ebc83',
+                                '#54b4d3'
+                            ],
+                            borderWidth: 0,
+                            spacing: 2,
+                            cutout: '75%'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}
