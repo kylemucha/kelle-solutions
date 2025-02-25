@@ -33,7 +33,7 @@ namespace KelleSolutions.Pages.People
                     Phone = 1234567890,
                     Email = "billy@test.com",
                     CreationDate = new DateOnly(2024, 4, 12),
-                    Operator = "Agent Name"
+                    Category = "Partner" //Agent, Vender, Client, Friend
                 });
             }
 
@@ -50,6 +50,6 @@ namespace KelleSolutions.Pages.People
         public int Phone { get; set; }
         public string Email { get; set; }
         public DateOnly CreationDate { get; set; }
-        public string Operator { get; set; }
+        public string Category { get; set; }
     }
 }

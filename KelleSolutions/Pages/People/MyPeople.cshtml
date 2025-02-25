@@ -96,20 +96,20 @@
                 <th>Phone #</th>
                 <th>Email</th>
                 <th>Created</th>
-                <th>Operator</th>
+                <th>Category</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.ViewUserPeople)
             {
                 <tr>
-                    <td>@item.ID</td>
+                    <td><a href="ViewPerson" style="text-decoration: none;">@item.ID</a></td>
                     <td>@item.LastName</td>
                     <td>@item.FirstName</td>
                     <td>@item.Phone</td>
                     <td>@item.Email</td>
                     <td>@item.CreationDate.ToString("yyyy-MM-dd")</td>
-                    <td>@item.Operator</td>
+                    <td>@item.Category</td>
                 </tr>
             }
         </tbody>
