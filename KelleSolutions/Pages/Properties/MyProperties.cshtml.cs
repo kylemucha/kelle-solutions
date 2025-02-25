@@ -1,57 +1,77 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using KelleSolutions.Models.ViewModels;
+using KelleSolutions.Data;
+using KelleSolutions.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace KelleSolutions.Pages.Properties
 {
-    public class ViewPropertiesModel : PageModel
+    public class ViewPropertiesModel(
+        KelleSolutionsDbContext context,
+        UserManager<User> userManager) : PageModel
     {
-        public List<ViewUserProperties> AllProperties { get; set; }
-        public List<ViewUserProperties> ViewUserProperties { get; set; }
+        private readonly KelleSolutionsDbContext _context = context;
+        private readonly UserManager<User> _userManager = userManager;
+
+        public List<ViewUserProperties> AllProperties { get; set; } = [];
+        public List<ViewUserProperties> ViewUserProperties { get; set; } = [];
 
         [BindProperty(SupportsGet = true)]
-        public int PageSize { get; set; } = 10; // Default to 10 properties per page
+        public int PageSize { get; set; } = 10;
 
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
-        public int TotalPages => (int)System.Math.Ceiling((double)AllProperties.Count / PageSize);
+        public int TotalPages => (int)Math.Ceiling((double)AllProperties.Count / PageSize);
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            // Sample Data
-            AllProperties = new List<ViewUserProperties>();
-            for (int i = 1; i <= 128; i++)
+            var currentUser = await _userManager.GetUserAsync(User);
+            var roles = await _userManager.GetRolesAsync(currentUser);
+
+            var query = _context.Properties
+                .AsQueryable();
+
+            if (roles.Contains("Broker") || roles.Contains("Agent"))
             {
-                AllProperties.Add(new ViewUserProperties
-                {
-                    ID = i,
-                    CreationDate = new DateOnly(2024, 2, 1),
-                    County = "Sacramento",
-                    City = "Sacramento",
-                    Postal = 95678,
-                    Street = "J St.",
-                    Bed = 2,
-                    Bath = 1
-                });
+                query = query.Where(p => p.OwnerID == currentUser.Id);
             }
 
-            // Apply Pagination
-            ViewUserProperties = AllProperties.Skip((PageNumber - 1) * PageSize).Take(PageSize).ToList();
-        }
-    }
+            var propertiesFromDb = await query
+                .OrderByDescending(p => p.CreatedAt)
+                .Select(p => new
+                {
+                    p.PropertyID,
+                    p.CreatedAt,
+                    p.State,
+                    p.City,
+                    p.ZipCode,
+                    p.Address,
+                    p.BedCount,
+                    p.BathCount
+                })
+                .ToListAsync();
 
-    public class ViewUserProperties
-    {
-        public int ID { get; set; }
-        public DateOnly CreationDate { get; set; }
-        public string County { get; set; }
-        public string City { get; set; }
-        public int Postal { get; set; }
-        public string Street { get; set; }
-        public int Bed { get; set; }
-        public int Bath { get; set; }
+            AllProperties = propertiesFromDb.Select(p => new ViewUserProperties
+            {
+                ID = p.PropertyID,
+                CreationDate = DateOnly.FromDateTime(p.CreatedAt),
+                County = p.State,
+                City = p.City,
+                Postal = int.TryParse(p.ZipCode, out int zip) ? zip : 0,
+                Street = p.Address,
+                Bed = p.BedCount,
+                Bath = p.BathCount
+            })
+            .ToList();
+
+            ViewUserProperties = AllProperties
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+        }
     }
 }

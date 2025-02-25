@@ -1,80 +1,68 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using KelleSolutions.Data;
+using KelleSolutions.Models.ViewModels;
+using KelleSolutions.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace KelleSolutions.Pages.Listings
+namespace KelleSolutions.Pages.Listings;
+
+public class ViewListingsModel(
+    KelleSolutionsDbContext context,
+    UserManager<User> userManager) : PageModel
 {
-    public class ViewListingsModel : PageModel
+    private readonly KelleSolutionsDbContext _context = context;
+    private readonly UserManager<User> _userManager = userManager;
+
+    public List<ViewUserListings> AllListings { get; set; } = [];
+    public List<ViewUserListings> ViewUserListings { get; set; } = [];
+
+    [BindProperty(SupportsGet = true)]
+    public int PageSize { get; set; } = 10;
+
+    [BindProperty(SupportsGet = true)]
+    public int PageNumber { get; set; } = 1;
+
+    public int TotalPages => (int)Math.Ceiling((double)AllListings.Count / PageSize);
+
+    public async Task OnGetAsync()
     {
-        public List<ViewUserListings> AllListings { get; set; }
-        public List<ViewUserListings> ViewUserListings { get; set; }
+        var currentUser = await _userManager.GetUserAsync(User);
+        var roles = await _userManager.GetRolesAsync(currentUser);
 
-        [BindProperty(SupportsGet = true)]
-        public int PageSize { get; set; } = 10; // Default to 10 listings per page
+        var listingsQuery = _context.Listings
+            .Include(l => l.Property)
+            .Include(l => l.Agent)
+            .AsQueryable();
 
-        [BindProperty(SupportsGet = true)]
-        public int PageNumber { get; set; } = 1;
-
-        public int TotalPages => (int)System.Math.Ceiling((double)AllListings.Count / PageSize);
-
-        public void OnGet()
+        if (roles.Contains("Broker") || roles.Contains("Agent"))
         {
-            // Sample Data
-            AllListings = new List<ViewUserListings>();
-            for (int i = 1; i <= 128; i++)
-            {
-                AllListings.Add(new ViewUserListings
-                {
-                    ID = i,
-                    ListingDate = new DateOnly(2024, 2, 1),
-                    Status = i % 2 == 0 ? "ON HOLD" : "ACTIVE",
-                    Operator = "Randall Watts",
-                    Team = "Internal",
-                    Price = 120000 + (i * 1000),
-                    Address = $"2622 Myers Ranch Ln<br />West Sacramento, CA 9569{i}"
-                });
-            }
-
-            // Apply Pagination
-            ViewUserListings = AllListings.Skip((PageNumber - 1) * PageSize).Take(PageSize).ToList();
+            listingsQuery = listingsQuery.Where(l => l.AgentID == currentUser.Id);
         }
+        // Admin role sees all listings, no filtering needed
 
-        [HttpPost]
-        public async Task<IActionResult> OnPostUpdateStatus([FromBody] UpdateStatusModel model)
+        AllListings = await listingsQuery.Select(l => new ViewUserListings
         {
-            if (model == null || model.Id == 0)
-            {
-                return BadRequest("Invalid data.");
-            }
+            ID = l.ListingID,
+            ListingDate = DateOnly.FromDateTime(l.StartDate),
+            Status = l.Status,
+            Operator = l.Agent.FirstName + " " + l.Agent.LastName,
+            Team = l.Agent.Affiliation,
+            Price = (double)l.Price,
+            Address = $"{l.Property.Address}, {l.Property.City}, {l.Property.State} {l.Property.ZipCode}"
+        })
+        .ToListAsync();
 
-            var listing = AllListings.FirstOrDefault(l => l.ID == model.Id);
-            if (listing == null)
-            {
-                return NotFound();
-            }
-
-            listing.Status = model.Status;
-
-            return new JsonResult(new { success = true, message = "Status updated successfully." });
-        }
+        ViewUserListings = AllListings
+            .Skip((PageNumber - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
     }
+}
 
-    public class ViewUserListings
-    {
-        public int ID { get; set; }
-        public DateOnly ListingDate { get; set; }
-        public string Status { get; set; }
-        public string Operator { get; set; }
-        public string Team { get; set; }
-        public double Price { get; set; }
-        public string Address { get; set; }
-    }
-
-    public class UpdateStatusModel
-    {
+public class UpdateStatusModel 
+{
         public int Id { get; set; }
-        public string Status { get; set; }
-    }
+        public required string Status { get; set; }
 }

@@ -1,143 +1,107 @@
-@page
+﻿@page
 @model KelleSolutions.Pages.Roles.ViewTransactionModel
 @{
-    ViewData["Title"] = "View Transaction";
+    ViewData["Title"] = Model.Transaction.Id > 0 ? "Edit Transaction" : "Add Transaction";
 }
 
-<h2>Add a transaction</h2>
+<link rel="stylesheet" href="~/css/mainpages.css" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
 
-<form method="post" class="form-group">
-    <!-- Row for Date Fields -->
-    <div class="row mb-3">
-        <!-- Deposit Date -->
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="DepositDate" class="form-label"></label>
-                <input asp-for="DepositDate" type="date" class="form-control" />
-                <span asp-validation-for="DepositDate" class="text-danger"></span>
+<div class="header-section">
+    <p>
+        <a href="/AT_Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
+        </a>
+        <span>/</span> 
+        <a href="/Transactions/Transactions">Transactions</a>
+        <span>/</span>
+        <span class="pagename-text">@(Model.Transaction.Id > 0 ? "Edit" : "Add New")</span>
+    </p>
+</div>
+
+<div class="content-container">
+    <form method="post" class="form-group">
+        <input type="hidden" asp-for="Transaction.Id" />
+        
+        <!-- Row for Date Fields -->
+        <div class="row mb-3">
+            <!-- Deposit Date -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Transaction.DepositDate" class="form-label"></label>
+                    <input asp-for="Transaction.DepositDate" type="date" class="form-control" />
+                    <span asp-validation-for="Transaction.DepositDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Inspection Date -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Transaction.InspectionDate" class="form-label"></label>
+                    <input asp-for="Transaction.InspectionDate" type="date" class="form-control" />
+                    <span asp-validation-for="Transaction.InspectionDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Loan Date -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Transaction.LoanDate" class="form-label"></label>
+                    <input asp-for="Transaction.LoanDate" type="date" class="form-control" />
+                    <span asp-validation-for="Transaction.LoanDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Appraisal Date -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="Transaction.AppraisalDate" class="form-label"></label>
+                    <input asp-for="Transaction.AppraisalDate" type="date" class="form-control" />
+                    <span asp-validation-for="Transaction.AppraisalDate" class="text-danger"></span>
+                </div>
             </div>
         </div>
 
-        <!-- Inspection Date -->
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="InspectionDate" class="form-label"></label>
-                <input asp-for="InspectionDate" type="date" class="form-control" />
-                <span asp-validation-for="InspectionDate" class="text-danger"></span>
-            </div>
+        <!-- Property Information -->
+        <div class="mb-3">
+            <label asp-for="Transaction.PropertyInformation" class="form-label"></label>
+            <input asp-for="Transaction.PropertyInformation" class="form-control" />
+            <span asp-validation-for="Transaction.PropertyInformation" class="text-danger"></span>
         </div>
 
-        <!-- Loan Date -->
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="LoanDate" class="form-label"></label>
-                <input asp-for="LoanDate" type="date" class="form-control" />
-                <span asp-validation-for="LoanDate" class="text-danger"></span>
-            </div>
+        <!-- Transition Details -->
+        <div class="mb-3">
+            <label asp-for="Transaction.TransitionDetails" class="form-label"></label>
+            <input asp-for="Transaction.TransitionDetails" class="form-control" />
+            <span asp-validation-for="Transaction.TransitionDetails" class="text-danger"></span>
         </div>
 
-        <!-- Appraisal Date -->
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="AppraisalDate" class="form-label"></label>
-                <input asp-for="AppraisalDate" type="date" class="form-control" />
-                <span asp-validation-for="AppraisalDate" class="text-danger"></span>
-            </div>
+        <!-- Status Dropdown -->
+        <div class="mb-3">
+            <label asp-for="Transaction.Status" class="form-label"></label>
+            <select asp-for="Transaction.Status" class="form-control form-select">
+                <option value="">Select Status</option>
+                <option value="Active">Active</option>
+                <option value="Pending">Pending</option>
+                <option value="On-Hold">On-Hold</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            <span asp-validation-for="Transaction.Status" class="text-danger"></span>
         </div>
-    </div>
 
-    <!-- Property Information -->
-    <div class="mb-3">
-        <label asp-for="PropertyInformation" class="form-label"></label>
-        <input asp-for="PropertyInformation" class="form-control" />
-        <span asp-validation-for="PropertyInformation" class="text-danger"></span>
-    </div>
-
-    <!-- Transition Details -->
-    <div class="mb-3">
-        <label asp-for="TransitionDetails" class="form-label"></label>
-        <input asp-for="TransitionDetails" class="form-control" />
-        <span asp-validation-for="TransitionDetails" class="text-danger"></span>
-    </div>
-
-      <!-- Status Dropdown -->
-      <div class="mb-3">
-          <label asp-for="Status" class="form-label"></label>
-          <select asp-for="Status" class="form-control form-select">
-              <option value="">Select Status</option>
-              <option value="Active">Active</option>
-              <option value="Pending">Pending</option>
-              <option value="On-Hold">On-Hold</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-          </select>
-          <span asp-validation-for="Status" class="text-danger"></span>
-      </div>
-
-      <!-- Comments Section -->
-    <div class="mb-3">
-        <label asp-for="Comments" class="form-label"></label>
-        <textarea asp-for="Comments" class="form-control" rows="4" placeholder="Add your comments here..."></textarea>
-        <span asp-validation-for="Comments" class="text-danger"></span>
-    </div>
-
-      <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
-<div class="modal fade" id="updateTransactionModal" tabindex="-1" aria-labelledby="updateTransactionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateTransactionModalLabel">Update Transaction</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" asp-page-handler="Update">
-                    <input type="hidden" id="updateId" name="id"/>
-                    <div class="form-group">
-                        <label for="updateDepositDate">DepositDate</label>
-                        <input type="date" class="form-control" id="updateDepositDate" name="DepositDate" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="updateInspectionDate">Inspection Date</label>
-                        <input type="date" class="form-control" id="updateInspectionDate" name="InspectionDate" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="updateLoanDate">Loan Date</label>
-                        <input type="date" class="form-control" id="updateLoanDate" name="LoanDate" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="updateAppraisalDate">Appraisal Date</label>
-                        <input type="date" class="form-control" id="updateAppraisalDate" name="AppraisalDate" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="updatePropertyInfo">Property Information</label>
-                        <input type="text" class="form-control" id="updatePropertyInfo" name="PropertyInfo" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="updateTransitionDetails">Transition Details</label>
-                        <input type="text" class="form-control" id="updateTransitionDetails" name="TransitionDetails" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="updateStatus">Status</label>
-                        <select class="form-control" id="updateStatus" name="Status" required>
-                            <option value="Active">Active</option>
-                            <option value="Pending">Pending</option>
-                            <option value="On-Hold">On-Hold</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Canceled">Canceled</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateComments">Comments</label>
-                        <input type="text" class="form-control" id="updateComments" name="Comments" required />
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-            </div>
+        <!-- Comments Section -->
+        <div class="mb-3">
+            <label asp-for="Transaction.Comments" class="form-label"></label>
+            <textarea asp-for="Transaction.Comments" class="form-control" rows="4" placeholder="Add your comments here..."></textarea>
+            <span asp-validation-for="Transaction.Comments" class="text-danger"></span>
         </div>
-    </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary me-2">Save Transaction</button>
+            <a href="/Transactions/Transactions" class="btn btn-outline-secondary ms-2">Cancel</a>
+        </div>
+    </form>
 </div>

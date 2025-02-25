@@ -1,0 +1,111 @@
+
+@page
+@model KelleSolutions.Pages.People.CreatePersonModel
+@{
+    ViewData["Title"] = "Create New Person";
+}
+
+<link rel="stylesheet" href="~/css/mainpages.css" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="header-section">
+    <p>
+        <a href="/AT_Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
+        </a>
+        <span>/</span> 
+        <a href="/People/People">People</a>
+        <span>/</span> 
+        <span class="pagename-text">Create New</span>
+    </p>
+</div>
+
+<div class="content-container">
+    <form method="post" class="form-group">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.FirstName" class="form-label">First Name</label>
+                <input asp-for="Person.FirstName" class="form-control" required />
+                <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.LastName" class="form-label">Last Name</label>
+                <input asp-for="Person.LastName" class="form-control" required />
+                <span asp-validation-for="Person.LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.Email" class="form-label">Email</label>
+                <input asp-for="Person.Email" type="email" class="form-control" />
+                <span asp-validation-for="Person.Email" class="text-danger"></span>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.PhoneNumber" class="form-label">Phone Number</label>
+                <input asp-for="Person.PhoneNumber" type="tel" class="form-control" />
+                <span asp-validation-for="Person.PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Person.Address" class="form-label">Address</label>
+            <input asp-for="Person.Address" class="form-control" />
+            <span asp-validation-for="Person.Address" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.City" class="form-label">City</label>
+                <input asp-for="Person.City" class="form-control" />
+                <span asp-validation-for="Person.City" class="text-danger"></span>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.State" class="form-label">State</label>
+                <input asp-for="Person.State" class="form-control" />
+                <span asp-validation-for="Person.State" class="text-danger"></span>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.ZipCode" class="form-label">Zip Code</label>
+                <input asp-for="Person.ZipCode" class="form-control" />
+                <span asp-validation-for="Person.ZipCode" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Person.Notes" class="form-label">Notes</label>
+            <textarea asp-for="Person.Notes" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Person.Notes" class="text-danger"></span>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary me-2">Create Person</button>
+            <a href="/People/People" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cancelButton = document.querySelector(".btn-outline-secondary");
+
+            if (cancelButton) {
+                cancelButton.addEventListener("click", function (event) {
+                    if (document.querySelector("form").checkValidity()) {
+                        if (!confirm("Are you sure you want to cancel? Unsaved changes will be lost.")) {
+                            event.preventDefault();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

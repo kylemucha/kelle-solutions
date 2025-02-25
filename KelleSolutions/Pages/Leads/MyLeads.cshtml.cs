@@ -17,6 +17,9 @@ namespace KelleSolutions.Pages.Leads
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
+        [BindProperty(SupportsGet = true)]
+        public List<string> SelectedStatuses { get; set; } = new();
+
         public int TotalPages => (int)System.Math.Ceiling((double)AllLeads.Count / PageSize);
 
         public void OnGet()
@@ -29,13 +32,19 @@ namespace KelleSolutions.Pages.Leads
                 {
                     ID = i,
                     CreationDate = new DateOnly(2024, 2, 1),
-                    Status = "Active",
+                    Status = i % 2 == 0 ? "ON HOLD" : "ACTIVE",
                     Assignee = "Randall Watts",
                     LastName = "Stone",
                     FirstName = "Billy",
                     Phone = 1234567890,
                     Email = "billy@stone.com"
                 });
+            }
+
+            // Apply Filtering
+            if (SelectedStatuses != null && SelectedStatuses.Count > 0)
+            {
+                AllLeads = AllLeads.Where(l => SelectedStatuses.Contains(l.Status)).ToList();
             }
 
             // Apply Pagination
