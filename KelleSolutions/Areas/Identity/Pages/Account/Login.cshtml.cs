@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using KelleSolutions.Pages.Admin;
 
 namespace KelleSolutions.Areas.Identity.Pages.Account
 {
@@ -105,6 +106,20 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User logged in.");
+                        //getting user roles
+                        var roles = await _userManager.GetRolesAsync(user);
+
+                        //redirect to corresponding roles
+                        if(User.IsInRole("Admin")) {
+                            return LocalRedirect("~/Admin/adminDashboard");
+                        }
+                        else if (roles.Contains("Broker")) {
+                            return LocalRedirect("~/AT_Dashboard");
+                        }
+
+                        else if(roles.Contains("Agent")) {
+                            return LocalRedirect("~/Agent_Dashboard");
+                        }
                         return LocalRedirect(returnUrl);
                     }
 

@@ -462,6 +462,18 @@
     .widget-double {
         height: 824px;  /* 400px * 2 + 24px gap */
     }
+
+/*register link*/
+    .nav-link, .nav-link:hover {
+        color: #1264a3;
+        font-family: 'sora', sans-serif;
+        position: absolute;
+        right: 130px;
+        bottom: -3px;
+        font-size: 1.5rem;
+    }
+
+
 </style>
 
 <div class="header-section">
@@ -504,6 +516,9 @@
         <div class="profile-circle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; overflow: hidden; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box; cursor: pointer;">
             <img src="~/images/profilePhoto_example_1.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
+        <li class="nav-item" style="right:10px; top:20px">
+            <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
         <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="/Identity/Account/#">My activity</a></li>
             <li><a class="dropdown-item" href="/Identity/Account/Manage">Account settings</a></li>

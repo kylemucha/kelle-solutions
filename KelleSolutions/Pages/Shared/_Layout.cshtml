@@ -51,7 +51,7 @@
     }
 
     @* Collapsible Sidebar Navbar, only visible when the user is signed in and on specified pages *@
-@if (SignInManager.IsSignedIn(User) && (Context.Request.Path == "/AT_Dashboard" || Context.Request.Path == "/Roles/Roles" || Context.Request.Path == "/Listings/Listings"
+@if (User.IsInRole("Broker") && (Context.Request.Path == "/AT_Dashboard" || Context.Request.Path == "/Roles/Roles" || Context.Request.Path == "/Listings/Listings"
     || Context.Request.Path == "/Listings/ViewListing" || Context.Request.Path == "/Affiliations/CreateAffiliate" || Context.Request.Path == "/Transactions/Transactions"
     || Context.Request.Path == "/Entities/Entities" || Context.Request.Path == "/People/People" || Context.Request.Path == "/People/ViewPeople" 
     || Context.Request.Path == "/Properties/Properties" || Context.Request.Path == "/Leads/Leads" || Context.Request.Path == "/Properties/ViewProperty"))
