@@ -4,6 +4,7 @@ using KelleSolutions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    partial class KelleSolutionsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250224234129_AddListingsTable")]
+    partial class AddListingsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Affiliates", (string)null);
+                    b.ToTable("Affiliates");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Entity", b =>
@@ -78,7 +81,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Entities", (string)null);
+                    b.ToTable("Entities");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Lead", b =>
@@ -121,7 +124,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("LeadID");
 
-                    b.ToTable("Leads", (string)null);
+                    b.ToTable("Leads");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Listing", b =>
@@ -171,7 +174,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasIndex("PropertyID");
 
-                    b.ToTable("Listings", (string)null);
+                    b.ToTable("Listings");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Property", b =>
@@ -250,7 +253,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasIndex("TenantID");
 
-                    b.ToTable("Properties", (string)null);
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>
@@ -281,7 +284,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("TenantID");
 
-                    b.ToTable("Tenant", (string)null);
+                    b.ToTable("Tenant");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.User", b =>

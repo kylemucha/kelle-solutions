@@ -12,6 +12,7 @@ namespace KelleSolutions.Pages.Properties {
 
             // Initialize empty Property
             Property = new Property {
+                OwnerID = "",
                 Address = string.Empty,
                 City = string.Empty,
                 State = string.Empty,

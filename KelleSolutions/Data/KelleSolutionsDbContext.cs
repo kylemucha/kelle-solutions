@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace KelleSolutions.Data
 {
     public class KelleSolutionsDbContext : IdentityDbContext<User>
@@ -10,23 +11,28 @@ namespace KelleSolutions.Data
         public KelleSolutionsDbContext(DbContextOptions<KelleSolutionsDbContext> options)
             : base(options)
         {
+           
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            var admin = new IdentityRole("Admin");
-            admin.NormalizedName = "Admin";
+            // One Tenant can have Many Users
+            builder.Entity<User>()
+                .HasOne(u => u.Tenant)
+                .WithMany(t => t.Users)
+                .HasForeignKey(u => u.TenantID)
+                .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
 
-            var broker = new IdentityRole("Broker");
-            broker.NormalizedName = "Broker";
-
-            var agent = new IdentityRole("Agent");
-            agent.NormalizedName = "Agent";
-
-            builder.Entity<IdentityRole>().HasData(admin, broker, agent);
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Name = "Broker", NormalizedName = "BROKER" },
+                new IdentityRole { Name = "Agent", NormalizedName = "AGENT" }); 
         }
+
+        // DbSet for Tenants
+        public DbSet<Tenant> Tenants { get; set;}
 
         // DbSet for Properties
         public DbSet<Property> Properties { get; set; }
@@ -39,5 +45,9 @@ namespace KelleSolutions.Data
 
         // DbSet for Leads
         public DbSet<Lead> Leads { get; set; }
+
+        // DbSet for Listings
+        public DbSet<Listing> Listings { get; set; }
+
     }
 }

@@ -1,4 +1,4 @@
-@page
+﻿@page
 @model KelleSolutions.Pages.Roles.ViewTransactionModel
 @{
     ViewData["Title"] = "View Transaction";
@@ -60,28 +60,28 @@
         <span asp-validation-for="TransitionDetails" class="text-danger"></span>
     </div>
 
-      <!-- Status Dropdown -->
-      <div class="mb-3">
-          <label asp-for="Status" class="form-label"></label>
-          <select asp-for="Status" class="form-control form-select">
-              <option value="">Select Status</option>
-              <option value="Active">Active</option>
-              <option value="Pending">Pending</option>
-              <option value="On-Hold">On-Hold</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-          </select>
-          <span asp-validation-for="Status" class="text-danger"></span>
-      </div>
+    <!-- Status Dropdown -->
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-control form-select">
+            <option value="">Select Status</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="On-Hold">On-Hold</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
 
-      <!-- Comments Section -->
+    <!-- Comments Section -->
     <div class="mb-3">
         <label asp-for="Comments" class="form-label"></label>
         <textarea asp-for="Comments" class="form-control" rows="4" placeholder="Add your comments here..."></textarea>
         <span asp-validation-for="Comments" class="text-danger"></span>
     </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <div class="modal fade" id="updateTransactionModal" tabindex="-1" aria-labelledby="updateTransactionModalLabel" aria-hidden="true">
@@ -95,7 +95,7 @@
             </div>
             <div class="modal-body">
                 <form method="post" asp-page-handler="Update">
-                    <input type="hidden" id="updateId" name="id"/>
+                    <input type="hidden" id="updateId" name="id" />
                     <div class="form-group">
                         <label for="updateDepositDate">DepositDate</label>
                         <input type="date" class="form-control" id="updateDepositDate" name="DepositDate" required />
@@ -134,7 +134,7 @@
                         <label for="updateComments">Comments</label>
                         <input type="text" class="form-control" id="updateComments" name="Comments" required />
                     </div>
-                    
+
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </div>

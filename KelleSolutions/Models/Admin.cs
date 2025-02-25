@@ -10,17 +10,17 @@ namespace KelleSolutions.Models
 
         // Name of the Admin
         [Required(ErrorMessage = "Admin name is required")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         // Email of the Admin
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         // Date when the admin was added
         public DateTime DateAdded { get; set; }
 
         // Any additional information for the admin (optional)
-        public string AdditionalInfo { get; set; }
+        public string? AdditionalInfo { get; set; }
     }
 }
