@@ -106,21 +106,18 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User logged in.");
-                        //getting user roles
-                        var roles = await _userManager.GetRolesAsync(user);
 
                         //redirect to corresponding roles
                         if(User.IsInRole("Admin")) {
                             return LocalRedirect("~/Admin/adminDashboard");
                         }
-                        else if (roles.Contains("Broker")) {
+                        else if (User.IsInRole("Broker")) {
                             return LocalRedirect("~/AT_Dashboard");
                         }
 
-                        else if(roles.Contains("Agent")) {
+                        else if(User.IsInRole("Agent")) {
                             return LocalRedirect("~/Agent_Dashboard");
                         }
-                        return LocalRedirect(returnUrl);
                     }
 
                     if (result.RequiresTwoFactor)
