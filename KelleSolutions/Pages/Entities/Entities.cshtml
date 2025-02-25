@@ -50,38 +50,45 @@
         </button>
     </a>
 </div>
-
-<div class="content-container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Business Name</th>
-                <th>Category</th>
-                <th>Phone</th>
-                <th>Location</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var entity in Model.Entities)
-            {
-                <tr>
-                    <td>@entity.Id</td>
-                    <td>@entity.Name</td>
-                    <td>@entity.Category</td>
-                    <td>@entity.Phone</td>
-                    <td>@entity.Location</td>
-                    <td>
-                        <button class="btn btn-primary me-2" onclick="prepareUpdate(@entity.Id, '@entity.Name', '@entity.Category', '@entity.Phone', '@entity.Location')" data-bs-toggle="modal" data-bs-target="#editEntityModal">Edit</button>
-                        <button class="btn btn-danger" onclick="prepareDelete(@entity.Id)" data-bs-toggle="modal" data-bs-target="#deleteEntityModal">Delete</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
+  <div class="content-container">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Business Name</th>
+                  <th>Category</th>
+                  <th>Phone</th>
+                  <th>Location</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              @if (Model.Entities != null && Model.Entities.Any())
+              {
+                  @foreach (var entity in Model.Entities)
+                  {
+                      <tr>
+                          <td>@entity.Id</td>
+                          <td>@entity.Name</td>
+                          <td>@entity.Category</td>
+                          <td>@entity.Phone</td>
+                          <td>@entity.Location</td>
+                          <td>
+                              <button class="btn btn-primary me-2" onclick="prepareUpdate(@entity.Id, '@entity.Name', '@entity.Category', '@entity.Phone', '@entity.Location')" data-bs-toggle="modal" data-bs-target="#editEntityModal">Edit</button>
+                              <button class="btn btn-danger" onclick="prepareDelete(@entity.Id)" data-bs-toggle="modal" data-bs-target="#deleteEntityModal">Delete</button>
+                          </td>
+                      </tr>
+                  }
+              }
+              else
+              {
+                  <tr>
+                      <td colspan="6" class="text-center">No vendors found. Add a new vendor to get started.</td>
+                  </tr>
+              }
+          </tbody>
+      </table>
+  </div>
 <!-- Edit Modal -->
 <div class="modal fade" id="editEntityModal" tabindex="-1">
     <div class="modal-dialog">
