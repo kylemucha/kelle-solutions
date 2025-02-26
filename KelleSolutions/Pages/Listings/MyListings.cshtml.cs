@@ -1,80 +1,155 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;            // handles user authentication!
+using System.Collections.Generic;               // defines database relationships
+using System.Linq;                              // defines LINQ queries (ex: "Where", "OrderBy", "Skip", "Take", etc.)
+using System.Security.Claims;                   // for ClaimsPrincipal
+using System;                                   
+using System.IO;                                // file and stream execution
+using System.Text.Json;                         // JSON serial/deserial
+using System.Threading.Tasks;                   // supports non-blocking queries (ex: "async", "wait")
+using System.Reflection;                        // required for extracting Display Names
+using System.ComponentModel.DataAnnotations;    // required for Display attribute
+using KelleSolutions.Data;                      // imports KelleSolutionsDbContext.cs
+using KelleSolutions.Models;                    // imports model classes, like "Property.cs" as Property and "User.cs" as User
 
-namespace KelleSolutions.Pages.Listings
-{
-    public class ViewListingsModel : PageModel
-    {
-        public List<ViewUserListings> AllListings { get; set; }
-        public List<ViewUserListings> ViewUserListings { get; set; }
+namespace KelleSolutions.Pages.Listings {
+    public class MyListingsModel : PageModel {
 
+        // database context for querying listings
+        private readonly KelleSolutionsDbContext _context;
+
+        // manages logged-in users
+        private readonly UserManager<User> _userManager;
+
+        // constructor that injects database context and user manager
+        public MyListingsModel(KelleSolutionsDbContext context, UserManager<User> userManager) {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        // storing the list of listings owned by the logged-in user
+        public List<ListingViewModel> MyListings { get; set; } = new();
+        public List<ListingViewModel> ViewUserListings { get; set; }
+        public CreateListingModalModel CreateListingModel { get; set; }
+        public List<KeyValuePair<string, string>> AvailableStatusTypesList { get; set; } = new();
+
+        // page display properties (not house properties, but like components properties),
+        // clarification for later documentation
+        // defaults to 10 listings per page
         [BindProperty(SupportsGet = true)]
-        public int PageSize { get; set; } = 10; // Default to 10 listings per page
+        public int PageSize { get; set; } = 10;
 
+        // the current page number
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
-        public int TotalPages => (int)System.Math.Ceiling((double)AllListings.Count / PageSize);
+        // the total number of pages
+        public int TotalPages { get; set; }
 
-        public void OnGet()
-        {
-            // Sample Data
-            AllListings = new List<ViewUserListings>();
-            for (int i = 1; i <= 128; i++)
-            {
-                AllListings.Add(new ViewUserListings
-                {
-                    ID = i,
-                    ListingDate = new DateOnly(2024, 2, 1),
-                    Status = i % 2 == 0 ? "ON HOLD" : "ACTIVE",
-                    Operator = "Randall Watts",
-                    Team = "Internal",
-                    Price = 120000 + (i * 1000),
-                    Address = $"2622 Myers Ranch Ln<br />West Sacramento, CA 9569{i}"
-                });
+        public async Task<IActionResult> OnGetAsync() {
+            // gets the currently logged-in user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            // if no user is logged in, redirect to the login page
+            // while in testing phase, keep this commented!
+            if (currentUser == null) {
+                return RedirectToPage("/Account/Login");
             }
 
-            // Apply Pagination
-            ViewUserListings = AllListings.Skip((PageNumber - 1) * PageSize).Take(PageSize).ToList();
+            // ensure UserID is valid before querying the database
+            if (string.IsNullOrEmpty(currentUser.Id)) {
+                return RedirectToPage("/Account/Login");
+            }
+            
+            // query only the listings submitted by the logged-in user
+            var query = _context.Listings
+                .Include(l => l.Property)
+                //  filters listings based on UserID
+                .Where(l => l.Property.UserID == currentUser.Id)
+                .Select(l => new ListingViewModel {
+                    ListingID = l.ListingID,
+                    Date = l.CreatedAt,
+                    Status = l.Status.ToString(),
+                    Team = l.Team.ToString(),
+                    Price = (double)l.Price,
+                    Address = l.Property.Address
+                })
+                .AsQueryable();
+
+            // get the total listings count for page display listings
+            int totalListings = await query.CountAsync();
+            TotalPages = (int)System.Math.Ceiling((double)totalListings / PageSize);
+
+            // apply page display properties
+            MyListings = await query
+                // newest listings appear first
+                .OrderByDescending(l => l.Date)
+                // skips items from previous pages
+                .Skip((PageNumber - 1) * PageSize)
+                // limit the results to just PageSize
+                .Take(PageSize)
+                .ToListAsync();
+
+            CreateListingModel = new CreateListingModalModel(_context, _userManager, User);
+            // Load properties and status types
+            await CreateListingModel.OnGetAsync();
+
+            // fetches available property types, dynamically!
+            AvailableStatusTypesList = Enum.GetValues(typeof(Listing.StatusTypes))
+                .Cast<Listing.StatusTypes>()
+                .Select(status => new KeyValuePair<string, string>(
+                    status.ToString(),
+                    status.GetType().GetMember(status.ToString())?
+                        .FirstOrDefault()?
+                        .GetCustomAttribute<DisplayAttribute>()?.Name ?? status.ToString()
+                ))
+                .ToList();
+
+            return Page();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> OnPostUpdateStatus([FromBody] UpdateStatusModel model)
-        {
-            if (model == null || model.Id == 0)
-            {
-                return BadRequest("Invalid data.");
+        public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] StatusUpdateRequest request) {
+            // find the listing in the database by its ListingID
+            var listing = await _context.Listings.FindAsync(request.ListingID);
+
+            // error response if listing is not found
+            if (listing == null) {
+                return new JsonResult(new { success = false, message = "Listing not found "});
             }
 
-            var listing = AllListings.FirstOrDefault(l => l.ID == model.Id);
-            if (listing == null)
-            {
-                return NotFound();
+            // parsing the incoming status string into the StatusTypes enum (the pre-defined values)
+            // (ex: "Active", "Pending", "Sold", "Withdrawn", etc.)
+            if (Enum.TryParse(typeof(Listing.StatusTypes), request.NewStatus, out var status)) {
+                // if parsing is successful, this updates the listing status
+                listing.Status = (Listing.StatusTypes)status;
+
+                // saving changes
+                await _context.SaveChangesAsync();
+
+                // return a success response
+                return new JsonResult(new { success = true });
             }
 
-            listing.Status = model.Status;
-
-            return new JsonResult(new { success = true, message = "Status updated successfully." });
+            // if parsing fails, error handler
+            return new JsonResult(new { success = false, message = "Invalid Status" });
         }
-    }
 
-    public class ViewUserListings
-    {
-        public int ID { get; set; }
-        public DateOnly ListingDate { get; set; }
-        public string Status { get; set; }
-        public string Operator { get; set; }
-        public string Team { get; set; }
-        public double Price { get; set; }
-        public string Address { get; set; }
-    }
+        // view model to format data properly
+        public class ListingViewModel {
+            public int ListingID { get; set; }
+            public DateTime Date { get; set; }
+            public string Status { get; set; }
+            public string Team { get; set; }
+            public double Price { get; set; }
+            public string Address { get; set; }
+        }
 
-    public class UpdateStatusModel
-    {
-        public int Id { get; set; }
-        public string Status { get; set; }
+        // data transfer class for AJAX request payload
+        public class StatusUpdateRequest {
+            public int ListingID { get; set; }
+            public string NewStatus { get; set; }
+        }
     }
 }

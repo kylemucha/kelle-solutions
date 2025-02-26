@@ -4,6 +4,7 @@ using KelleSolutions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    partial class KelleSolutionsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250223044456_ReworkProperty")]
+    partial class ReworkProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,29 +152,15 @@ namespace KelleSolutions.Migrations
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Team")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Team")
+                        .HasColumnType("int");
 
                     b.HasKey("ListingID");
 
                     b.HasIndex("PropertyID");
-
-                    b.HasIndex("UserID");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Listings");
                 });
@@ -217,15 +206,15 @@ namespace KelleSolutions.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("PartialCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("PropertyType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("PropertyType")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Size")
                         .HasColumnType("int");
@@ -358,6 +347,26 @@ namespace KelleSolutions.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "796c0283-6af9-4b10-a68d-08c29aa2042f",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
+                        },
+                        new
+                        {
+                            Id = "d95efda7-8b6c-4461-a331-d50683231e0c",
+                            Name = "Broker",
+                            NormalizedName = "Broker"
+                        },
+                        new
+                        {
+                            Id = "eb50ff63-c869-4166-a8b6-e6503a9a5b5b",
+                            Name = "Agent",
+                            NormalizedName = "Agent"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -478,21 +487,7 @@ namespace KelleSolutions.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KelleSolutions.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("KelleSolutions.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Property");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Property", b =>

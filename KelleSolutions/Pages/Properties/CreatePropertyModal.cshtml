@@ -1,0 +1,144 @@
+@model List<KeyValuePair<string, string>>
+
+<!--
+Date: 02/23/2025 
+Creating CreatePropertyModal.cshtml to create a submit form for the Properties entities table.
+Not to be confused with "Model"! It is "Modal"!
+Adding comments to better explain documentation.
+-->
+
+<style>
+    /* blur effect for background content when modal is open */
+    .modal-backdrop {
+        background-color: rgba(255, 255, 255, 0.2) !important; /* White opacity layer */
+        backdrop-filter: blur(8px); /* blur effect */
+    }
+
+    /* ensure modal opens in the center of the viewport */
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* styled submit button */
+    .submit-button {
+        background: #4a154b;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        width: auto;
+        text-align: center;
+        display: block;
+        margin: 20px auto 0 auto;
+        transition: background 0.3s ease;
+    }
+    .submit-button:hover {
+        background: linear-gradient(90deg, #ecb22e, #e01e5a);
+    }
+
+    /* Custom dropdown arrow styling */
+    .dropdown-arrow {
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px;
+        padding-right: 30px; /* Space for the arrow */
+    }
+</style>
+
+<div class="modal fade" id="AddPropertyModal" tabindex="-1" aria-labelledby="addPropertyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPropertyModalLabel">Add New Property</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="propertyForm">
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label for="propertyAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="propertyAddress" name="Address" required>
+                    </div>
+
+                    <!-- City, State, Zip Code -->
+                    <div class="row">
+                        <!-- City -->
+                        <div class="col-md-4">
+                            <label for="propertyCity" class="form-label">City</label>
+                            <input type="text" class="form-control" id="propertyCity" name="City" required>
+                        </div>
+                        <!-- State -->
+                        <div class="col-md-4">
+                            <label for="propertyState" class="form-label">State</label>
+                            <input type="text" class="form-control" id="propertyState" name="State" required>
+                        </div>
+                        <!-- Zip Code -->
+                        <div class="col-md-4">
+                            <label for="propertyZipCode" class="form-label">Zip Code</label>
+                            <input type="text" class="form-control" id="propertyZipCode" name="ZipCode" required>
+                        </div>
+                    </div>
+
+                    <!-- Bed, Bath, Garage Counts -->
+                    <div class="row mt-3">
+                        <!-- Bed Count -->
+                        <div class="col-md-4">
+                            <label for="bedCount" class="form-label">Bedrooms</label>
+                            <input type="number" class="form-control" id="bedCount" name="BedCount" min="0" required>
+                        </div>
+                        <!-- Bath Count -->
+                        <div class="col-md-4">
+                            <label for="bathCount" class="form-label">Bathrooms</label>
+                            <input type="number" class="form-control" id="bathCount" name="BathCount" min="0" required>
+                        </div>
+                        <!-- Garage Count -->
+                        <div class="col-md-4">
+                            <label for="garageCount" class="form-label">Garages</label>
+                            <input type="number" class="form-control" id="garageCount" name="GarageCount" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- Year Constructed, Property Type -->
+                    <div class="row mt-3">
+                        <!-- Year Constructed -->
+                        <div class="col-md-6">
+                            <label for="yearConstructed" class="form-label">Year Constructed</label>
+                            <input type="number" class="form-control" id="yearConstructed" name="YearConstructed" min="1800" max="@DateTime.UtcNow.Year" required>
+                        </div>
+                        <!-- Property Type -->
+                        <div class="col-md-6">
+                            <label for="propertyType" class="form-label">Property Type</label>
+                            <select class="form-control dropdown-arrow" id="propertyType" name="PropertyType" required>
+                                <option value="">Select Property Type</option>
+                                @foreach (var type in Model) {
+                                    <option value="@type.Key">@type.Value</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- IsComplex & IsRemodeled Checkboxes -->
+                    <div class="mt-3">
+                        <label class="form-label">Additional Property Features</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isComplex" name="IsComplex">
+                            <label class="form-check-label" for="isComplex">Is the property complex?</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isRemodeled" name="IsRemodeled">
+                            <label class="form-check-label" for="isRemodeled">Recently remodeled?</label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-button mt-3">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

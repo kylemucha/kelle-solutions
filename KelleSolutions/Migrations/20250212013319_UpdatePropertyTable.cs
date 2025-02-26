@@ -10,12 +10,10 @@ namespace KelleSolutions.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Properties",
-                table: "Properties");
-
-            migrationBuilder.DropColumn(
-                name: "County",
                 table: "Properties");
 
             migrationBuilder.DropColumn(

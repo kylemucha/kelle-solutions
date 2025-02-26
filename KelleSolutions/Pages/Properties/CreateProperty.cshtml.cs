@@ -1,16 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;        // handles user authentication!
 using KelleSolutions.Models;
 using KelleSolutions.Data;
+using System;
 using System.Threading.Tasks;
 
 namespace KelleSolutions.Pages.Properties {
     public class CreatePropertyModel : PageModel {
+        
+        // database context for querying property
         private readonly KelleSolutionsDbContext _context;
-        public CreatePropertyModel(KelleSolutionsDbContext context){
-            _context = context;
 
-            // Initialize empty Property
+        // manages logged-in users
+        private readonly UserManager<User> _userManager;
+        public CreatePropertyModel(KelleSolutionsDbContext context, UserManager<User> userManager) {
+            _context = context;
+            _userManager = userManager;
+            // initialize empty Property
             Property = new Property {
                 Address = string.Empty,
                 City = string.Empty,
@@ -19,10 +26,12 @@ namespace KelleSolutions.Pages.Properties {
                 BedCount = 0,
                 BathCount = 0,
                 GarageCount = 0,
-                // Assuming default to the current year
-                YearConstructed = DateTime.Now.Year, 
-                // Assuming a default property type
-                PropertyType = Property.PropertyTypes.SingleFamilyHome
+                // default to current year
+                YearConstructed = DateTime.UtcNow.Year,
+                // default to first option
+                PropertyType = string.Empty,
+                // ensure it's set before assigning the real user ID
+                UserID = string.Empty
             };
         }
 
@@ -40,11 +49,35 @@ namespace KelleSolutions.Pages.Properties {
                 return Page();
             }
             try {
+                // get the currently logged-in user, specifically the user's username
+                var currentUser = await _userManager.GetUserAsync(User);
+
+                // if no user is logged in, redirect to the login page
+                // while in testing phase, keep this commented!
+                if (currentUser == null) {
+                    return RedirectToPage("/Account/Login");
+                }
+                
+                // new property entry in Property table
+                var newProperty = new Property {
+                    UserID = currentUser.Id,
+                    Address = Property.Address,
+                    City = Property.City,
+                    State = Property.State,
+                    ZipCode = Property.ZipCode,
+                    BedCount = Property.BedCount,
+                    BathCount = Property.BathCount,
+                    GarageCount = Property.GarageCount,
+                    YearConstructed = Property.YearConstructed, 
+                    PropertyType = Property.PropertyType,
+                    CreatedAt = DateTime.UtcNow
+                };
+
                 // Save the new property to the database
-                _context.Properties.Add(Property);
+                _context.Properties.Add(newProperty);
                 await _context.SaveChangesAsync();
-                // Redirect to the ViewProperty page after saving
-                return RedirectToPage("/Properties/ViewProperty", new { id = Property.PropertyID });
+                // Redirect to the My Properties page after saving
+                return RedirectToPage("/Properties/MyProperties");
             }
             catch (Exception ex) {
                 ModelState.AddModelError("", "An error occurred while saving the property. Please try again.");

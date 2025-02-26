@@ -11,6 +11,7 @@ namespace KelleSolutions.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.CreateTable(
                 name: "Properties",
                 columns: table => new

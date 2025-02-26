@@ -1,0 +1,109 @@
+@model KelleSolutions.Pages.Listings.CreateListingModalModel
+
+<!--
+Date: 02/23/2025 
+Creating CreateListingModal.cshtml to create a submit form for the Listings entity.
+Structured and styled like CreatePropertyModal.cshtml for consistency.
+Added a dropdown to allow users to select a property they created.
+-->
+
+<style>
+    /* Blur effect for background when modal is open */
+    .modal-backdrop {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(8px);
+    }
+
+    /* Ensure modal opens in the center */
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* Styled submit button */
+    .submit-button {
+        background: #4a154b;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        width: auto;
+        text-align: center;
+        display: block;
+        margin: 20px auto 0 auto;
+        transition: background 0.3s ease;
+    }
+    .submit-button:hover {
+        background: linear-gradient(90deg, #ecb22e, #e01e5a);
+    }
+
+    /* Custom dropdown styling */
+    .dropdown-arrow {
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px;
+        padding-right: 30px;
+    }
+</style>
+
+<div class="modal fade" id="AddListingModal" tabindex="-1" aria-labelledby="createListingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createListingModalLabel">Add New Listing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createListingForm">
+                    <!-- Select Property Dropdown (User's Created Properties) -->
+                    <div class="mb-3">
+                        <label for="propertyId" class="form-label">Select a Property</label>
+                        <select class="form-control dropdown-arrow" id="propertyId" name="PropertyId" required>
+                            <option value="">Select Property</option>
+                            @foreach (var property in Model.UserProperties)
+                            {
+                                <option value="@property.Key">@property.Value</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Listing Price -->
+                    <div class="mb-3">
+                        <label for="listingPrice" class="form-label">Price ($)</label>
+                        <input type="number" class="form-control" id="listingPrice" name="Price" required>
+                    </div>
+
+                    <!-- Status & Team on the Same Row -->
+                    <div class="row">
+                        <!-- Status -->
+                        <div class="col-md-6">
+                            <label for="listingStatus" class="form-label">Status</label>
+                            <select class="form-control dropdown-arrow" id="listingStatus" name="Status" required>
+                                <option value="">Select Status</option>
+                                @foreach (var status in Model.AvailableStatusTypesList)
+                                {
+                                    <option value="@status.Key">@status.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- Team -->
+                        <div class="col-md-6">
+                            <label for="listingTeam" class="form-label">Team</label>
+                            <select class="form-control dropdown-arrow" id="listingTeam" name="Team" required>
+                                <option value="Internal">Internal</option>
+                                <option value="External">External</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-button mt-3">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

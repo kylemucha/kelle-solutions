@@ -1,23 +1,24 @@
 @page
-@model KelleSolutions.Pages.Listings.ViewListingsModel
-
-@{
-    ViewData["Title"] = "User Listings";
-}
-
-<link rel="stylesheet" href="~/css/mainpages.css" />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
-
-<body>
-
+@model KelleSolutions.Pages.Listings.MyListingsModel
+@{ ViewData["Title"] = "User Listings"; }
+<!--
+Date: 02/23/2025 
+Updating MyListings.cshtml to reflect new and modified viewing table of the Listings Entities created by signed-in user.
+Adding comments to better explain documentation.
+-->
 <div class="header-section">
     <p>
+        <!-- I don't think this mainpages.css is needed anymore -->
+        <link rel="stylesheet" href="~/css/mainpages.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
         <a href="/AT_Dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368"><path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/></svg>
         </a>
-        <span>/</span> <span class="pagename-text">Listings</span>
+        <span>/</span> <span class="pagename-text">View My Listings</span>
     </p>
 </div>
+
+<body>
 
 <div class="buttons">
     <div class="d-flex">
@@ -86,14 +87,17 @@
             </ul>
         </div>
     </div>
-    <a href="/Listings/CreateListing">
-        <button class="gradient-button">
-            Add
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-            </svg>
-        </button>
-    </a>
+    <!-- Add Listing Button -->
+    <button class="gradient-button" data-bs-toggle="modal" data-bs-target="#AddListingModal">
+        Add
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+        </svg>
+    </button>
+    
+    <!-- include the available listing status types -->
+    <partial name="CreateListingModal" model="Model.CreateListingModel" />
+
 </div>
 
 <div class="content-container">
@@ -101,42 +105,41 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Date</th>
+                <th>Created</th>
                 <th>Status</th>
-                <th>Operator</th>
                 <th>Team</th>
                 <th>Price</th>
                 <th>Address</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.ViewUserListings)
-            {
+            @foreach (var listing in Model.MyListings) {
                 <tr>
-                    <td>@item.ID</td>
-                    <td>@item.ListingDate.ToString("yyyy-MM-dd")</td>
+                    <td>@listing.ListingID</td>
+                    <td>@listing.Date.ToString("yyyy-MM-dd")</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-outline">
-                                @item.Status
+                                @listing.Status
                             </button>
                             <button type="button" class="btn dropdown-outline dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu">
-                                <li><a class="dropdown-item status-option" href="#" data-value="ON HOLD">ON HOLD</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="OPEN HOUSE">OPEN HOUSE</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="ACTIVE">ACTIVE</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="PENDING">PENDING</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="CLOSED">CLOSED</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="EXPIRED">EXPIRED</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="WITHDRAWN">WITHDRAWN</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-value="CANCELED">CANCELED</a></li>
-                            </div>
+                                <div class="dropdown-menu">
+                                    @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.Listing.StatusTypes))) {
+                                        <li>
+                                            <a class="dropdown-item status-option" href="#"
+                                                data-value="@status"
+                                                data-listing-id="@listing.ListingID">
+                                                @status
+                                            </a>
+                                        </li>
+                                    }
+                                </div>
                         </div>
                     </td>
-                    <td>@item.Operator</td>
-                    <td>@item.Team</td>
-                    <td>@item.Price.ToString("C0")</td>
-                    <td>@Html.Raw(item.Address)</td>
+                    <td>@listing.Team</td>
+                    <!-- "C0" formats currency to 0 decimal places -->
+                    <td>@listing.Price.ToString("C0")</td>
+                    <td>@listing.Address</td>
                 </tr>
             }
         </tbody>
@@ -166,22 +169,20 @@
         <div class="page-desc">
             <span>
                 @( (Model.PageNumber - 1) * Model.PageSize + 1) - 
-                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.AllListings.Count))
-                of @Model.AllListings.Count
+                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.MyListings.Count))
+                of @Model.MyListings.Count
             </span>
         </div>
 
         <div class="page-btn">
-            @if (Model.PageNumber > 1)
-            {
+            @if (Model.PageNumber > 1) {
                 <a href="?PageNumber=@(Model.PageNumber - 1)&PageSize=@Model.PageSize">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
                         <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
                     </svg>
                 </a>
             }
-            else
-            {
+            else {
                 <span class="disabled-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
                         <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
@@ -191,16 +192,14 @@
         </div>
 
         <div class="page-btn">
-            @if (Model.PageNumber < Model.TotalPages)
-            {
+            @if (Model.PageNumber < Model.TotalPages) {
                 <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
                         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                     </svg>
                 </a>
             }
-            else
-            {
+            else {
                 <span class="disabled-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
                         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
@@ -219,21 +218,57 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".dropdown").forEach(dropdown => {
-                const checkboxes = dropdown.querySelectorAll(".option-checkbox");
-                const dropdownButton = dropdown.querySelector(".dropdown-toggle");
-    
-                function updateButtonText() {
-                    const checkedCount = dropdown.querySelectorAll(".option-checkbox:checked").length;
-                    dropdownButton.textContent = checkedCount > 0 ? `${checkedCount} selected` : "Select Options";
-                }
-    
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener("change", updateButtonText);
-                });
+            let elements = document.querySelectorAll(".some-class");
+            if (elements.length > 0) {
+                elements.forEach(el => console.log(el.textContent));
+            } else {
+                console.warn("No elements found with the given selector.");
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("JavaScript Loaded for Create Listing Modal");
+
+            document.getElementById("createListingForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent page reload
+
+                let formData = {
+                    PropertyId: document.getElementById("propertyId").value.trim(),
+                    Price: document.getElementById("listingPrice").value.trim(),
+                    Status: document.getElementById("listingStatus").value.trim(),
+                    Team: document.getElementById("listingTeam").value.trim()
+                };
+
+                console.log("Submitting Listing Data:", JSON.stringify(formData));
+
+                fetch("/Listings/MyListings?handler=CreateListing", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Server Response:", data);
+                    if (data.success) {
+                        alert("Listing added successfully!");
+                        $("#createListingModal").modal("hide");
+                        location.reload();
+                    } else {
+                        alert("Error adding listing: " + data.message);
+                    }
+                })
+                .catch(error => console.error("Fetch Error:", error));
             });
         });
     </script>
+
+
+
     <script>
         function updatePageSize() {
             var pageSize = document.getElementById("pageSize").value;
@@ -296,5 +331,36 @@
             });
         });
 
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".status-option").forEach(item => {
+                item.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    let newStatus = this.getAttribute("data-value");
+                    let listingId = this.getAttribute("data-listing-id");
+
+                    // updates button text
+                    this.closest(".btn-group").querySelector("button").innerText = newStatus;
+
+                    // sends an AJAX request to update the status
+                    fetch(`/Listings/UpdateStatus`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ listingId, newStatus })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log("Status updated successfully");
+                        } else {
+                            console.error("Failed to update status:", data.message);
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            });
+        });
     </script>
 }

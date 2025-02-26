@@ -8,10 +8,13 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema; // defines database relationships
 
 namespace KelleSolutions.Models {
     // Defines the Property entity and its properties (ex: "PropertyId", "PropertyName", etc.)
     public class Property {
+        
         // Unique ID (or APN) for each property (PK), APN will be considered later
         public int PropertyID { get; set; }
 
@@ -67,28 +70,72 @@ namespace KelleSolutions.Models {
 
         // Additional notes made on property (if applicable)
         [StringLength(255, ErrorMessage = "Note cannot exceed 255 characters.")]
-        public string Notes {get; set; } = "";
+        public string? Notes {get; set; } = string.Empty;
 
-        // Defines the property (ex: "SingleFamilyHome", etc.), required field
-        [Required(ErrorMessage = "Property type is required")]
-        public required PropertyTypes PropertyType { get; set; }
+        // Defines the property by assigned case (SQL query shown below).
+        [Column(TypeName = "nvarchar(50)")]
+        public required string PropertyType { get; set; }
+
+        /*
+        CASE 
+        WHEN PropertyType = 'SingleFamilyHome' THEN 0
+        WHEN PropertyType = 'MultiFamilyHome' THEN 1
+        WHEN PropertyType = 'Condominium' THEN 2
+        WHEN PropertyType = 'Townhouse' THEN 3
+        WHEN PropertyType = 'Apartment' THEN 4
+        WHEN PropertyType = 'OfficeBuilding' THEN 5
+        WHEN PropertyType = 'RetailStore' THEN 6
+        WHEN PropertyType = 'Warehouse' THEN 7
+        WHEN PropertyType = 'VacantLand' THEN 8
+        ELSE 9 -- "Other"
+        */
         
         // List of pre-defined property types
         public enum PropertyTypes {
+            [Display(Name = "Single Family Home")]
             SingleFamilyHome,
+
+            [Display(Name = "Multi Family Home")]
             MultiFamilyHome,
+
+            [Display(Name = "Condominium")]
             Condominium,
+
+            [Display(Name = "Townhouse")]
             Townhouse,
+
+            [Display(Name = "Apartment")]
             Apartment,
+
+            [Display(Name = "Office Building")]
             OfficeBuilding,
+
+            [Display(Name = "Retail Store")]
             RetailStore,
+
+            [Display(Name = "Warehouse")]
             Warehouse,
+
+            [Display(Name = "Vacant Land")]
             VacantLand,
+
+            [Display(Name = "Other")]
             Other
         }
 
         // Date the property was added to the system
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // The UserID to track which user created this property
+        [Required]
+        public required string UserID { get; set; }
+
+        // Foreign key reference to User.cs
+        [ForeignKey("UserID")]
+        public virtual User? User { get; set; }
+
+        // Navigation property, Property can have multiple listings in its lifetime
+        public virtual ICollection<Listing> Listings { get; set; } = new List<Listing>();
 
     }
 }
