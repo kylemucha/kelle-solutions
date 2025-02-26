@@ -15,7 +15,7 @@ namespace KelleSolutions.Pages.Actions
             // Mock data - replace with actual database retrieval
             Actions = new List<ViewUserActions>
             {
-                new ViewUserActions { actionTitle = "Fix Bug", firstName = "John", lastName = "Doe", category = "develop", dueDate = new DateOnly(2024, 10, 15) },
+                new ViewUserActions { actionTitle = "Email owner", firstName = "Elise", lastName = "Clark", category = "send email", dueDate = new DateOnly(2024, 12, 18) },
                 new ViewUserActions { actionTitle = "Review Code", firstName = "Jane", lastName = "Smith", category = "quality assure", dueDate = new DateOnly(2024, 10, 20) }
             };
         }
