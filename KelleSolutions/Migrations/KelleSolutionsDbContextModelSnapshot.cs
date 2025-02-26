@@ -132,6 +132,10 @@ namespace KelleSolutions.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListingID"));
 
+                    b.Property<string>("Affiliation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("AgentID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -161,10 +165,6 @@ namespace KelleSolutions.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Team")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
 
@@ -454,19 +454,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0972d5e7-4667-4068-939d-b68e0ff1ba62",
+                            Id = "ac91c392-d52f-4e88-8e51-d7c74002a802",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b7aeb529-0a21-40eb-b969-852f37e49f29",
+                            Id = "b05e67eb-aa22-4c5d-9a5d-32b91bb03c22",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "f63fb8f1-3e24-4034-bfa8-9db2b7266b96",
+                            Id = "d4123a11-b84c-4561-9e2e-d757727191d3",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });

@@ -62,7 +62,7 @@ namespace KelleSolutions.Data
                 .HasColumnType("nvarchar(50)");
 
             builder.Entity<Listing>()
-                .Property(l => l.Team)
+                .Property(l => l.Affiliation)
                 .HasColumnType("nvarchar(50)");
         }
 
