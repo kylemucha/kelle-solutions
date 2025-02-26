@@ -1,9 +1,6 @@
-// Date: 02/22/2025
-// Creating Listing.cs to reflect Listings Entity in ERD.
+// Date: 02/26/2025
+// Merging Incoming and Current Listings entity definitions for consistency.
 // Adding comments to better explain documentation.
-
-// "[Required]" field needed in form and database validations
-// "required" keyword complies to C#'s object creation
 
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -12,18 +9,31 @@ using System.ComponentModel.DataAnnotations.Schema; // connects to existing data
 namespace KelleSolutions.Models {
     // Defines the Listing entity and its properties (ex: "ListingID", "Price", etc.)
     public class Listing {
-        // Unique ID for each listing (PK)
+        // Unique ID for each listing (Primary Key)
         [Key]
         public int ListingID { get; set; }
 
-        // Date the listing was added to the system
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        // Foreign key reference to Property.cs
+        [ForeignKey("PropertyID")]
+        [Required]
+        public int PropertyID { get; set; }
 
-        // Date the listing expires
-        // Nullable in case expiration isn't set immediately
-        public DateTime? EndDate { get; set; }
+        // Foreign key reference to User.cs (Agent managing the listing)
+        [ForeignKey("AgentID")]
+        [Required]
+        public required string AgentID { get; set; }
 
-        // Current listing status (ex: "Active", "Pending", "Sold", "Withdrawn", etc.)
+        // Defines the listing type (e.g., Sale, Rent)
+        [Required]
+        [StringLength(50)]
+        public required string ListingType { get; set; }
+
+        // Defines the listing price
+        [Required(ErrorMessage = "Price is required")]
+        [Column(TypeName = "decimal(18,2)")]
+        public required decimal Price { get; set; }
+
+        // Defines the listing status
         [Required(ErrorMessage = "Status is required")]
         [Column(TypeName = "nvarchar(50)")]
         public required StatusTypes Status { get; set; }
@@ -42,41 +52,33 @@ namespace KelleSolutions.Models {
             Canceled
         }
 
-        // Type of listing (ex: "Internal", "External")
+        // Defines the listing team type (e.g., Internal, External)
         [Required(ErrorMessage = "Team type is required")]
         [Column(TypeName = "nvarchar(50)")]
         public required TeamTypes Team { get; set; }
 
-        // pre-defined team types
+        // Pre-defined team types
         public enum TeamTypes {
             Internal,
             External
         }
 
-        // Listing Price
-        [Required(ErrorMessage = "Price is required")]
-        [Column(TypeName = "decimal(18,2)")]
-        public required decimal Price { get; set; }
+        // Defines the date when the listing starts
+        [Required]
+        public DateTime StartDate { get; set; }
 
-        // Description about the property (if applicable)
+        // Nullable end date if expiration isn't set immediately
+        public DateTime? EndDate { get; set; }
+
+        // Timestamp when the listing was created
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        // Optional description about the listing
         [StringLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
-        public required string Description { get; set; }
+        public string? Description { get; set; }
 
-        // The PropertyID to track which
-
-        // Foreign key reference to Property.cs
-        [ForeignKey("PropertyID")]
-        [Required]
-        public int PropertyID { get; set; }
-
-        // Foreign key reference to User.cs
-        [ForeignKey("UserID")]
-        [Required]
-        public string UserID { get; set; }
-
-        public virtual User User { get; set; }
-        
-        // Nullable in case of a compiler error
-        public virtual Property Property { get; set; }
+        // Navigation properties
+        public virtual required Property Property { get; set; }
+        public virtual required User Agent { get; set; }
     }
 }

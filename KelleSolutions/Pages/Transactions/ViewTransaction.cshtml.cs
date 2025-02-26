@@ -1,66 +1,59 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using KelleSolutions.Data;
+using KelleSolutions.Models;
 using System;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace KelleSolutions.Pages.Roles
 {
-    public class ViewTransactionModel : PageModel
-    {
-        // Contingency Dates
-        [BindProperty]
-        [Display(Name = "Deposit Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? DepositDate { get; set; }
-
-        [BindProperty]
-        [Display(Name = "Inspection Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? InspectionDate { get; set; }
-
-        [BindProperty]
-        [Display(Name = "Loan Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? LoanDate { get; set; }
-
-        [BindProperty]
-        [Display(Name = "Appraisal Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? AppraisalDate { get; set; }
-
-        // Property Information
-        [BindProperty]
-        [Display(Name = "Property Information")]
-        public string PropertyInformation { get; set; }
-
-        // Transition Details
-        [BindProperty]
-        [Display(Name = "Transition Details")]
-        public string TransitionDetails { get; set; }
-
-        // Status Details
-        [BindProperty]
-        [Display(Name = "Status")]
-        public string Status { get; set; }
-
-        // Comments
-        [BindProperty]
-        [Display(Name = "Comments")]
-        public string Comments { get; set; }
-        public void OnGet()
+        public class ViewTransactionModel : PageModel
         {
-            // If you are editing an existing transaction, load data here
-        }
+            private readonly KelleSolutionsDbContext _context;
 
-        public IActionResult OnPost()
-        {
-            // Handle form submission: create/update your database record
-            // Then redirect back to the Transactions list
-            return RedirectToPage("Transactions");
+            public ViewTransactionModel(KelleSolutionsDbContext context)
+            {
+                _context = context;
+            }
+
+            [BindProperty]
+            public Transaction Transaction { get; set; }
+
+            public async Task<IActionResult> OnGetAsync(int? id)
+            {
+                if (id.HasValue)
+                {
+                    Transaction = await _context.Transactions.FindAsync(id.Value);
+                    if (Transaction == null)
+                    {
+                        return NotFound();
+                    }
+                    return Page();
+                }
+
+                Transaction = new Transaction();
+                return Page();
+            }
+
+            public async Task<IActionResult> OnPostAsync()
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                if (Transaction.Id == 0)
+                {
+                    Transaction.CreatedDate = DateTime.Now;
+                    _context.Transactions.Add(Transaction);
+                }
+                else
+                {
+                    _context.Transactions.Update(Transaction);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Transactions");
         }
     }
 }

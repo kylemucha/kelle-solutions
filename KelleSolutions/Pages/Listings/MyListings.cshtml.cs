@@ -1,102 +1,96 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;            // handles user authentication!
-using System.Collections.Generic;               // defines database relationships
-using System.Linq;                              // defines LINQ queries (ex: "Where", "OrderBy", "Skip", "Take", etc.)
-using System.Security.Claims;                   // for ClaimsPrincipal
-using System;                                   
-using System.IO;                                // file and stream execution
-using System.Text.Json;                         // JSON serial/deserial
-using System.Threading.Tasks;                   // supports non-blocking queries (ex: "async", "wait")
-using System.Reflection;                        // required for extracting Display Names
-using System.ComponentModel.DataAnnotations;    // required for Display attribute
-using KelleSolutions.Data;                      // imports KelleSolutionsDbContext.cs
-using KelleSolutions.Models;                    // imports model classes, like "Property.cs" as Property and "User.cs" as User
+using System.Collections.Generic;               // Defines database relationships
+using System.Linq;                              // Defines LINQ queries (ex: "Where", "OrderBy", "Skip", "Take", etc.)
+using System.Reflection;                        // Required for extracting Display Names
+using System.ComponentModel.DataAnnotations;    // Required for Display attribute
+using System.Threading.Tasks;                   // Supports non-blocking queries (ex: "async", "await")
+using KelleSolutions.Data;                      // Imports KelleSolutionsDbContext.cs
+using KelleSolutions.Models;                    // Imports model classes
+using KelleSolutions.Models.ViewModels;         // Imports ViewModel for displaying user listings
 
 namespace KelleSolutions.Pages.Listings {
     public class MyListingsModel : PageModel {
-
-        // database context for querying listings
+        
+        // Database context for querying listings
         private readonly KelleSolutionsDbContext _context;
-
-        // manages logged-in users
+        
+        // Manages logged-in users
         private readonly UserManager<User> _userManager;
 
-        // constructor that injects database context and user manager
+        // Constructor injecting database context and user manager
         public MyListingsModel(KelleSolutionsDbContext context, UserManager<User> userManager) {
             _context = context;
             _userManager = userManager;
         }
 
-        // storing the list of listings owned by the logged-in user
-        public List<ListingViewModel> MyListings { get; set; } = new();
-        public List<ListingViewModel> ViewUserListings { get; set; }
+        // Stores listings available to the user
+        public List<ViewUserListings> AllListings { get; set; } = new();
+        public List<ViewUserListings> ViewUserListings { get; set; } = new();
         public CreateListingModalModel CreateListingModel { get; set; }
         public List<KeyValuePair<string, string>> AvailableStatusTypesList { get; set; } = new();
 
-        // page display properties (not house properties, but like components properties),
-        // clarification for later documentation
-        // defaults to 10 listings per page
+        // Page display properties
         [BindProperty(SupportsGet = true)]
         public int PageSize { get; set; } = 10;
 
-        // the current page number
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
-        // the total number of pages
-        public int TotalPages { get; set; }
+        // Total number of pages based on available listings
+        public int TotalPages => (int)Math.Ceiling((double)AllListings.Count / PageSize);
 
         public async Task<IActionResult> OnGetAsync() {
-            // gets the currently logged-in user
+            // Gets the currently logged-in user
             var currentUser = await _userManager.GetUserAsync(User);
 
-            // if no user is logged in, redirect to the login page
-            // while in testing phase, keep this commented!
+            // If no user is logged in, redirect to login page
             if (currentUser == null) {
                 return RedirectToPage("/Account/Login");
             }
 
-            // ensure UserID is valid before querying the database
-            if (string.IsNullOrEmpty(currentUser.Id)) {
-                return RedirectToPage("/Account/Login");
-            }
-            
-            // query only the listings submitted by the logged-in user
-            var query = _context.Listings
+            // Fetch roles for the logged-in user
+            var roles = await _userManager.GetRolesAsync(currentUser);
+
+            // Query to fetch listings
+            var listingsQuery = _context.Listings
                 .Include(l => l.Property)
-                //  filters listings based on UserID
-                .Where(l => l.Property.UserID == currentUser.Id)
-                .Select(l => new ListingViewModel {
-                    ListingID = l.ListingID,
-                    Date = l.CreatedAt,
-                    Status = l.Status.ToString(),
-                    Team = l.Team.ToString(),
-                    Price = (double)l.Price,
-                    Address = l.Property.Address
-                })
+                .Include(l => l.Agent)
                 .AsQueryable();
 
-            // get the total listings count for page display listings
-            int totalListings = await query.CountAsync();
-            TotalPages = (int)System.Math.Ceiling((double)totalListings / PageSize);
+            // If user is a broker or agent, filter based on ownership
+            if (roles.Contains("Broker") || roles.Contains("Agent")) {
+                listingsQuery = listingsQuery.Where(l => l.AgentID == currentUser.Id);
+            }
+            // Admin role sees all listings, no filtering needed
 
-            // apply page display properties
-            MyListings = await query
-                // newest listings appear first
-                .OrderByDescending(l => l.Date)
-                // skips items from previous pages
-                .Skip((PageNumber - 1) * PageSize)
-                // limit the results to just PageSize
-                .Take(PageSize)
+            // Fetch listing data from database
+            AllListings = await listingsQuery
+                .OrderByDescending(l => l.StartDate)
+                .Select(l => new ViewUserListings {
+                    ID = l.ListingID,
+                    ListingDate = DateOnly.FromDateTime(l.StartDate),
+                    Status = l.Status,
+                    Operator = l.Agent.FirstName + " " + l.Agent.LastName,
+                    Team = l.Agent.Affiliation,
+                    Price = (double)l.Price,
+                    Address = $"{l.Property.Address}, {l.Property.City}, {l.Property.State} {l.Property.ZipCode}"
+                })
                 .ToListAsync();
 
+            // Paginate listings
+            ViewUserListings = AllListings
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
+            // Initialize CreateListingModel for modal
             CreateListingModel = new CreateListingModalModel(_context, _userManager, User);
-            // Load properties and status types
             await CreateListingModel.OnGetAsync();
 
-            // fetches available property types, dynamically!
+            // Fetch available status types dynamically
             AvailableStatusTypesList = Enum.GetValues(typeof(Listing.StatusTypes))
                 .Cast<Listing.StatusTypes>()
                 .Select(status => new KeyValuePair<string, string>(
@@ -110,46 +104,46 @@ namespace KelleSolutions.Pages.Listings {
             return Page();
         }
 
-        public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] StatusUpdateRequest request) {
-            // find the listing in the database by its ListingID
-            var listing = await _context.Listings.FindAsync(request.ListingID);
+        public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request) {
+            // Find the listing in the database by its ListingID
+            var listing = await _context.Listings.FindAsync(request.Id);
 
-            // error response if listing is not found
+            // Error response if listing is not found
             if (listing == null) {
-                return new JsonResult(new { success = false, message = "Listing not found "});
+                return new JsonResult(new { success = false, message = "Listing not found " });
             }
 
-            // parsing the incoming status string into the StatusTypes enum (the pre-defined values)
-            // (ex: "Active", "Pending", "Sold", "Withdrawn", etc.)
-            if (Enum.TryParse(typeof(Listing.StatusTypes), request.NewStatus, out var status)) {
-                // if parsing is successful, this updates the listing status
+            // Parsing the incoming status string into the StatusTypes enum
+            if (Enum.TryParse(typeof(Listing.StatusTypes), request.Status, out var status)) {
+                // Update the listing status
                 listing.Status = (Listing.StatusTypes)status;
 
-                // saving changes
+                // Save changes
                 await _context.SaveChangesAsync();
 
-                // return a success response
+                // Return a success response
                 return new JsonResult(new { success = true });
             }
 
-            // if parsing fails, error handler
+            // If parsing fails, error handler
             return new JsonResult(new { success = false, message = "Invalid Status" });
         }
-
-        // view model to format data properly
-        public class ListingViewModel {
-            public int ListingID { get; set; }
-            public DateTime Date { get; set; }
-            public string Status { get; set; }
-            public string Team { get; set; }
-            public double Price { get; set; }
-            public string Address { get; set; }
-        }
-
-        // data transfer class for AJAX request payload
-        public class StatusUpdateRequest {
-            public int ListingID { get; set; }
-            public string NewStatus { get; set; }
-        }
     }
+}
+
+// View model for user listings
+public class ViewUserListings {
+    public int ID { get; set; }
+    public DateOnly ListingDate { get; set; }
+    public string Status { get; set; }
+    public string Operator { get; set; }
+    public string Team { get; set; }
+    public double Price { get; set; }
+    public string Address { get; set; }
+}
+
+// Data transfer class for AJAX status update request
+public class UpdateStatusModel {
+    public int Id { get; set; }
+    public required string Status { get; set; }
 }

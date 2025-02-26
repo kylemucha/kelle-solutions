@@ -8,7 +8,7 @@
 
 <div class="container mt-5">
     <header>
-        <img src="~/images/kelleslogo.png" alt="Kelle Logo">
+        <img src="~/images/KELLE_logo_fullcolor.png" alt="Kelle Logo"  style="margin-bottom: 20px;">
     </header>
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -16,24 +16,24 @@
                 <div class="card-body p-4">
                     <h4 class="text-center mb-4">@ViewData["Title"]</h4>
                     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+                        <div asp-validation-summary="ModelOnly" class="custom-danger-color mb-3" role="alert"></div>
 
                         <!-- First Name, Last Name, Affiliation -->
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label for="firstName" class="form-label">First Name</label>
                                 <input asp-for="Input.FirstName" id="firstName" class="form-control" />
-                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                <span asp-validation-for="Input.FirstName" class="custom-danger-color"></span>
                             </div>
                             <div class="col-md-4">
                                 <label for="lastName" class="form-label">Last Name</label>
                                 <input asp-for="Input.LastName" id="lastName" class="form-control" />
-                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                <span asp-validation-for="Input.LastName" class="custom-danger-color"></span>
                             </div>
                             <div class="col-md-4">
                                 <label for="affiliation" class="form-label">Affiliation</label>
                                 <input asp-for="Input.Affiliation" id="affiliation" class="form-control" />
-                                <span asp-validation-for="Input.Affiliation" class="text-danger"></span>
+                                <span asp-validation-for="Input.Affiliation" class="custom-danger-color"></span>
                             </div>
                         </div>
 
@@ -42,12 +42,12 @@
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
                                 <input asp-for="Input.Email" id="email" class="form-control" />
-                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                <span asp-validation-for="Input.Email" class="custom-danger-color"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="phoneNumber" class="form-label">Phone Number</label>
                                 <input asp-for="Input.PhoneNumber" id="phoneNumber" class="form-control" maxlength="10" />
-                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                <span asp-validation-for="Input.PhoneNumber" class="custom-danger-color"></span>
                             </div>
                         </div>
 
@@ -56,17 +56,17 @@
                             <div class="col-md-6">
                                 <label for="role" class="form-label">Role</label>
                                 <select asp-for="Input.Role" id="role" class="form-select" required>
-                                    <option value="" disabled selected style="color: grey;">Select Role</option>
+                                    <option value="" disabled selected style="color: grey;">Select role</option>
                                     <option value="Admin">Admin</option>
                                     <option value="Broker">Broker</option>
                                     <option value="Agent">Agent</option>
                                 </select>
-                                <span asp-validation-for="Input.Role" class="text-danger"></span>
+                                <span asp-validation-for="Input.Role" class="custom-danger-color"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="licenseNumber" class="form-label">License Number</label>
                                 <input asp-for="Input.LicenseNumber" id="licenseNumber" class="form-control" maxlength="8" />
-                                <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
+                                <span asp-validation-for="Input.LicenseNumber" class="custom-danger-color"></span>
                             </div>
                         </div>
 
@@ -75,12 +75,12 @@
                             <div class="col-md-6">
                                 <label for="password" class="form-label">Password</label>
                                 <input asp-for="Input.Password" id="password" type="password" class="form-control" />
-                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                <span asp-validation-for="Input.Password" class="custom-danger-color"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="confirmPassword" class="form-label">Confirm Password</label>
                                 <input asp-for="Input.ConfirmPassword" id="confirmPassword" type="password" class="form-control" />
-                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                <span asp-validation-for="Input.ConfirmPassword" class="custom-danger-color"></span>
                             </div>
                         </div>
 

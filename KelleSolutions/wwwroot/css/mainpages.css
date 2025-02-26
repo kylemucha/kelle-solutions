@@ -38,7 +38,6 @@ body {
     background-color: transparent;
     font-size: 13px; /* Adjust font size as needed */
     font-weight: 250;
-    box-shadow: none !important; /* Remove Bootstrap's glow */
     width: 150px;
     text-align: left;
     display: flex;
@@ -46,14 +45,18 @@ body {
     align-items: center;
 }
 
-.dropdown-menu {
+.btn-outline:focus,
+.btn-outline:focus-visible {
+    outline: none; /* Remove default browser outline */
+}
+
+.filter-menu {
     font-size: 13px; /* Adjust font size as needed */
     font-weight: 250;
     min-width: 100% !important;  /* Change width */
     overflow-y: auto;
     color: #000000;
 }
-
 
 .buttons {
     display: flex;
@@ -152,6 +155,75 @@ body {
     border-bottom: 1px solid #c1c6de;
     align-content: center;
 }
+
+.status-btn {
+    color: black;
+    border: none;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    gap: 10px;
+    font-size: 10px;
+    box-shadow: none !important; /* Remove Bootstrap's glow */
+}
+
+.status-btn-onhold{
+    background: linear-gradient(to left, #ecb22e 24px, #fbf0d5 24px);
+}
+.status-btn-openhouse{
+    background: linear-gradient(to left, #2ebc83  24px, #d5f2e6 24px);
+}
+.status-btn-active{
+    background: linear-gradient(to left, #4a154b 24px, #dbd0db 24px);
+}
+.status-btn-pending{
+    background: linear-gradient(to left, #1264a3 24px, #d0e0ed 24px);
+}
+.status-btn-closed{
+    background: linear-gradient(to left, #c1c6de 24px, #f6f6f8 24px);
+}
+.status-btn-expired{
+    background: linear-gradient(to left, #e01e5a 24px, #f9d2de 24px);
+}
+.status-btn-withdrawn{
+    background: linear-gradient(to left, #e01e5a 24px, #f9d2de 24px);
+}
+.status-btn-canceled{
+    background: linear-gradient(to left, #e01e5a 24px, #f9d2de 24px);
+}
+
+.status-text {
+    padding-right: 0px;
+}
+
+.status-btn-svg {
+    /*transform: scale(1.1); /* Doubles the size */
+    /*transform: translatex(11px);*/
+    margin-right: -11px;  /* Adjust this to move the icon closer */
+}
+
+.status-menu {
+    min-width: 1em !important;  /* Change width */
+    font-size: 10px;
+    background-color: #f6f6f8;
+}
+
+.status-menu .dropdown-item:hover {
+    background-color: #c1c6de;
+    color: #000000 !important;
+}
+
+.table th:nth-child(3), 
+.table td:nth-child(3) {
+    min-width: 150px; /* Adjust the width as needed */
+}
+
+.table th:nth-child(2), 
+.table td:nth-child(2) {
+    min-width: 135px; /* Adjust the width as needed */
+}
+  
 
 /*Below Table*/
 

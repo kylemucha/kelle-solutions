@@ -18,6 +18,11 @@ namespace KelleSolutions.Models {
         // Unique ID (or APN) for each property (PK), APN will be considered later
         public int PropertyID { get; set; }
 
+        public required string OwnerID { get; set; }
+
+    //  [ForeignKey("OwnerID")]
+    //  public required User Owner { get; set; }
+
         // Track whether the property is archived or not, default false
         public Boolean IsArchived { get; set; } = false;
 
@@ -125,6 +130,18 @@ namespace KelleSolutions.Models {
 
         // Date the property was added to the system
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public int? TenantID { get; set; }
+
+        [ForeignKey("TenantID")]
+        public virtual Tenant? Tenant { get; set; }
+
+
+        public int? TenantID { get; set; }
+
+        [ForeignKey("TenantID")]
+        public virtual Tenant? Tenant { get; set; }
+
 
         // The UserID to track which user created this property
         [Required]

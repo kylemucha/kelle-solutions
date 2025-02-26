@@ -19,6 +19,7 @@ namespace KelleSolutions.Pages.Properties {
             _userManager = userManager;
             // initialize empty Property
             Property = new Property {
+                OwnerID = "",
                 Address = string.Empty,
                 City = string.Empty,
                 State = string.Empty,
