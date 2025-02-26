@@ -136,13 +136,6 @@ namespace KelleSolutions.Models {
         [ForeignKey("TenantID")]
         public virtual Tenant? Tenant { get; set; }
 
-
-        public int? TenantID { get; set; }
-
-        [ForeignKey("TenantID")]
-        public virtual Tenant? Tenant { get; set; }
-
-
         // The UserID to track which user created this property
         [Required]
         public required string UserID { get; set; }
