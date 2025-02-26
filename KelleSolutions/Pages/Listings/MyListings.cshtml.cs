@@ -28,7 +28,7 @@ namespace KelleSolutions.Pages.Listings {
 
         // Stores listings available to the user
         public List<ViewUserListings> AllListings { get; set; } = new();
-        public List<ViewUserListings> ViewUserListings { get; set; } = new();
+        public List<ViewUserListings> MyListings { get; set; } = new();
         public CreateListingModalModel CreateListingModel { get; set; }
         public List<KeyValuePair<string, string>> AvailableStatusTypesList { get; set; } = new();
 
@@ -70,9 +70,9 @@ namespace KelleSolutions.Pages.Listings {
             AllListings = await listingsQuery
                 .OrderByDescending(l => l.StartDate)
                 .Select(l => new ViewUserListings {
-                    ID = l.ListingID,
+                    ListingID = l.ListingID,
                     ListingDate = DateOnly.FromDateTime(l.StartDate),
-                    Status = l.Status,
+                    Status = Enum.GetName(typeof(Listing.StatusTypes), l.Status) ?? "Unknown",
                     Operator = l.Agent.FirstName + " " + l.Agent.LastName,
                     Team = l.Agent.Affiliation,
                     Price = (double)l.Price,
@@ -81,7 +81,7 @@ namespace KelleSolutions.Pages.Listings {
                 .ToListAsync();
 
             // Paginate listings
-            ViewUserListings = AllListings
+            MyListings = AllListings
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
@@ -133,7 +133,7 @@ namespace KelleSolutions.Pages.Listings {
 
 // View model for user listings
 public class ViewUserListings {
-    public int ID { get; set; }
+    public int ListingID { get; set; }
     public DateOnly ListingDate { get; set; }
     public string Status { get; set; }
     public string Operator { get; set; }
