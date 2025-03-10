@@ -21,5 +21,6 @@ namespace KelleSolutions.Models
 
         // Navigation Property
         public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<TenantToPerson> TenantToPeople { get; set; } = new List<TenantToPerson>();
     }
 }

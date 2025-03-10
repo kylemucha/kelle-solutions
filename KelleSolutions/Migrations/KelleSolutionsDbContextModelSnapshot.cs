@@ -292,6 +292,27 @@ namespace KelleSolutions.Migrations
                     b.ToTable("Tenants");
                 });
 
+            modelBuilder.Entity("KelleSolutions.Models.TenantToPerson", b =>
+                {
+                    b.Property<int>("TenantID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PersonID")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("TenantID", "PersonID");
+
+                    b.HasIndex("PersonID");
+
+                    b.ToTable("TenantToPeople");
+                });
+
             modelBuilder.Entity("KelleSolutions.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -454,19 +475,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac91c392-d52f-4e88-8e51-d7c74002a802",
+                            Id = "533c04e1-bd00-4559-b7bd-4a5a6dd19e66",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b05e67eb-aa22-4c5d-9a5d-32b91bb03c22",
+                            Id = "c0302cec-1682-44a8-b8aa-fb592cf5a71f",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "d4123a11-b84c-4561-9e2e-d757727191d3",
+                            Id = "de1704c5-85f6-434a-9f15-9a788da29cc6",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -618,6 +639,25 @@ namespace KelleSolutions.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("KelleSolutions.Models.TenantToPerson", b =>
+                {
+                    b.HasOne("KelleSolutions.Models.User", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
+                        .WithMany("TenantToPeople")
+                        .HasForeignKey("TenantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Tenant");
+                });
+
             modelBuilder.Entity("KelleSolutions.Models.User", b =>
                 {
                     b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
@@ -686,6 +726,8 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>
                 {
+                    b.Navigation("TenantToPeople");
+
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
