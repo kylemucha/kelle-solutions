@@ -1,86 +1,142 @@
-// Date: 02/26/2025
-// Merging Incoming and Current Listings entity definitions for consistency.
-// Adding comments to better explain documentation.
-
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema; // connects to existing database relationships
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KelleSolutions.Models {
-    // Defines the Listing entity and its properties (ex: "ListingID", "Price", etc.)
     public class Listing {
-        // Unique ID for each listing (Primary Key)
+        // Primary key: Code
         [Key]
-        public int ListingID { get; set; }
+        public int Code { get; set; }
 
-        // Foreign key reference to Property.cs
-        [ForeignKey("PropertyID")]
+        // Indicates if the listing is archived
         [Required]
+        public bool Archived { get; set; }
+
+        // Timestamp for record creation
+        [Column(TypeName = "datetime2")]
+        public DateTime? Created { get; set; }
+
+        // Timestamp for the last update
+        [Column(TypeName = "datetime2")]
+        public DateTime? Updated { get; set; }
+
+        // Foreign key reference to Property; maps to the "Property" column in the table
+        [Required]
+        [Column("Property")]
         public int PropertyID { get; set; }
+        
+        // Navigation property to the Property entity
+        public virtual Property Property { get; set; }
 
-        // Foreign key reference to User.cs (Agent managing the listing)
-        [ForeignKey("AgentID")]
+        // Listing status stored as a smallint in the database
         [Required]
-        public required string AgentID { get; set; }
+        [Column("MyStatus", TypeName = "smallint")]
+        public MyStatusEnum MyStatus { get; set; }
 
-        // Defines the listing type (e.g., Sale, Rent)
+        // Listing source stored as a smallint
         [Required]
-        [StringLength(50)]
-        public required string ListingType { get; set; }
+        [Column("MySource", TypeName = "smallint")]
+        public MySourceEnum MySource { get; set; }
 
-        // Defines the listing price
-        [Required(ErrorMessage = "Price is required")]
-        [Column(TypeName = "decimal(18,2)")]
-        public required decimal Price { get; set; }
-
-        // Defines the listing status
-        [Required(ErrorMessage = "Status is required")]
-        [Column(TypeName = "nvarchar(50)")]
-        public required StatusTypes Status { get; set; }
-
-        // List of pre-defined status types
-        public enum StatusTypes {
-            [Display(Name = "On Hold")]
-            OnHold,
-            [Display(Name = "Open House")]
-            OpenHouse,
-            Active,
-            Pending,
-            Closed,
-            Expired,
-            Withdrawn,
-            Canceled
-        }
-
-        // Defines the listing affiliation type (e.g., Internal, External)
-        [Required(ErrorMessage = "Affiliation type is required")]
-        [Column(TypeName = "nvarchar(50)")]
-        public required AffiliationTypes Affiliation { get; set; }
-
-        // Pre-defined affiliation types
-        public enum AffiliationTypes {
-            Internal,
-            External
-        }
-
-        // Defines the date when the listing starts
+        // Operator represented by a smallint
         [Required]
-        public DateTime StartDate { get; set; }
+        [Column("Operator", TypeName = "smallint")]
+        public OperatorEnum Operator { get; set; }
 
-        // Nullable end date if expiration isn't set immediately
-        public DateTime? EndDate { get; set; }
+        // Team represented by a smallint
+        [Required]
+        [Column("Team", TypeName = "smallint")]
+        public TeamEnum Team { get; set; }
 
-        // Timestamp when the listing was created
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        // Visibility stored as a tinyint
+        [Required]
+        [Column("Visibility", TypeName = "tinyint")]
+        public VisibilityEnum Visibility { get; set; }
 
-        // Optional description about the listing
-        [StringLength(255, ErrorMessage = "Description cannot exceed 255 characters.")]
-        public string? Description { get; set; }
+        // Indicates if the listing is external
+        [Column("ExternalListing")]
+        public bool? ExternalListing { get; set; }
 
-        // Navigation properties
-        public virtual required Property Property { get; set; }
-        public virtual required User Agent { get; set; }
+        // Indicates if the listing is a pocket listing
+        [Column("PocketListing")]
+        public bool? PocketListing { get; set; }
 
-        public ICollection<PersonToListing> PersonToListing { get; set; }
+        // Date when the listing went on market
+        [Column("OnMarket", TypeName = "datetime2")]
+        public DateTime? OnMarket { get; set; }
+
+        // Date when the listing was published
+        [Column("Listed", TypeName = "datetime2")]
+        public DateTime? Listed { get; set; }
+
+        // Date when the listing was accepted
+        [Column("Accepted", TypeName = "datetime2")]
+        public DateTime? Accepted { get; set; }
+
+        // Date when the listing was closed
+        [Column("Closed", TypeName = "datetime2")]
+        public DateTime? Closed { get; set; }
+
+        // Listing price; mapped as money
+        [Column("Price", TypeName = "money")]
+        public decimal? Price { get; set; }
+
+        // Actual price; mapped as money
+        [Column("Price_Actual", TypeName = "money")]
+        public decimal? PriceActual { get; set; }
+
+        // Commission rate with a precision of 6,4
+        [Column("CommissionRate", TypeName = "decimal(6,4)")]
+        public decimal? CommissionRate { get; set; }
+
+        // Fixed commission amount; mapped as money
+        [Column("CommissionFixed", TypeName = "money")]
+        public decimal? CommissionFixed { get; set; }
+
+        // Actual commission amount; mapped as money
+        [Column("CommissionActual", TypeName = "money")]
+        public decimal? CommissionActual { get; set; }
+
+        // Flag to display the listing on the website
+        [Column("DisplayOnWebsite")]
+        public bool? DisplayOnWebsite { get; set; }
+
+        // Display priority as a tinyint
+        [Column("DisplayPriority", TypeName = "tinyint")]
+        public byte? DisplayPriority { get; set; }
+
+        // MLS ID with a max length of 30 characters
+        [StringLength(30)]
+        [Column("MLS_ID", TypeName = "varchar(30)")]
+        public string? MLS_ID { get; set; }
+
+        // MLS URL with a max length of 2048 characters
+        [StringLength(2048)]
+        [Column("MLS_URL", TypeName = "varchar(2048)")]
+        public string? MLS_URL { get; set; }
+
+        // Additional comments with a max length of 2048 characters
+        [StringLength(2048)]
+        [Column("Comments", TypeName = "varchar(2048)")]
+        public string? Comments { get; set; }
     }
+
+    // Define enum for MyStatus (mapped to a smallint)
+    public enum MyStatusEnum : short {
+        OnHold = 0,
+        OpenHouse = 1,
+        Active = 2,
+        Pending = 3,
+        Closed = 4,
+        Expired = 5,
+        Withdrawn = 6,
+        Canceled = 7
+    }
+
+    // Define enum for MySource (mapped to a smallint)
+    public enum MySourceEnum : short {
+        Internal = 0,
+        External = 1
+    }
+
 }
