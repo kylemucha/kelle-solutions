@@ -7,11 +7,11 @@ namespace KelleSolutions.Models
     {
         [Key]
         [Required]
-        public int RoleID { get; set; }
+        public int PageAccessID { get; set; }
 
-        [MaxLength(6)]
+        [MaxLength(12)]
         [Required]
-        public string RoleName { get; set; } = null!;
+        public string PageAccessName { get; set; } = null!;
         // TODO: dotnet ef migrations add RolePermissionGroupEntity
         // command doesnt work until PageAccess table is implemented
     }
