@@ -1,71 +1,71 @@
-  h1, h2, h3 {
-    font-family: 'Sora', sans-serif;
-  }
+h1, h2, h3 {
+  font-family: 'Sora', sans-serif;
+}
 
-  /*adjusting font sizes accordingly to header*/
-  h1 {
-    font-size: 2.5rem;
-  }
-  
-  h2 {
-    font-size: 2.0rem;
-  }
+/*adjusting font sizes accordingly to header*/
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2.0rem;
+}
 
 /*setting input font to Sora and adjusting font weight to medium*/
 .form-label {
-    font-family: 'Sora';
-    font-weight: 500; 
-    color: #332d2d;
+  font-family: 'Sora';
+  font-weight: 500; 
+  color: #332d2d;
 }
 
 /* shows shadow when focused*/
-.form-control:focus, .btn-primary:focus, #email-verification:focus{
-    border: 1px solid;
-    box-shadow: 0px 0px 0px 4px #c1c6de;
-    background-color: transparent;
+.form-control:focus, .form-select:focus{
+border: 1px #332d2d solid;
+box-shadow: 1px solid #c1c6de;
+background-color: transparent;
 }
 
 .form-control {
-  font-family: 'Sora';
-  font-weight: 300;
-  border: 1px solid #332d2d;
+font-family: 'Sora';
+font-weight: 300;
+border: 1px solid #332d2d;
 }
 
 /*button*/
 .btn-primary,.btn-primary:hover {
-  height: 40px;
-  border-radius: 4px;
-  background-color: #4a154b;
-  border: none;
+height: 40px;
+border-radius: 4px;
+background-color: #4a154b;
+border: none;
 
 }
 
 /*nav pills*/
 .nav-pills .nav-link.active {
-  background-color: #4a154b;
+background-color: #4a154b;
 }
 
 .nav-link{
-  color:#5f6368;
+color:#5f6368;
 }
 
 .nav-link:hover{
-  color: #1264a3;
+color: #1264a3;
 }
 
 #email-verification {
-  color: #1264a3;
+color: #1264a3;
 }
 
 
 
 .card-body {
-  background-color: #f6f6f8;
-  border-radius: 4px;
-  position:center;
+background-color: #f6f6f8;
+border-radius: 4px;
+position:center;
 }
 
 .btn-danger {
-  background-color: #e01e5a;
+background-color: #e01e5a;
 }
 

@@ -104,6 +104,32 @@ namespace KelleSolutions.Data
                 .HasForeignKey(pe => pe.Entity)
             .OnDelete(DeleteBehavior.Restrict);
 
+            //PersontoPerson
+            builder.Entity<PersonToPerson>()
+                .HasOne(p => p.Person)
+                .WithMany()
+                .HasForeignKey(p => p.PersonId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PersonToPerson>()
+                .HasOne(p => p.Person2)
+                .WithMany()
+                .HasForeignKey(p=>p.Person2Id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //PersonToProperties
+            builder.Entity<PersonToProperties>()
+                .HasOne(p => p.People)
+                .WithMany()
+                .HasForeignKey(p => p.Person)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PersonToProperties>()
+                .HasOne(p => p.People)
+                .WithMany()
+                .HasForeignKey(p => p.Properties)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<PermissionGroup>()
                 .HasKey(pg => pg.PermissionGroupID);
 
@@ -171,6 +197,12 @@ namespace KelleSolutions.Data
 
         // DbSet for Permissions
         public DbSet<Permission> Permissions { get; set; }
+
+        //DbSet for PersonToPerson
+        public DbSet<PersonToPerson> PersonToPerson {get;set;}
+
+        //DbSet for PersonToProperties
+        public DbSet<PersonToProperties> PersonToProperties {get;set;}
 
     }
 }
