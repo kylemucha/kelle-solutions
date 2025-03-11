@@ -93,16 +93,29 @@ namespace KelleSolutions.Data
             .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<PersonToEntity>()
-                .HasOne(p => p.PersonNavigation)
+                .HasOne(pe => pe.PersonNavigation)
                 .WithMany()
-                .HasForeignKey(p => p.Person)
+                .HasForeignKey(pe => pe.Person)
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<PersonToEntity>()
-                .HasOne(p => p.EntityNavigation)
+                .HasOne(pe => pe.EntityNavigation)
                 .WithMany()
-                .HasForeignKey(p => p.Entity)
+                .HasForeignKey(pe => pe.Entity)
             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PermissionGroup>()
+                .HasKey(pg => new { pg.PermissionGroupID, pg.PermissionID });
+
+            builder.Entity<PermissionGroup>()
+                .HasOne(pg => pg.PermissionGroups)
+                .WithMany()
+                .HasForeignKey(pg => pg.PermissionGroupID);
+
+            builder.Entity<PermissionGroup>()
+                .HasOne(pg => pg.Permission)
+                .WithMany()
+                .HasForeignKey(pg => pg.PermissionID);
         }
 
         // DbSet for Tenants
@@ -131,5 +144,8 @@ namespace KelleSolutions.Data
 
         // DbSet for PersonToEntity
         public DbSet<PersonToEntity> PersonToEntity { get; set; }
+
+        // DbSet for PermissionGroup
+        public DbSet<PermissionGroup> PermissionGroup { get; set; }
     }
 }
