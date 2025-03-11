@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KelleSolutions.Models
 {
     public class Role
     {
         [Key]
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoleID { get; set; }
 
-        [MaxLength(6)]
         [Required]
+        [MaxLength(50)]  // Updated from 6 to 50 to match ERD
         public string RoleName { get; set; } = null!;
-        // TODO: dotnet ef migrations add RolePermissionGroupEntity
-        // command doesnt work until Role table is implemented
+
+        // Navigation property for User relationship
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
     }
 }
