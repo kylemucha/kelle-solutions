@@ -116,6 +116,24 @@ namespace KelleSolutions.Data
                 .HasOne(pg => pg.Permission)
                 .WithMany()
                 .HasForeignKey(pg => pg.PermissionID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasKey(rpge => new { rpge.RoleID, rpge.PermissionGroupID, rpge.PageAccessID });
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.RoleNavigation)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.RoleID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.PermissionGroupNavigation)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.PermissionGroupID);
+
+            builder.Entity<RolePermissionGroupEntity>()
+                .HasOne(rpge => rpge.PageAccess)
+                .WithMany()
+                .HasForeignKey(rpge => rpge.PageAccessID);
         }
 
         // DbSet for Tenants
@@ -147,5 +165,8 @@ namespace KelleSolutions.Data
 
         // DbSet for PermissionGroup
         public DbSet<PermissionGroup> PermissionGroup { get; set; }
+        
+        // DbSet for RolePermissionGroupEntity
+        public DbSet<RolePermissionGroupEntity> RolePermissionGroupEntity { get; set; }
     }
 }
