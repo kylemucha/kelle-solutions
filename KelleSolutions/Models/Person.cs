@@ -10,5 +10,7 @@ namespace KelleSolutions.Models
         public string? Email { get; set; }
         public DateTime Created { get; set; }
         public string? OperatorName { get; set; }
+        public ICollection<PersonToPerson> PersonToPeople { get; set; } = new List<PersonToPerson>();
+        public ICollection<PersonToProperties> TenantToPeople { get; set; } = new List<PersonToProperties>();
     }
 }
