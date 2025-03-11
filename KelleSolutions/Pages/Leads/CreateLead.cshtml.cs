@@ -9,17 +9,25 @@ namespace KelleSolutions.Pages.Leads {
         private readonly KelleSolutionsDbContext _context;
 
         public CreateLeadModel(KelleSolutionsDbContext context) {
-            _context = context;
-            // Initialize an empty Lead object with default values
-            Lead = new Lead {
-                LeadName = string.Empty,
-                Email = string.Empty,
-                PhoneNumber = string.Empty,
-                AssignedTo = string.Empty,
-                LeadSource = string.Empty,
-                Status = string.Empty
-            };
-        }
+    _context = context;
+    // Initialize a new Lead instance with default values for all required properties.
+    Lead = new Lead {
+        NameFirst = string.Empty,
+        NameMiddle = string.Empty,
+        NameLast = string.Empty,
+        Email = string.Empty,
+        Phone = string.Empty,
+        Country = string.Empty,
+        StateProvince = string.Empty,
+        City = string.Empty,
+        Postal = string.Empty,
+        Street = string.Empty,
+        OrganizationName = string.Empty,
+        OrganizationTitle = string.Empty,
+        Tracking = string.Empty
+    };
+}
+
         // Bind the Lead model to the form
         [BindProperty]
         public Lead Lead { get; set; }
@@ -39,7 +47,7 @@ namespace KelleSolutions.Pages.Leads {
                 _context.Leads.Add(Lead);
                 await _context.SaveChangesAsync();
                 // Redirect to the ViewLead page after saving
-                return RedirectToPage("/Leads/ViewLead", new { id = Lead.LeadID });
+                return RedirectToPage("/Leads/ViewLead", new { id = Lead.Code });
             }
             catch (Exception ex) {
                 ModelState.AddModelError("", "An error occurred while saving the lead. Please try again.");

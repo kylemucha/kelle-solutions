@@ -28,17 +28,17 @@ namespace KelleSolutions.Models {
         // Navigation property to the Property entity
         public virtual Property Property { get; set; }
 
-        // Listing status stored as a smallint in the database
+        // Listing status stored as a smallint in the database using MyStatusEnum
         [Required]
         [Column("MyStatus", TypeName = "smallint")]
         public MyStatusEnum MyStatus { get; set; }
 
-        // Listing source stored as a smallint
+        // Listing source stored as a smallint using MySourceEnum
         [Required]
         [Column("MySource", TypeName = "smallint")]
         public MySourceEnum MySource { get; set; }
 
-        // Operator represented by a smallint
+        // Operator represented by a smallint (details provided via Property.User in pages)
         [Required]
         [Column("Operator", TypeName = "smallint")]
         public OperatorEnum Operator { get; set; }
@@ -121,7 +121,7 @@ namespace KelleSolutions.Models {
         public string? Comments { get; set; }
     }
 
-    // Define enum for MyStatus (mapped to a smallint)
+    // Enum for listing status
     public enum MyStatusEnum : short {
         OnHold = 0,
         OpenHouse = 1,
@@ -133,10 +133,9 @@ namespace KelleSolutions.Models {
         Canceled = 7
     }
 
-    // Define enum for MySource (mapped to a smallint)
+    // Enum for listing source
     public enum MySourceEnum : short {
         Internal = 0,
         External = 1
     }
-
 }

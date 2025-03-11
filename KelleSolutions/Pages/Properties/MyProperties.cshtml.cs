@@ -1,110 +1,84 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;            // handles user authentication!
+using Microsoft.AspNetCore.Identity;            
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;               // defines database relationships
-using System.Linq;                              // defines LINQ queries (ex: "Where", "OrderBy", "Skip", "Take", etc.)
+using System.Collections.Generic;               
+using System.Linq;                              
 using System;                                   
-using System.Reflection;                        // required for extracting Display Names
-using System.ComponentModel.DataAnnotations;    // required for Display attribute
-using System.Threading.Tasks;                   // supports non-blocking queries (ex: "async", "await")
-using KelleSolutions.Data;                      // imports KelleSolutionsDbContext.cs
-using KelleSolutions.Models;                    // imports model classes
-using KelleSolutions.Models.ViewModels;         // imports ViewModel for displaying user properties
+using System.Reflection;                        
+using System.ComponentModel.DataAnnotations;    
+using System.Threading.Tasks;                   
+using KelleSolutions.Data;                      
+using KelleSolutions.Models;                    
+using KelleSolutions.Models.ViewModels;         
 
 namespace KelleSolutions.Pages.Properties {
     public class MyPropertiesModel : PageModel {
-        
-        // Database context for querying properties
         private readonly KelleSolutionsDbContext _context;
-        
-        // Manages logged-in users
         private readonly UserManager<User> _userManager;
 
-        // Constructor injecting database context and user manager
         public MyPropertiesModel(KelleSolutionsDbContext context, UserManager<User> userManager) {
             _context = context;
             _userManager = userManager;
         }
 
-        // Stores the properties available to the user
+        // List of all properties converted to the view model
         public List<ViewUserProperties> AllProperties { get; set; } = new();
         public List<ViewUserProperties> ViewUserProperties { get; set; } = new();
-
-        public List<Property> MyProperties { get; set; } = new();
 
         // Available property types list
         public List<KeyValuePair<string, string>> AvailablePropertyTypesList { get; set; } = new();
 
-        // Page display properties
+        // Pagination properties
         [BindProperty(SupportsGet = true)]
         public int PageSize { get; set; } = 10;
-
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
-
-        // Total number of pages based on available properties
         public int TotalPages => (int)Math.Ceiling((double)AllProperties.Count / PageSize);
 
         public async Task<IActionResult> OnGetAsync() {
-            // Gets the currently logged-in user
             var currentUser = await _userManager.GetUserAsync(User);
-
-            // If no user is logged in, redirect to login page
             if (currentUser == null) {
                 return RedirectToPage("/Account/Login");
             }
 
-            MyProperties = await _context.Properties.ToListAsync();
-
-            // Fetch roles for the logged-in user
-            var roles = await _userManager.GetRolesAsync(currentUser);
-
-            // Query to fetch properties
+            // Get properties without filtering by user since UserID/OwnerID no longer exist
             var query = _context.Properties.AsQueryable();
 
-            // If user is a broker or agent, filter based on ownership
-            if (roles.Contains("Broker") || roles.Contains("Agent")) {
-                query = query.Where(p => p.UserID == currentUser.Id);
-            }
-
-            // Fetch property data from database
             var propertiesFromDb = await query
-                .OrderByDescending(p => p.CreatedAt)
+                .OrderByDescending(p => p.Created)
                 .Select(p => new {
-                    p.PropertyID,
-                    p.CreatedAt,
-                    p.State,
+                    p.Code,
+                    p.Created,
+                    p.County,
                     p.City,
-                    p.ZipCode,
-                    p.Address,
-                    p.BedCount,
-                    p.BathCount
+                    p.Postal,
+                    p.Street,
+                    p.Beds,
+                    p.Baths
                 })
                 .ToListAsync();
 
-            // Convert database properties to ViewModel structure
+            // Map to the view model (updating property names accordingly)
             AllProperties = propertiesFromDb.Select(p => new ViewUserProperties {
-                ID = p.PropertyID,
-                CreationDate = DateOnly.FromDateTime(p.CreatedAt),
-                County = p.State,
+                ID = p.Code,
+                CreationDate = p.Created.HasValue ? DateOnly.FromDateTime(p.Created.Value) : DateOnly.FromDateTime(DateTime.MinValue),
+                County = p.County, // or, if preferred, use p.StateProvince based on your UI needs
                 City = p.City,
-                Postal = int.TryParse(p.ZipCode, out int zip) ? zip : 0,
-                Street = p.Address,
-                Bed = p.BedCount,
-                Bath = p.BathCount
-            })
-            .ToList();
+                Postal = int.TryParse(p.Postal, out int zip) ? zip : 0,
+                Street = p.Street,
+                Bed = p.Beds ?? 0,
+                Bath = p.Baths ?? 0
+            }).ToList();
 
-            // Paginate properties
             ViewUserProperties = AllProperties
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
-            // Fetch available property types dynamically
-            AvailablePropertyTypesList = Enum.GetValues(typeof(Property.PropertyTypes))
-                .Cast<Property.PropertyTypes>()
+            // Update available property types using the new enum
+            AvailablePropertyTypesList = Enum.GetValues(typeof(PropertyTypeEnum))
+                .Cast<PropertyTypeEnum>()
                 .Select(pt => new KeyValuePair<string, string>(
                     pt.ToString(),
                     pt.GetType().GetMember(pt.ToString())?
