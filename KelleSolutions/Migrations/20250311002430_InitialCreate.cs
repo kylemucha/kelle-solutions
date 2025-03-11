@@ -81,7 +81,7 @@ namespace KelleSolutions.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tenants",
+                name: "Tenant",
                 columns: table => new
                 {
                     TenantID = table.Column<int>(type: "int", nullable: false)
@@ -93,7 +93,7 @@ namespace KelleSolutions.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tenants", x => x.TenantID);
+                    table.PrimaryKey("PK_Tenant", x => x.TenantID);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,9 +168,9 @@ namespace KelleSolutions.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Tenants_TenantID",
+                        name: "FK_AspNetUsers_Tenant_TenantID",
                         column: x => x.TenantID,
-                        principalTable: "Tenants",
+                        principalTable: "Tenant",
                         principalColumn: "TenantID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -297,10 +297,37 @@ namespace KelleSolutions.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Properties_Tenants_TenantID",
+                        name: "FK_Properties_Tenant_TenantID",
                         column: x => x.TenantID,
-                        principalTable: "Tenants",
-                        principalColumn: "TenantID");
+                        principalTable: "Tenant",
+                        principalColumn: "TenantID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TenantToPeople",
+                columns: table => new
+                {
+                    TenantID = table.Column<int>(type: "int", nullable: false),
+                    PersonID = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    TenantToPersonID = table.Column<int>(type: "int", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantToPeople", x => new { x.TenantID, x.PersonID });
+                    table.ForeignKey(
+                        name: "FK_TenantToPeople_AspNetUsers_PersonID",
+                        column: x => x.PersonID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TenantToPeople_Tenant_TenantID",
+                        column: x => x.TenantID,
+                        principalTable: "Tenant",
+                        principalColumn: "TenantID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -341,9 +368,9 @@ namespace KelleSolutions.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "30b619e3-310b-4616-8042-08f8b4799ce7", null, "Broker", "BROKER" },
-                    { "48b01632-64fc-469b-bd01-9177facce080", null, "Admin", "ADMIN" },
-                    { "7733b754-0b36-47c3-b2f3-dca81623cc47", null, "Agent", "AGENT" }
+                    { "111aab5a-0dde-42cd-b8aa-ef207eeea5da", null, "Broker", "BROKER" },
+                    { "5c1b022f-ae6a-4334-a6c8-9b653cc3c4e9", null, "Agent", "AGENT" },
+                    { "616d8337-bd5d-42cd-bf93-a843978487d4", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -409,6 +436,11 @@ namespace KelleSolutions.Migrations
                 name: "IX_Properties_UserID",
                 table: "Properties",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TenantToPeople_PersonID",
+                table: "TenantToPeople",
+                column: "PersonID");
         }
 
         /// <inheritdoc />
@@ -442,6 +474,9 @@ namespace KelleSolutions.Migrations
                 name: "Listings");
 
             migrationBuilder.DropTable(
+                name: "TenantToPeople");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
@@ -454,7 +489,7 @@ namespace KelleSolutions.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Tenants");
+                name: "Tenant");
         }
     }
 }

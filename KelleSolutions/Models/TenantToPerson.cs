@@ -6,6 +6,9 @@ namespace KelleSolutions.Models
     public class TenantToPerson
     {
         [Key]
+        public int TenantToPersonID { get; set; }
+
+        [Required]
         public int TenantID { get; set; }
 
         [Key]

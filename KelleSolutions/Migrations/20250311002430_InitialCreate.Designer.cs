@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20250310185705_InitialCreate")]
+    [Migration("20250311002430_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -292,7 +292,31 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("TenantID");
 
-                    b.ToTable("Tenants");
+                    b.ToTable("Tenant", (string)null);
+                });
+
+            modelBuilder.Entity("KelleSolutions.Models.TenantToPerson", b =>
+                {
+                    b.Property<int>("TenantID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PersonID")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("TenantToPersonID")
+                        .HasColumnType("int");
+
+                    b.HasKey("TenantID", "PersonID");
+
+                    b.HasIndex("PersonID");
+
+                    b.ToTable("TenantToPeople");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Transaction", b =>
@@ -457,19 +481,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "48b01632-64fc-469b-bd01-9177facce080",
+                            Id = "616d8337-bd5d-42cd-bf93-a843978487d4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "30b619e3-310b-4616-8042-08f8b4799ce7",
+                            Id = "111aab5a-0dde-42cd-b8aa-ef207eeea5da",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "7733b754-0b36-47c3-b2f3-dca81623cc47",
+                            Id = "5c1b022f-ae6a-4334-a6c8-9b653cc3c4e9",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -608,7 +632,9 @@ namespace KelleSolutions.Migrations
                 {
                     b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
                         .WithMany()
-                        .HasForeignKey("TenantID");
+                        .HasForeignKey("TenantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_Properties_Tenant_TenantID");
 
                     b.HasOne("KelleSolutions.Models.User", "User")
                         .WithMany()
@@ -619,6 +645,27 @@ namespace KelleSolutions.Migrations
                     b.Navigation("Tenant");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KelleSolutions.Models.TenantToPerson", b =>
+                {
+                    b.HasOne("KelleSolutions.Models.User", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_TenantToPeople_AspNetUsers_PersonID");
+
+                    b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
+                        .WithMany("TenantToPeople")
+                        .HasForeignKey("TenantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_TenantToPeople_Tenant_TenantID");
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.User", b =>
@@ -689,6 +736,8 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>
                 {
+                    b.Navigation("TenantToPeople");
+
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618

@@ -33,21 +33,25 @@ namespace KelleSolutions.Data
                 .HasForeignKey(u => u.TenantID)
                 .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
 
+            builder.Entity<Tenant>().ToTable("Tenant");
+
             // Configure TenantToPerson
             builder.Entity<TenantToPerson>()
-                .HasKey(tp => new { tp.TenantID, tp.PersonID }); // Composite Key
+                .HasKey(tp => new { tp.TenantID, tp.PersonID });
 
             builder.Entity<TenantToPerson>()
                 .HasOne(tp => tp.Tenant)
                 .WithMany(t => t.TenantToPeople)
                 .HasForeignKey(tp => tp.TenantID)
+                .HasConstraintName("FK_TenantToPeople_Tenant_TenantID")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<TenantToPerson>()
                 .HasOne(tp => tp.Person)
                 .WithMany()
                 .HasForeignKey(tp => tp.PersonID)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent accidental deletion of users
+                .HasConstraintName("FK_TenantToPeople_AspNetUsers_PersonID")
+                .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
 
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
@@ -80,6 +84,13 @@ namespace KelleSolutions.Data
             builder.Entity<Listing>()
                 .Property(l => l.Affiliation)
                 .HasColumnType("nvarchar(50)");
+
+            builder.Entity<Property>()
+                .HasOne(p => p.Tenant)
+                .WithMany()
+                .HasForeignKey(p => p.TenantID)
+                .HasConstraintName("FK_Properties_Tenant_TenantID") 
+            .OnDelete(DeleteBehavior.Cascade);
         }
 
         // DbSet for Tenants

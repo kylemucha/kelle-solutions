@@ -289,7 +289,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("TenantID");
 
-                    b.ToTable("Tenants");
+                    b.ToTable("Tenant", (string)null);
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.TenantToPerson", b =>
@@ -305,6 +305,9 @@ namespace KelleSolutions.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("TenantToPersonID")
+                        .HasColumnType("int");
 
                     b.HasKey("TenantID", "PersonID");
 
@@ -475,19 +478,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "533c04e1-bd00-4559-b7bd-4a5a6dd19e66",
+                            Id = "616d8337-bd5d-42cd-bf93-a843978487d4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c0302cec-1682-44a8-b8aa-fb592cf5a71f",
+                            Id = "111aab5a-0dde-42cd-b8aa-ef207eeea5da",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "de1704c5-85f6-434a-9f15-9a788da29cc6",
+                            Id = "5c1b022f-ae6a-4334-a6c8-9b653cc3c4e9",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -626,7 +629,9 @@ namespace KelleSolutions.Migrations
                 {
                     b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
                         .WithMany()
-                        .HasForeignKey("TenantID");
+                        .HasForeignKey("TenantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK_Properties_Tenant_TenantID");
 
                     b.HasOne("KelleSolutions.Models.User", "User")
                         .WithMany()
@@ -645,13 +650,15 @@ namespace KelleSolutions.Migrations
                         .WithMany()
                         .HasForeignKey("PersonID")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_TenantToPeople_AspNetUsers_PersonID");
 
                     b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
                         .WithMany("TenantToPeople")
                         .HasForeignKey("TenantID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_TenantToPeople_Tenant_TenantID");
 
                     b.Navigation("Person");
 
