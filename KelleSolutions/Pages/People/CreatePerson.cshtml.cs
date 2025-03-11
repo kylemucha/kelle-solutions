@@ -1,6 +1,5 @@
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.AspNetCore.Mvc.RazorPages;
-  using KelleSolutions.Models.ViewModels;
   using Microsoft.AspNetCore.Identity;
   using KelleSolutions.Models;
   using System;
