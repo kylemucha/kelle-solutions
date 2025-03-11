@@ -169,6 +169,10 @@ namespace KelleSolutions.Models
 
         // Bio (varchar(max), optional)
         public string? Bio { get; set; }
+
+        //navigation property
+        public ICollection<PersonToPerson> PersonToPeople { get; set; } = new List<PersonToPerson>();
+        public ICollection<PersonToProperties> TenantToPeople { get; set; } = new List<PersonToProperties>();
     }
 
     // Enums for fixed-value fields

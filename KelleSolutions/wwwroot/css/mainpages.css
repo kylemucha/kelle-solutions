@@ -299,3 +299,8 @@ body {
     padding: 0 20px; /* Add some padding for spacing */
     text-align: center;
 }
+
+.btn-link{
+    color: #1264a3 !important;
+    text-decoration: none !important;
+}
