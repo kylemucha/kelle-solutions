@@ -91,6 +91,18 @@ namespace KelleSolutions.Data
                 .HasForeignKey(p => p.TenantID)
                 .HasConstraintName("FK_Properties_Tenant_TenantID") 
             .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PersonToEntity>()
+                .HasOne(p => p.PersonNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Person)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PersonToEntity>()
+                .HasOne(p => p.EntityNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.Entity)
+            .OnDelete(DeleteBehavior.Restrict);
         }
 
         // DbSet for Tenants
@@ -117,5 +129,7 @@ namespace KelleSolutions.Data
         // DbSet for Entities
         public DbSet<Entity> Entities { get; set; }
 
+        // DbSet for PersonToEntity
+        public DbSet<PersonToEntity> PersonToEntity { get; set; }
     }
 }
