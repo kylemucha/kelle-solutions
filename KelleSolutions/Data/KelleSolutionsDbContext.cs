@@ -105,12 +105,12 @@ namespace KelleSolutions.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<PermissionGroup>()
-                .HasKey(pg => new { pg.PermissionGroupID, pg.PermissionID });
+                .HasKey(pg => pg.PermissionGroupID);
 
             builder.Entity<PermissionGroup>()
-                .HasOne(pg => pg.PermissionGroups)
+                .HasOne(pg => pg.ParentGroup)
                 .WithMany()
-                .HasForeignKey(pg => pg.PermissionGroupID);
+                .HasForeignKey(pg => pg.ParentGroupID);
 
             builder.Entity<PermissionGroup>()
                 .HasOne(pg => pg.Permission)
@@ -168,5 +168,9 @@ namespace KelleSolutions.Data
         
         // DbSet for RolePermissionGroupEntity
         public DbSet<RolePermissionGroupEntity> RolePermissionGroupEntity { get; set; }
+
+        // DbSet for Permissions
+        public DbSet<Permission> Permissions { get; set; }
+
     }
 }
