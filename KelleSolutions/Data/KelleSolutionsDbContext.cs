@@ -204,5 +204,8 @@ namespace KelleSolutions.Data
         //DbSet for PersonToProperties
         public DbSet<PersonToProperties> PersonToProperties {get;set;}
 
+        //DbSet for Actions
+        public DbSet<ActionEntity> ActionEntities { get; set; }
+
     }
 }
