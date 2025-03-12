@@ -227,5 +227,10 @@ namespace KelleSolutions.Data
 
         public DbSet<Dashboard> Dashboards { get; set; }
 
+        //DbSet for StatusMappings
+        public DbSet<StatusMapping> StatusMappings { get; set; }
+
+        //DbSet for SellerIDMappings
+        public DbSet<SellerIDMapping> SellerIDMappings { get; set; }
     }
 }
