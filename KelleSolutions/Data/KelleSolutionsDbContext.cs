@@ -160,6 +160,24 @@ namespace KelleSolutions.Data
                 .HasOne(rpge => rpge.PageAccess)
                 .WithMany()
                 .HasForeignKey(rpge => rpge.PageAccessID);
+
+            builder.Entity<PersonToListing>()
+                .HasOne(ptl => ptl.Person)
+                .WithMany(p => p.PersonToListing) // One person can be linked to many listings
+                .HasForeignKey(ptl => ptl.PersonId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete
+
+            builder.Entity<PersonToListing>()
+                .HasOne(ptl => ptl.Listing)
+                .WithMany(l => l.PersonToListing) // One listing can have multiple people linked
+                .HasForeignKey(ptl => ptl.ListingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Dashboard>()
+                .HasOne(d => d.User)
+                .WithOne(u => u.Dashboard)
+                .HasForeignKey<Dashboard>(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // If a user is deleted, their dashboard is deleted too
         }
 
         // DbSet for Tenants
@@ -206,6 +224,8 @@ namespace KelleSolutions.Data
 
         //DbSet for Actions
         public DbSet<ActionEntity> ActionEntities { get; set; }
+
+        public DbSet<Dashboard> Dashboards { get; set; }
 
     }
 }

@@ -38,5 +38,7 @@ namespace KelleSolutions.Models
         // Timestamps
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
+
+        public virtual Dashboard Dashboard { get; set; } // One-to-One relationship
     }
 }
