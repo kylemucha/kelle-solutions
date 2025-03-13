@@ -9,7 +9,7 @@ namespace KelleSolutions.Pages.Listings
 
         public void OnGet()
         {
-            // sample data matching the mockup
+            // Sample data matching the mockup
 
             UserListings = new List<UserListings>
             {

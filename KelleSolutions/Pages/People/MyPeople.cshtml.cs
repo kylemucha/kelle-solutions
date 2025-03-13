@@ -12,7 +12,7 @@ namespace KelleSolutions.Pages.People
         public List<ViewUserPeople> ViewUserPeople { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public int PageSize { get; set; } = 10; // Default to 10 properties per page
+        public int PageSize { get; set; } = 10;
 
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
@@ -30,15 +30,18 @@ namespace KelleSolutions.Pages.People
                     ID = i,
                     LastName = "Stone",
                     FirstName = "Billy",
-                    Phone = 1234567890,
+                    Phone = "1234567890", // Changed from int to string
                     Email = "billy@test.com",
                     CreationDate = new DateOnly(2024, 4, 12),
-                    Category = "Partner" //Agent, Vender, Client, Friend
+                    Category = "Partner" // For example: Agent, Vendor, Client, Friend, etc.
                 });
             }
 
             // Apply Pagination
-            ViewUserPeople = AllPeople.Skip((PageNumber - 1) * PageSize).Take(PageSize).ToList();
+            ViewUserPeople = AllPeople
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
         }
     }
 
@@ -47,7 +50,7 @@ namespace KelleSolutions.Pages.People
         public int ID { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; } // Updated to string
         public string Email { get; set; }
         public DateOnly CreationDate { get; set; }
         public string Category { get; set; }

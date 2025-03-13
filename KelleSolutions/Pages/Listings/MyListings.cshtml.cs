@@ -32,7 +32,7 @@ namespace KelleSolutions.Pages.Listings {
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
-        public int TotalPages => (int)Math.Ceiling((double)AllListings.Count / PageSize);
+        public int TotalPages => (int)System.Math.Ceiling((double)AllListings.Count / PageSize);
 
         public async Task<IActionResult> OnGetAsync() {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -42,16 +42,10 @@ namespace KelleSolutions.Pages.Listings {
 
             var roles = await _userManager.GetRolesAsync(currentUser);
 
-            // Include Property and its User details (replacing Agent)
+            // Include Property details via the renamed navigation property "PropertyDetails"
             var listingsQuery = _context.Listings
-                .Include(l => l.Property)
-                .ThenInclude(p => p.User)
+                .Include(l => l.PropertyDetails)
                 .AsQueryable();
-
-            // If user is Broker or Agent, filter by listings where the property belongs to the current user
-            if (roles.Contains("Broker") || roles.Contains("Agent")) {
-                listingsQuery = listingsQuery.Where(l => l.Property.User.Id == currentUser.Id);
-            }
 
             // Fetch raw listings ordered by Created date
             var rawListings = await listingsQuery
@@ -60,12 +54,14 @@ namespace KelleSolutions.Pages.Listings {
 
             AllListings = rawListings.Select(l => new ViewUserListings {
                 ListingID = l.Code,
-                ListingDate = l.Created.HasValue ? DateOnly.FromDateTime(l.Created.Value) : DateOnly.FromDateTime(DateTime.MinValue),
+                ListingDate = l.Created.HasValue 
+                    ? DateOnly.FromDateTime(l.Created.Value) 
+                    : DateOnly.FromDateTime(DateTime.MinValue),
                 Status = l.MyStatus.ToString(),
-                Operator = l.Property.User.FirstName + " " + l.Property.User.LastName,
-                Affiliation = l.Property.User.Affiliation ?? "N/A",
+                Operator = l.PropertyDetails.Operator.ToString(),
+                Affiliation = "N/A", // No user affiliation in the new model
                 Price = l.Price.HasValue ? (double)l.Price.Value : 0,
-                Address = $"{l.Property.Address}, {l.Property.City}, {l.Property.State} {l.Property.ZipCode}"
+                Address = $"{l.PropertyDetails.Street}, {l.PropertyDetails.City}, {l.PropertyDetails.StateProvince} {l.PropertyDetails.Postal}"
             }).ToList();
 
             // Paginate the listings
@@ -78,9 +74,9 @@ namespace KelleSolutions.Pages.Listings {
             CreateListingModel = new CreateListingModalModel(_context, _userManager, User);
             await CreateListingModel.OnGetAsync();
 
-            // Get available status types from MyStatusEnum
-            AvailableStatusTypesList = Enum.GetValues(typeof(MyStatusEnum))
-                .Cast<MyStatusEnum>()
+            // Get available status types from MyStatusEnum using fully qualified type
+            AvailableStatusTypesList = Enum.GetValues(typeof(KelleSolutions.Models.MyStatusEnum))
+                .Cast<KelleSolutions.Models.MyStatusEnum>()
                 .Select(status => new KeyValuePair<string, string>(
                     status.ToString(),
                     status.GetType().GetMember(status.ToString())?
@@ -98,8 +94,8 @@ namespace KelleSolutions.Pages.Listings {
                 return new JsonResult(new { success = false, message = "Listing not found" });
             }
 
-            if (Enum.TryParse(typeof(MyStatusEnum), request.Status, out var status)) {
-                listing.MyStatus = (MyStatusEnum)status;
+            if (Enum.TryParse(typeof(KelleSolutions.Models.MyStatusEnum), request.Status, out var status)) {
+                listing.MyStatus = (KelleSolutions.Models.MyStatusEnum)status;
                 await _context.SaveChangesAsync();
                 return new JsonResult(new { success = true });
             }
@@ -107,21 +103,21 @@ namespace KelleSolutions.Pages.Listings {
             return new JsonResult(new { success = false, message = "Invalid Status" });
         }
     }
-}
 
-// View model for user listings
-public class ViewUserListings {
-    public int ListingID { get; set; }
-    public DateOnly ListingDate { get; set; }
-    public string Status { get; set; }
-    public string Operator { get; set; }
-    public string Affiliation { get; set; }
-    public double Price { get; set; }
-    public string Address { get; set; }
-}
+    // View model for user listings
+    public class ViewUserListings {
+        public int ListingID { get; set; }
+        public DateOnly ListingDate { get; set; }
+        public string Status { get; set; }
+        public string Operator { get; set; }
+        public string Affiliation { get; set; }
+        public double Price { get; set; }
+        public string Address { get; set; }
+    }
 
-// Data transfer class for AJAX status update request
-public class UpdateStatusModel {
-    public int Id { get; set; }
-    public required string Status { get; set; }
+    // Data transfer class for AJAX status update request
+    public class UpdateStatusModel {
+        public int Id { get; set; }
+        public required string Status { get; set; }
+    }
 }

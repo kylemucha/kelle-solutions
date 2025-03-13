@@ -1,4 +1,3 @@
-
 @page
 @model KelleSolutions.Pages.People.CreatePersonModel
 @{
@@ -15,69 +14,118 @@
                 <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
             </svg>
         </a>
-        <span>/</span> 
+        <span>/</span>
         <a href="/People/People">People</a>
-        <span>/</span> 
+        <span>/</span>
         <span class="pagename-text">Create New</span>
     </p>
 </div>
 
 <div class="content-container">
     <form method="post" class="form-group">
+        <!-- Name Fields -->
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="Person.FirstName" class="form-label">First Name</label>
-                <input asp-for="Person.FirstName" class="form-control" required />
-                <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.NameFirst" class="form-label">First Name</label>
+                <input asp-for="Person.NameFirst" class="form-control" required />
+                <span asp-validation-for="Person.NameFirst" class="text-danger"></span>
             </div>
-            
-            <div class="col-md-6 mb-3">
-                <label asp-for="Person.LastName" class="form-label">Last Name</label>
-                <input asp-for="Person.LastName" class="form-control" required />
-                <span asp-validation-for="Person.LastName" class="text-danger"></span>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.NameMiddle" class="form-label">Middle Name</label>
+                <input asp-for="Person.NameMiddle" class="form-control" required />
+                <span asp-validation-for="Person.NameMiddle" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.NameLast" class="form-label">Last Name</label>
+                <input asp-for="Person.NameLast" class="form-control" required />
+                <span asp-validation-for="Person.NameLast" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="Person.Email" class="form-label">Email</label>
-                <input asp-for="Person.Email" type="email" class="form-control" />
-                <span asp-validation-for="Person.Email" class="text-danger"></span>
-            </div>
-            
-            <div class="col-md-6 mb-3">
-                <label asp-for="Person.PhoneNumber" class="form-label">Phone Number</label>
-                <input asp-for="Person.PhoneNumber" type="tel" class="form-control" />
-                <span asp-validation-for="Person.PhoneNumber" class="text-danger"></span>
-            </div>
-        </div>
-
+        <!-- Display Name & Headline -->
         <div class="mb-3">
-            <label asp-for="Person.Address" class="form-label">Address</label>
-            <input asp-for="Person.Address" class="form-control" />
-            <span asp-validation-for="Person.Address" class="text-danger"></span>
+            <label asp-for="Person.NameDisplay" class="form-label">Display Name</label>
+            <input asp-for="Person.NameDisplay" class="form-control" required />
+            <span asp-validation-for="Person.NameDisplay" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Person.Headline" class="form-label">Headline</label>
+            <input asp-for="Person.Headline" class="form-control" required />
+            <span asp-validation-for="Person.Headline" class="text-danger"></span>
         </div>
 
+        <!-- Email Fields -->
         <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.EmailPrimary" class="form-label">Primary Email</label>
+                <input asp-for="Person.EmailPrimary" type="email" class="form-control" required />
+                <span asp-validation-for="Person.EmailPrimary" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.EmailSecondary" class="form-label">Secondary Email</label>
+                <input asp-for="Person.EmailSecondary" type="email" class="form-control" required />
+                <span asp-validation-for="Person.EmailSecondary" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Phone Fields -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.PhonePrimary" class="form-label">Primary Phone</label>
+                <input asp-for="Person.PhonePrimary" type="tel" class="form-control" required />
+                <span asp-validation-for="Person.PhonePrimary" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.PhoneSecondary" class="form-label">Secondary Phone</label>
+                <input asp-for="Person.PhoneSecondary" type="tel" class="form-control" required />
+                <span asp-validation-for="Person.PhoneSecondary" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.PhonePrimaryLabel" class="form-label">Primary Phone Label</label>
+                <input asp-for="Person.PhonePrimaryLabel" class="form-control" required />
+                <span asp-validation-for="Person.PhonePrimaryLabel" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.PhoneSecondaryLabel" class="form-label">Secondary Phone Label</label>
+                <input asp-for="Person.PhoneSecondaryLabel" class="form-control" required />
+                <span asp-validation-for="Person.PhoneSecondaryLabel" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Address Fields -->
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label asp-for="Person.Street" class="form-label">Street</label>
+                <input asp-for="Person.Street" class="form-control" required />
+                <span asp-validation-for="Person.Street" class="text-danger"></span>
+            </div>
             <div class="col-md-4 mb-3">
                 <label asp-for="Person.City" class="form-label">City</label>
-                <input asp-for="Person.City" class="form-control" />
+                <input asp-for="Person.City" class="form-control" required />
                 <span asp-validation-for="Person.City" class="text-danger"></span>
             </div>
-            
             <div class="col-md-4 mb-3">
-                <label asp-for="Person.State" class="form-label">State</label>
-                <input asp-for="Person.State" class="form-control" />
-                <span asp-validation-for="Person.State" class="text-danger"></span>
+                <label asp-for="Person.StateProvince" class="form-label">State/Province</label>
+                <input asp-for="Person.StateProvince" class="form-control" required />
+                <span asp-validation-for="Person.StateProvince" class="text-danger"></span>
             </div>
-            
-            <div class="col-md-4 mb-3">
-                <label asp-for="Person.ZipCode" class="form-label">Zip Code</label>
-                <input asp-for="Person.ZipCode" class="form-control" />
-                <span asp-validation-for="Person.ZipCode" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.Postal" class="form-label">Postal Code</label>
+                <input asp-for="Person.Postal" class="form-control" required />
+                <span asp-validation-for="Person.Postal" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.Country" class="form-label">Country</label>
+                <input asp-for="Person.Country" class="form-control" required />
+                <span asp-validation-for="Person.Country" class="text-danger"></span>
             </div>
         </div>
 
+        <!-- Optional Fields -->
         <div class="mb-3">
             <label asp-for="Person.Notes" class="form-label">Notes</label>
             <textarea asp-for="Person.Notes" class="form-control" rows="4"></textarea>
@@ -96,7 +144,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var cancelButton = document.querySelector(".btn-outline-secondary");
-
             if (cancelButton) {
                 cancelButton.addEventListener("click", function (event) {
                     if (document.querySelector("form").checkValidity()) {

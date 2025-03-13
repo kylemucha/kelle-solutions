@@ -1,20 +1,33 @@
 @page
 @model KelleSolutions.Pages.Leads.CreateLeadModel
-@{ ViewData["Title"] = "Create Lead"; }
+@{
+    ViewData["Title"] = "Create Lead";
+}
 <!--
-Date: 02/11/2025 
-Updating CreateLead.cshtml to reflect new and modified input fields needed to create Lead entity
-to be stored in the Leads table.
-Adding comments to better explain documentation.
+    Updated CreateLead.cshtml to use the new Lead model fields.
 -->
 <h2>Create New Lead</h2>
 
 <form method="post">
-    <!-- Lead Name input field -->
+    <!-- First Name input field -->
     <div class="form-group">
-        <label asp-for="Lead.LeadName" class="control-label"></label>
-        <input asp-for="Lead.LeadName" class="form-control" />
-        <span asp-validation-for="Lead.LeadName" class="text-danger"></span>
+        <label asp-for="Lead.NameFirst" class="control-label"></label>
+        <input asp-for="Lead.NameFirst" class="form-control" />
+        <span asp-validation-for="Lead.NameFirst" class="text-danger"></span>
+    </div>
+
+    <!-- Middle Name input field -->
+    <div class="form-group">
+        <label asp-for="Lead.NameMiddle" class="control-label"></label>
+        <input asp-for="Lead.NameMiddle" class="form-control" />
+        <span asp-validation-for="Lead.NameMiddle" class="text-danger"></span>
+    </div>
+
+    <!-- Last Name input field -->
+    <div class="form-group">
+        <label asp-for="Lead.NameLast" class="control-label"></label>
+        <input asp-for="Lead.NameLast" class="form-control" />
+        <span asp-validation-for="Lead.NameLast" class="text-danger"></span>
     </div>
 
     <!-- Email input field -->
@@ -24,70 +37,39 @@ Adding comments to better explain documentation.
         <span asp-validation-for="Lead.Email" class="text-danger"></span>
     </div>
 
-    <!-- Phone Number input field -->
+    <!-- Phone input field -->
     <div class="form-group">
-        <label asp-for="Lead.PhoneNumber" class="control-label"></label>
-        <input asp-for="Lead.PhoneNumber" type="tel" class="form-control" />
-        <span asp-validation-for="Lead.PhoneNumber" class="text-danger"></span>
+        <label asp-for="Lead.Phone" class="control-label"></label>
+        <input asp-for="Lead.Phone" type="tel" class="form-control" />
+        <span asp-validation-for="Lead.Phone" class="text-danger"></span>
     </div>
 
-    <!-- Assigned To (Agent) input field -->
+    <!-- Organization Name input field -->
     <div class="form-group">
-        <label asp-for="Lead.AssignedTo" class="control-label"></label>
-        <input asp-for="Lead.AssignedTo" class="form-control" />
-        <span asp-validation-for="Lead.AssignedTo" class="text-danger"></span>
+        <label asp-for="Lead.OrganizationName" class="control-label"></label>
+        <input asp-for="Lead.OrganizationName" class="form-control" />
+        <span asp-validation-for="Lead.OrganizationName" class="text-danger"></span>
     </div>
 
-    <!-- Lead Source input field -->
+    <!-- Organization Title input field -->
     <div class="form-group">
-        <label asp-for="Lead.LeadSource" class="control-label"></label>
-        <select asp-for="Lead.LeadSource" class="form-control">
-            <option value="">-- Select Source --</option>
-            <option value="Referral">Referral</option>
-            <option value="Website">Website</option>
-            <option value="Social Media">Social Media</option>
-            <option value="Cold Call">Cold Call</option>
-            <option value="Other">Other</option>
-        </select>
-        <span asp-validation-for="Lead.LeadSource" class="text-danger"></span>
+        <label asp-for="Lead.OrganizationTitle" class="control-label"></label>
+        <input asp-for="Lead.OrganizationTitle" class="form-control" />
+        <span asp-validation-for="Lead.OrganizationTitle" class="text-danger"></span>
     </div>
 
-    <!-- Lead Status input field -->
+    <!-- Tracking input field -->
     <div class="form-group">
-        <label asp-for="Lead.Status" class="control-label"></label>
-        <select asp-for="Lead.Status" class="form-control">
-            <option value="">-- Select Status --</option>
-            <option value="New">New</option>
-            <option value="Contacted">Contacted</option>
-            <option value="Qualified">Qualified</option>
-            <option value="Converted">Converted</option>
-            <option value="Lost">Lost</option>
-        </select>
-        <span asp-validation-for="Lead.Status" class="text-danger"></span>
+        <label asp-for="Lead.Tracking" class="control-label"></label>
+        <input asp-for="Lead.Tracking" class="form-control" />
+        <span asp-validation-for="Lead.Tracking" class="text-danger"></span>
     </div>
 
     <!-- Submit and Cancel Buttons -->
     <button type="submit" class="btn btn-primary">Create Lead</button>
-    <a asp-page="/Leads/Index" id="cancelButton" class="btn btn-secondary">Cancel</a>
+    <a asp-page="/Leads/Index" class="btn btn-secondary">Cancel</a>
 </form>
 
-
 @section Scripts {
-    <!-- Client-side validation -->
-    <partial name="_ValidationScriptsPartial"/>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var cancelButton = document.getElementById("cancelButton");
-
-            if (cancelButton) {
-                cancelButton.addEventListener("click", function (event) {
-                    if (!confirm("Are you sure you want to cancel? Unsaved changes will be lost.")) {
-                        event.preventDefault();
-                    }
-                });
-            }
-        });
-    </script>
+    <partial name="_ValidationScriptsPartial" />
 }
-

@@ -1,76 +1,98 @@
-  using Microsoft.AspNetCore.Mvc;
-  using Microsoft.AspNetCore.Mvc.RazorPages;
-  using Microsoft.AspNetCore.Identity;
-  using KelleSolutions.Models;
-  using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
+using KelleSolutions.Models;
+using System;
+using System.Threading.Tasks;
 
-  namespace KelleSolutions.Pages.People
-  {
-      public class CreatePersonModel : PageModel
-      {
-          private readonly UserManager<User> _userManager;
+namespace KelleSolutions.Pages.People
+{
+    public class CreatePersonModel : PageModel
+    {
+        private readonly UserManager<User> _userManager;
 
-          public CreatePersonModel(UserManager<User> userManager)
-          {
-              _userManager = userManager;
+        public CreatePersonModel(UserManager<User> userManager)
+        {
+            _userManager = userManager;
 
-              // initialize empty person
-              Person = new PersonViewModel
-              {
-                  FirstName = string.Empty,
-                  LastName = string.Empty,
-                  Email = string.Empty,
-                  PhoneNumber = string.Empty,
-                  Address = string.Empty,
-                  City = string.Empty,
-                  State = string.Empty,
-                  ZipCode = string.Empty,
-                  Notes = string.Empty
-              };
-          }
+            // Initialize an empty person with default values.
+            Person = new PersonViewModel
+            {
+                NameFirst = string.Empty,
+                NameMiddle = string.Empty,
+                NameLast = string.Empty,
+                NameDisplay = string.Empty,
+                Headline = string.Empty,
+                EmailPrimary = string.Empty,
+                EmailSecondary = string.Empty,
+                PhonePrimary = string.Empty,
+                PhoneSecondary = string.Empty,
+                PhonePrimaryLabel = string.Empty,
+                PhoneSecondaryLabel = string.Empty,
+                Street = string.Empty,
+                City = string.Empty,
+                StateProvince = string.Empty,
+                Postal = string.Empty,
+                Country = string.Empty,
+                Notes = string.Empty
+            };
+        }
 
-          [BindProperty]
-          public PersonViewModel Person { get; set; }
+        [BindProperty]
+        public PersonViewModel Person { get; set; }
 
-          public IActionResult OnGet()
-          {
-              return Page();
-          }
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
 
-          public async Task<IActionResult> OnPostAsync()
-          {
-              if (!ModelState.IsValid)
-              {
-                  return Page();
-              }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-              try
-              {
-                  var currentUser = await _userManager.GetUserAsync(User);
-                
-                  // redirect as if it was saved successfully, data model functionality needed
-                                
-                  return RedirectToPage("/People/People");
-              }
-              catch (Exception ex)
-              {
-                  ModelState.AddModelError("", "An error occurred. Please try again.");
-                  Console.WriteLine($"Error: {ex.Message}");
-                  return Page();
-              }
-          }
-      }
+            try
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
 
-      public class PersonViewModel
-      {
-          public string FirstName { get; set; }
-          public string LastName { get; set; }
-          public string Email { get; set; }
-          public string PhoneNumber { get; set; }
-          public string Address { get; set; }
-          public string City { get; set; }
-          public string State { get; set; }
-          public string ZipCode { get; set; }
-          public string Notes { get; set; }
-      }
-  }
+                // Here you would normally map the view model to your Person entity
+                // and set additional fields like Created, Updated, Archived, etc.
+                // For now, we assume the data is saved successfully.
+
+                return RedirectToPage("/People/People");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred. Please try again.");
+                Console.WriteLine($"Error: {ex.Message}");
+                return Page();
+            }
+        }
+    }
+
+    public class PersonViewModel
+    {
+        public string NameFirst { get; set; }
+        public string NameMiddle { get; set; }
+        public string NameLast { get; set; }
+        public string NameDisplay { get; set; }
+        public string Headline { get; set; }
+        public string EmailPrimary { get; set; }
+        public string EmailSecondary { get; set; }
+        public string PhonePrimary { get; set; }
+        public string PhoneSecondary { get; set; }
+        public string PhonePrimaryLabel { get; set; }
+        public string PhoneSecondaryLabel { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string StateProvince { get; set; }
+        public string Postal { get; set; }
+        public string Country { get; set; }
+        public string Notes { get; set; }
+
+        // Additional fields such as DoNotMarket, DoNotContact, Tracking, Comments, or Bio
+        // can be added here if you want them to be editable via the UI.
+    }
+}

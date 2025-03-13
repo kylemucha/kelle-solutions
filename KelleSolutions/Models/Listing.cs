@@ -20,13 +20,15 @@ namespace KelleSolutions.Models {
         [Column(TypeName = "datetime2")]
         public DateTime? Updated { get; set; }
 
-        // Foreign key reference to Property; maps to the "Property" column in the table
+        // Foreign key reference to Property; maps to the "Property" column in the table.
+        // Renamed from PropertyID to Property to match the new ERD.
         [Required]
-        [Column("Property")]
-        public int PropertyID { get; set; }
-        
-        // Navigation property to the Property entity
-        public virtual Property Property { get; set; }
+        [Column("Property")]  // (Assuming the underlying database column remains named "Property")
+        public int FK_Property { get; set; }  // Renamed from PropertyId
+
+        [ForeignKey(nameof(FK_Property))]
+        public virtual Property PropertyDetails { get; set; }
+
 
         // Listing status stored as a smallint in the database using MyStatusEnum
         [Required]
@@ -38,7 +40,7 @@ namespace KelleSolutions.Models {
         [Column("MySource", TypeName = "smallint")]
         public MySourceEnum MySource { get; set; }
 
-        // Operator represented by a smallint (details provided via Property.User in pages)
+        // Operator represented by a smallint
         [Required]
         [Column("Operator", TypeName = "smallint")]
         public OperatorEnum Operator { get; set; }
@@ -121,7 +123,6 @@ namespace KelleSolutions.Models {
         public string? Comments { get; set; }
     }
 
-    // Enum for listing status
     public enum MyStatusEnum : short {
         OnHold = 0,
         OpenHouse = 1,
@@ -133,7 +134,6 @@ namespace KelleSolutions.Models {
         Canceled = 7
     }
 
-    // Enum for listing source
     public enum MySourceEnum : short {
         Internal = 0,
         External = 1

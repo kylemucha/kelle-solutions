@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using KelleSolutions.Models;
+using System.Linq;
 
 namespace KelleSolutions.Data
 {
@@ -58,53 +59,31 @@ namespace KelleSolutions.Data
                 new IdentityRole { Name = "Broker", NormalizedName = "BROKER" },
                 new IdentityRole { Name = "Agent", NormalizedName = "AGENT" });
 
-            // Keep cascade delete for PropertyID
+            // Relationship between Listing and Property
+            // Updated: Using the navigation property 'PropertyDetails' (of type Property)
+            // and the foreign key property 'Property' (an int) as defined in the Listing model.
             builder.Entity<Listing>()
-                .HasOne(l => l.Property)
-                .WithMany(p => p.Listings)
-                .HasForeignKey(l => l.PropertyID)
-                .OnDelete(DeleteBehavior.Cascade);
+    .HasOne(l => l.PropertyDetails)
+    .WithMany()  // No navigation property on Property
+    .HasForeignKey(l => l.FK_Property)  // Updated to use the new property name
+    .OnDelete(DeleteBehavior.Cascade);
 
-            // Prevent cascade delete for UserID (fixes multiple cascade paths)
-            builder.Entity<Listing>()
-                .HasOne(l => l.Agent)
-                .WithMany()
-                .HasForeignKey(l => l.AgentID)
-                .OnDelete(DeleteBehavior.NoAction);
 
-            // Explicitly set decimal precision for Price
-            builder.Entity<Listing>()
-                .Property(l => l.Price)
-                .HasColumnType("decimal(18,2)");
 
-            builder.Entity<Listing>()
-                .Property(l => l.Status)
-                .HasColumnType("nvarchar(50)");
-
-            builder.Entity<Listing>()
-                .Property(l => l.Affiliation)
-                .HasColumnType("nvarchar(50)");
-
-            builder.Entity<Property>()
-                .HasOne(p => p.Tenant)
-                .WithMany()
-                .HasForeignKey(p => p.TenantID)
-                .HasConstraintName("FK_Properties_Tenant_TenantID") 
-            .OnDelete(DeleteBehavior.Cascade);
-
+            // Configure PersonToEntity
             builder.Entity<PersonToEntity>()
                 .HasOne(pe => pe.PersonNavigation)
                 .WithMany()
                 .HasForeignKey(pe => pe.Person)
-            .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<PersonToEntity>()
                 .HasOne(pe => pe.EntityNavigation)
                 .WithMany()
                 .HasForeignKey(pe => pe.Entity)
-            .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);
 
-            //PersontoPerson
+            // Configure PersonToPerson
             builder.Entity<PersonToPerson>()
                 .HasOne(p => p.Person)
                 .WithMany()
@@ -114,10 +93,10 @@ namespace KelleSolutions.Data
             builder.Entity<PersonToPerson>()
                 .HasOne(p => p.Person2)
                 .WithMany()
-                .HasForeignKey(p=>p.Person2Id)
+                .HasForeignKey(p => p.Person2Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //PersonToProperties
+            // Configure PersonToProperties
             builder.Entity<PersonToProperties>()
                 .HasOne(p => p.People)
                 .WithMany()
@@ -125,11 +104,12 @@ namespace KelleSolutions.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<PersonToProperties>()
-                .HasOne(p => p.People)
+                .HasOne(p => p.Property)
                 .WithMany()
                 .HasForeignKey(p => p.Properties)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Configure PermissionGroup
             builder.Entity<PermissionGroup>()
                 .HasKey(pg => pg.PermissionGroupID);
 
@@ -143,6 +123,7 @@ namespace KelleSolutions.Data
                 .WithMany()
                 .HasForeignKey(pg => pg.PermissionID);
 
+            // Configure RolePermissionGroupEntity
             builder.Entity<RolePermissionGroupEntity>()
                 .HasKey(rpge => new { rpge.RoleID, rpge.PermissionGroupID, rpge.PageAccessID });
 
@@ -161,18 +142,20 @@ namespace KelleSolutions.Data
                 .WithMany()
                 .HasForeignKey(rpge => rpge.PageAccessID);
 
+            // Configure PersonToListing
             builder.Entity<PersonToListing>()
                 .HasOne(ptl => ptl.Person)
-                .WithMany(p => p.PersonToListing) // One person can be linked to many listings
+                .WithMany() // No navigation property on Person
                 .HasForeignKey(ptl => ptl.PersonId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<PersonToListing>()
                 .HasOne(ptl => ptl.Listing)
-                .WithMany(l => l.PersonToListing) // One listing can have multiple people linked
+                .WithMany() // No navigation property on Listing
                 .HasForeignKey(ptl => ptl.ListingId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Configure Dashboard
             builder.Entity<Dashboard>()
                 .HasOne(d => d.User)
                 .WithOne(u => u.Dashboard)
@@ -216,16 +199,15 @@ namespace KelleSolutions.Data
         // DbSet for Permissions
         public DbSet<Permission> Permissions { get; set; }
 
-        //DbSet for PersonToPerson
-        public DbSet<PersonToPerson> PersonToPerson {get;set;}
+        // DbSet for PersonToPerson
+        public DbSet<PersonToPerson> PersonToPerson { get; set; }
 
-        //DbSet for PersonToProperties
-        public DbSet<PersonToProperties> PersonToProperties {get;set;}
+        // DbSet for PersonToProperties
+        public DbSet<PersonToProperties> PersonToProperties { get; set; }
 
-        //DbSet for Actions
+        // DbSet for Actions
         public DbSet<ActionEntity> ActionEntities { get; set; }
 
         public DbSet<Dashboard> Dashboards { get; set; }
-
     }
 }

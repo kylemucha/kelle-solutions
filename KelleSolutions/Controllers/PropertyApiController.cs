@@ -2,47 +2,40 @@
 // Update PropertyApiController.cs to reflect Properties Entity in ERD.
 // Adding comments to better explain documentation
 // PropertyApiController.cs provides an API endpoint that allows users
-// to search for properties based on their address.
+// to search for properties based on their street address.
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-// This specific line connects to KelleSolutionsDbContext.cs!
 using KelleSolutions.Data;
-// This specific line imports the Property model from Property.cs!
 using KelleSolutions.Models;
 
 namespace KelleSolutions.Controllers {
-    // This line lets the API automatically send HTTP requests to this controller 
     [Route("api/[controller]")]
-    // This line checks to see if the incoming request's syntax is correct
     [ApiController]
-    // This is where the response is prepared
     public class PropertiesApiController : ControllerBase {
         private readonly KelleSolutionsDbContext _context;
         public PropertiesApiController(KelleSolutionsDbContext context) {
             _context = context;
         }
-        // This is the Endpoint to get property suggestions for autocomplete
+        // This endpoint provides property suggestions for autocomplete based on street address.
         [HttpGet("GetPropertySuggestions")]
         public async Task<IActionResult> GetPropertySuggestions(string term) {
-            // Validate the input term
             if (string.IsNullOrEmpty(term)) {
                 return BadRequest("Search term cannot be empty.");
             }
-            // Query the Properties table for addresses containing the search term
+            // Query the Properties table for street addresses containing the search term.
             var suggestions = await _context.Properties
-                .Where(p => p.Address.Contains(term))
+                .Where(p => p.Street.Contains(term))
                 .Select(p => new {
-                    p.PropertyID,
-                    p.Address,
+                    p.Code,
+                    p.Street,
                     p.City,
-                    p.State,
-                    p.ZipCode,
+                    p.StateProvince,
+                    p.Postal
                 })
                 .ToListAsync();
-            // Return the list as JSON
             return Ok(suggestions);
         }
     }

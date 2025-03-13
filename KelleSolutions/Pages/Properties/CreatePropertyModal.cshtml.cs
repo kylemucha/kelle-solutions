@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Reflection;                        
 using System.ComponentModel.DataAnnotations;    
 using KelleSolutions.Data;                      
-using KelleSolutions.Models;                    
+using KelleSolutions.Models;                     
 
 namespace KelleSolutions.Pages.Properties {
     public class CreatePropertyModalModel : PageModel {
@@ -17,15 +17,14 @@ namespace KelleSolutions.Pages.Properties {
             _context = context;
         }
 
-        // List of available property types for the UI
+        // List of available property types for the UI based on the updated enum
         public List<KeyValuePair<string, string>> AvailablePropertyTypesList { get; set; } = new();
 
         public async Task OnGetAsync() {
-            // Use the updated enum type
             AvailablePropertyTypesList = Enum.GetValues(typeof(PropertyTypeEnum))
                 .Cast<PropertyTypeEnum>()
                 .Select(pt => new KeyValuePair<string, string>(
-                    pt.ToString(),
+                    ((short)pt).ToString(),
                     pt.GetType().GetMember(pt.ToString())
                         .FirstOrDefault()?
                         .GetCustomAttribute<DisplayAttribute>()?.Name ?? pt.ToString()

@@ -6,7 +6,7 @@
         public DateOnly CreationDate { get; set; }
         public string County { get; set; }
         public string City { get; set; }
-        public int Postal { get; set; }
+        public string Postal { get; set; } // Changed from int to string
         public string Street { get; set; }
         public int Bed { get; set; }
         public int Bath { get; set; }

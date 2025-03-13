@@ -1,5 +1,6 @@
 @page
 @model KelleSolutions.Pages.People.PeopleModel
+
 @{
     ViewData["Title"] = "People";
 }
@@ -8,140 +9,230 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
 
 <body>
+  <div class="header-section">
+      <p>
+          <a href="/AT_Dashboard">
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                  <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+              </svg>
+          </a>
+          <span>/</span> 
+          <a href="/People/People">People</a>
+          <span>/</span> 
+          <span class="pagename-text">View People</span>
+      </p>
+  </div>
 
-<div class="header-section">
-    <p>
-        <a href="/AT_Dashboard">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
-                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
-            </svg>
-        </a>
-        <span>/</span> <span class="pagename-text">People</span>
-    </p>
-</div>
+  <div class="buttons">
+      <div class="d-flex">
+          <!-- People Source Dropdown -->
+          <div class="dropdown me-2">
+              <label for="dropdownSource" class="button-label">People source</label>
+              <button id="dropdownSource" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Select Options
+              </button>
+              <ul class="dropdown-menu p-2">
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="source1">
+                      <label class="form-check-label" for="source1">Option 1</label>
+                  </li>
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="source2">
+                      <label class="form-check-label" for="source2">Option 2</label>
+                  </li>
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="source3">
+                      <label class="form-check-label" for="source3">Option 3</label>
+                  </li>
+              </ul>
+          </div>
 
-<div class="buttons">
-    <div class="d-flex">
-        <div class="dropdown me-2">
-            <label for="dropdownButton" class="button-label">User type</label>
-            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Options
-            </button>
-            <ul class="dropdown-menu p-2">
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="brokerOption">
-                    <label class="form-check-label" for="brokerOption">Broker</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="agentOption">
-                    <label class="form-check-label" for="agentOption">Agent</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="adminOption">
-                    <label class="form-check-label" for="adminOption">Admin</label>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <a href="/People/CreatePerson">
-        <button class="gradient-button">
-            Add
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-            </svg>
-        </button>
-    </a>
-</div>
+          <!-- People Status Dropdown -->
+          <div class="dropdown">
+              <label for="dropdownStatus" class="button-label">People status</label>
+              <button id="dropdownStatus" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Select Options
+              </button>
+              <ul class="dropdown-menu p-2">
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusAll">
+                      <label class="form-check-label" for="statusAll">All</label>
+                  </li>
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusHold">
+                      <label class="form-check-label" for="statusHold">On Hold</label>
+                  </li>
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusActive">
+                      <label class="form-check-label" for="statusActive">Active</label>
+                  </li>
+                  <li>
+                      <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusClosed">
+                      <label class="form-check-label" for="statusClosed">Closed</label>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <a href="/People/CreatePerson">
+          <button class="gradient-button">
+              Add
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+              </svg>
+          </button>
+      </a>
+  </div>
 
-<div class="content-container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>User</th>
-                <th>People Count</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.UserPeople)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.UserName</td>
-                    <td>@item.PeopleCount</td>
-                    <td>
-                        <a href="/People/MyPeople?userId=@item.Id" class="btn btn-link">View People</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+  <div class="content-container">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>Code</th>
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Created</th>
+                  <th>Category</th>
+              </tr>
+          </thead>
+          <tbody>
+              @foreach (var item in Model.PeopleList)
+              {
+                  <tr>
+                      <td><a href="/People/ViewPerson?code=@item.Code" style="text-decoration: none;">@item.Code</a></td>
+                      <td>@item.NameLast</td>
+                      <td>@item.NameFirst</td>
+                      <td>@item.PhonePrimary</td>
+                      <td>@item.EmailPrimary</td>
+                      <td>@item.Created.ToString("yyyy-MM-dd")</td>
+                      <td>@item.Category</td>
+                  </tr>
+              }
+          </tbody>
+      </table>
+  </div>
 
-<div class="pagination-section">
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="rows-per-page-container">
-            <label for="pageSize" class="rowamount-label">Rows per page:</label>
-            <div class="dropdown-wrapper">
-                <select id="pageSize" class="form-control dropdown-outline">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
-                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#5f6368">
-                    <path d="M7 10l5 5 5-5z"/>
-                </svg>
-            </div>
-        </div>
-    </div>
+  <div class="pagination-section">
+      <div class="d-flex justify-content-between align-items-center">
+          <div class="rows-per-page-container">
+              <label for="pageSize" class="rowamount-label">Rows per page:</label>
+              <div class="dropdown-wrapper">
+                  <select id="pageSize" class="form-control dropdown-outline" onchange="updatePageSize()">
+                    @if (Model.PageSize == 5) {
+                        <option value="5" selected>5</option>
+                        }
+                else
+    {
+                        <option value="5">5</option>
+    }
+    
+                @if (Model.PageSize == 10)
+    {
+                        <option value="10" selected>10</option>
+    }
+                else
+    {
+                        <option value="10">10</option>
+    }
+    
+                @if (Model.PageSize == 20)
+    {
+                        <option value="20" selected>20</option>
+    }
+                else
+    {
+                        <option value="20">20</option>
+    }
+    
+             @if (Model.PageSize == 50)
+    {
+                         <option value="50" selected>50</option>
+    }
+            else
+    {
+                        <option value="50">50</option>
+    }
+</select>
 
-    <div class="page-navigation">
-        <div class="page-desc">
-            <span>
-                1 - @Model.UserPeople.Count of @Model.UserPeople.Count
-            </span>
-        </div>
+                  <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#5f6368">
+                      <path d="M7 10l5 5 5-5z"/>
+                  </svg>
+              </div>
+          </div>
+      </div>
 
-        <div class="page-btn">
-            <span class="disabled-arrow">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
-                    <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
-                </svg>
-            </span>
-        </div>
+      <div class="page-navigation">
+          <div class="page-desc">
+              <span>
+                  @((Model.PageNumber - 1) * Model.PageSize + 1) - 
+                  @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount))
+                  of @Model.TotalCount
+              </span>
+          </div>
 
-        <div class="page-btn">
-            <span class="disabled-arrow">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
-                    <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-                </svg>
-            </span>
-        </div>
-    </div>
-</div>
+          <div class="page-btn">
+              @if (Model.PageNumber > 1)
+              {
+                  <a href="?PageNumber=@(Model.PageNumber - 1)&PageSize=@Model.PageSize">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                          <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                      </svg>
+                  </a>
+              }
+              else
+              {
+                  <span class="disabled-arrow">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                          <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                      </svg>
+                  </span>
+              }
+          </div>
 
+          <div class="page-btn">
+              @if (Model.PageNumber < Model.TotalPages)
+              {
+                  <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                          <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                      </svg>
+                  </a>
+              }
+              else
+              {
+                  <span class="disabled-arrow">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                          <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                      </svg>
+                  </span>
+              }
+          </div>
+      </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll(".dropdown").forEach(dropdown => {
+              const checkboxes = dropdown.querySelectorAll(".option-checkbox");
+              const dropdownButton = dropdown.querySelector(".dropdown-toggle");
+
+              function updateButtonText() {
+                  const checkedCount = dropdown.querySelectorAll(".option-checkbox:checked").length;
+                  dropdownButton.textContent = checkedCount > 0 ? `${checkedCount} selected` : "Select Options";
+              }
+
+              checkboxes.forEach(checkbox => {
+                  checkbox.addEventListener("change", updateButtonText);
+              });
+          });
+      });
+
+      function updatePageSize() {
+          var pageSize = document.getElementById("pageSize").value;
+          window.location.href = "?PageSize=" + pageSize + "&PageNumber=1";
+      }
+  </script>
 </body>
-
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".dropdown").forEach(dropdown => {
-                const checkboxes = dropdown.querySelectorAll(".option-checkbox");
-                const dropdownButton = dropdown.querySelector(".dropdown-toggle");
-    
-                function updateButtonText() {
-                    const checkedCount = dropdown.querySelectorAll(".option-checkbox:checked").length;
-                    dropdownButton.textContent = checkedCount > 0 ? `${checkedCount} selected` : "Select Options";
-                }
-    
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener("change", updateButtonText);
-                });
-            });
-        });
-    </script>
-}

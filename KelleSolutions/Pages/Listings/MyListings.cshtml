@@ -12,7 +12,9 @@ Adding comments to better explain documentation.
         <link rel="stylesheet" href="~/css/mainpages.css" />
         <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
         <a href="/AT_Dashboard">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368"><path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
         </a>
         <span>/</span> <span class="pagename-text">View My Listings</span>
     </p>
@@ -62,27 +64,27 @@ Adding comments to better explain documentation.
                 </li>
                 <li>
                     <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option4">
-                    <label class="form-check-label" for="option1">Active</label>
+                    <label class="form-check-label" for="option4">Active</label>
                 </li>
                 <li>
                     <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option5">
-                    <label class="form-check-label" for="option2">Pending</label>
+                    <label class="form-check-label" for="option5">Pending</label>
                 </li>
                 <li>
                     <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option6">
-                    <label class="form-check-label" for="option3">Closed</label>
+                    <label class="form-check-label" for="option6">Closed</label>
                 </li>
                 <li>
                     <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option7">
-                    <label class="form-check-label" for="option1">Expired</label>
+                    <label class="form-check-label" for="option7">Expired</label>
                 </li>
                 <li>
                     <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option8">
-                    <label class="form-check-label" for="option2">Withdrawn</label>
+                    <label class="form-check-label" for="option8">Withdrawn</label>
                 </li>
                 <li>
                     <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option9">
-                    <label class="form-check-label" for="option3">Canceled</label>
+                    <label class="form-check-label" for="option9">Canceled</label>
                 </li>
             </ul>
         </div>
@@ -119,21 +121,21 @@ Adding comments to better explain documentation.
                     <td>@listing.ListingDate.ToString("yyyy-MM-dd")</td>
                     <td>
                         <div class="btn-group">
-                            <button type="button" class="btn dropdown-outline">
+                            <button type="button" class="btn dropdown-outline status-btn">
                                 @listing.Status
                             </button>
-                            <button type="button" class="btn dropdown-outline dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu">
-                                    @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.Listing.StatusTypes))) {
-                                        <li>
-                                            <a class="dropdown-item status-option" href="#"
-                                                data-value="@status"
-                                                data-listing-id="@listing.ListingID">
-                                                @status
-                                            </a>
-                                        </li>
-                                    }
-                                </div>
+                            <button type="button" class="btn dropdown-outline dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu">
+                                @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.MyStatusEnum))) {
+                                    <li>
+                                        <a class="dropdown-item status-option" href="#"
+                                           data-value="@status"
+                                           data-listing-id="@listing.ListingID">
+                                            @status
+                                        </a>
+                                    </li>
+                                }
+                            </div>
                         </div>
                     </td>
                     <td>@listing.Affiliation</td>
@@ -147,7 +149,6 @@ Adding comments to better explain documentation.
 </div>
 
 <div class="pagination-section">
-
     <div class="d-flex justify-content-between align-items-center">
         <div class="rows-per-page-container">
             <label for="pageSize" class="rowamount-label">Rows per page:</label>
@@ -207,7 +208,6 @@ Adding comments to better explain documentation.
                 </span>
             }
         </div>
-
     </div>
 </div>
 
@@ -235,7 +235,7 @@ Adding comments to better explain documentation.
                 event.preventDefault(); // Prevent page reload
 
                 let formData = {
-                    PropertyId: document.getElementById("propertyId").value.trim(),
+                    Property: document.getElementById("propertyId").value.trim(),
                     Price: document.getElementById("listingPrice").value.trim(),
                     Status: document.getElementById("listingStatus").value.trim(),
                     Affiliation: document.getElementById("listingAffiliation").value.trim()
@@ -267,8 +267,6 @@ Adding comments to better explain documentation.
         });
     </script>
 
-
-
     <script>
         function updatePageSize() {
             var pageSize = document.getElementById("pageSize").value;
@@ -283,10 +281,8 @@ Adding comments to better explain documentation.
             // Add new class based on status
             switch (status) {
                 case "On Hold":
-                    button.classList.add('btn-secondary'); // Gray for On Hold
-                    break;
                 case "Open House":
-                    button.classList.add('btn-secondary'); // Gray for On Hold
+                    button.classList.add('btn-secondary'); // Gray for On Hold/Open House
                     break;
                 case "Active":
                     button.classList.add('btn-success'); // Green for Active
@@ -295,16 +291,16 @@ Adding comments to better explain documentation.
                     button.classList.add('btn-warning'); // Yellow for Pending
                     break;
                 case "Closed":
-                    button.classList.add('btn-danger'); // Red for Sold
+                    button.classList.add('btn-danger'); // Red for Closed
                     break;
                 case "Expired":
-                    button.classList.add('btn-success'); // Green for Active
+                    button.classList.add('btn-success'); // Green for Expired
                     break;
                 case "Withdrawn":
-                    button.classList.add('btn-warning'); // Yellow for Pending
+                    button.classList.add('btn-warning'); // Yellow for Withdrawn
                     break;
-                case "Cancelled":
-                    button.classList.add('btn-danger'); // Red for Sold
+                case "Canceled":
+                    button.classList.add('btn-danger'); // Red for Canceled
                     break;
                 default:
                     button.classList.add('btn-primary'); // Default color
@@ -348,7 +344,7 @@ Adding comments to better explain documentation.
                     fetch(`/Listings/UpdateStatus`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ listingId, newStatus })
+                        body: JSON.stringify({ Id: listingId, Status: newStatus })
                     })
                     .then(response => response.json())
                     .then(data => {

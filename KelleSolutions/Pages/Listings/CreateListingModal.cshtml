@@ -61,8 +61,8 @@ Added a dropdown to allow users to select a property they created.
                 <form id="createListingForm">
                     <!-- Select Property Dropdown (User's Created Properties) -->
                     <div class="mb-3">
-                        <label for="propertyId" class="form-label">Select a Property</label>
-                        <select class="form-control dropdown-arrow" id="propertyId" name="PropertyId" required>
+                        <label for="property" class="form-label">Select a Property</label>
+                        <select class="form-control dropdown-arrow" id="property" name="Property" required>
                             <option value="">Select Property</option>
                             @foreach (var property in Model.UserProperties)
                             {
@@ -77,12 +77,12 @@ Added a dropdown to allow users to select a property they created.
                         <input type="number" class="form-control" id="listingPrice" name="Price" required>
                     </div>
 
-                    <!-- Status & Affiliation on the Same Row -->
+                    <!-- Status & Source on the Same Row -->
                     <div class="row">
                         <!-- Status -->
                         <div class="col-md-6">
                             <label for="listingStatus" class="form-label">Status</label>
-                            <select class="form-control dropdown-arrow" id="listingStatus" name="Status" required>
+                            <select class="form-control dropdown-arrow" id="listingStatus" name="MyStatus" required>
                                 <option value="">Select Status</option>
                                 @foreach (var status in Model.AvailableStatusTypesList)
                                 {
@@ -90,10 +90,11 @@ Added a dropdown to allow users to select a property they created.
                                 }
                             </select>
                         </div>
-                        <!-- Affiliation -->
+                        <!-- Source -->
                         <div class="col-md-6">
-                            <label for="listingAffiliation" class="form-label">Affiliation</label>
-                            <select class="form-control dropdown-arrow" id="listingAffiliation" name="Affiliation" required>
+                            <label for="listingSource" class="form-label">Source</label>
+                            <select class="form-control dropdown-arrow" id="listingSource" name="MySource" required>
+                                <option value="">Select Source</option>
                                 <option value="Internal">Internal</option>
                                 <option value="External">External</option>
                             </select>

@@ -1,87 +1,80 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;        // handles user authentication!
+using Microsoft.AspNetCore.Identity;
 using KelleSolutions.Models;
 using KelleSolutions.Data;
 using System;
 using System.Threading.Tasks;
 
-namespace KelleSolutions.Pages.Properties {
-    public class CreatePropertyModel : PageModel {
-        
-        // database context for querying property
+namespace KelleSolutions.Pages.Properties
+{
+    public class CreatePropertyModel : PageModel
+    {
         private readonly KelleSolutionsDbContext _context;
-
-        // manages logged-in users
         private readonly UserManager<User> _userManager;
-        public CreatePropertyModel(KelleSolutionsDbContext context, UserManager<User> userManager) {
+
+        public CreatePropertyModel(KelleSolutionsDbContext context, UserManager<User> userManager)
+        {
             _context = context;
             _userManager = userManager;
-            // initialize empty Property
-            Property = new Property {
-                OwnerID = "",
-                Address = string.Empty,
+            // Initialize new Property with default values.
+            Property = new Property
+            {
+                Street = string.Empty,
                 City = string.Empty,
-                State = string.Empty,
-                ZipCode = string.Empty,
-                BedCount = 0,
-                BathCount = 0,
-                GarageCount = 0,
-                // default to current year
-                YearConstructed = DateTime.UtcNow.Year,
-                // default to first option
-                PropertyType = string.Empty,
-                // ensure it's set before assigning the real user ID
-                UserID = string.Empty
+                StateProvince = string.Empty,
+                Postal = string.Empty,
+                SqFt_Building = null,
+                SqFt_Land = null,
+                Beds = 0,
+                Baths = 0,
+                Garages = 0,
+                Constructed = (short)DateTime.UtcNow.Year,
+                MyType = PropertyTypeEnum.SingleFamilyHome, // Ensure Property.MyType is of type PropertyTypeEnum
+                Comments = string.Empty
             };
         }
 
-        // Bind the Property model to the form
         [BindProperty]
         public Property Property { get; set; }
 
-        public IActionResult OnGet() {
-            // Loads the page (no specific logic needed for Get request here)
+        public IActionResult OnGet()
+        {
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync() {
-            // Validates the form input
-            if (!ModelState.IsValid) {
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
                 return Page();
             }
-            try {
-                // get the currently logged-in user, specifically the user's username
-                var currentUser = await _userManager.GetUserAsync(User);
-
-                // if no user is logged in, redirect to the login page
-                // while in testing phase, keep this commented!
-                if (currentUser == null) {
-                    return RedirectToPage("/Account/Login");
-                }
-                
-                // new property entry in Property table
-                var newProperty = new Property {
-                    UserID = currentUser.Id,
-                    Address = Property.Address,
+            try
+            {
+                var newProperty = new Property
+                {
+                    Street = Property.Street,
                     City = Property.City,
-                    State = Property.State,
-                    ZipCode = Property.ZipCode,
-                    BedCount = Property.BedCount,
-                    BathCount = Property.BathCount,
-                    GarageCount = Property.GarageCount,
-                    YearConstructed = Property.YearConstructed, 
-                    PropertyType = Property.PropertyType,
-                    CreatedAt = DateTime.UtcNow,
-                    OwnerID = currentUser.Id
+                    StateProvince = Property.StateProvince,
+                    Postal = Property.Postal,
+                    SqFt_Building = Property.SqFt_Building,
+                    SqFt_Land = Property.SqFt_Land,
+                    Beds = Property.Beds,
+                    Baths = Property.Baths,
+                    Garages = Property.Garages,
+                    Constructed = Property.Constructed,
+                    MyType = Property.MyType,
+                    Comments = Property.Comments,
+                    Created = DateTime.UtcNow
+                    // Code is auto-generated.
                 };
 
-                // Save the new property to the database
                 _context.Properties.Add(newProperty);
                 await _context.SaveChangesAsync();
-                // Redirect to the My Properties page after saving
                 return RedirectToPage("/Properties/MyProperties");
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 ModelState.AddModelError("", "An error occurred while saving the property. Please try again.");
                 Console.WriteLine($"Error: {ex.Message}");
                 return Page();

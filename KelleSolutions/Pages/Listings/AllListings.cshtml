@@ -1,6 +1,8 @@
 @page
 @model KelleSolutions.Pages.Listings.AllListingsModel
-@{ ViewData["Title"] = "All Listings"; }
+@{
+    ViewData["Title"] = "All Listings";
+}
 <!--
 Date: 02/23/2025 
 Creating AllListings.cshtml to reflect new and modified viewing table of the Listings Entities created by all users.
@@ -44,7 +46,7 @@ Adding comments to better explain documentation.
                             </button>
                             <button type="button" class="btn dropdown-outline dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu">
-                                    @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.Listing.StatusTypes)))
+                                    @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.MyStatusEnum)))
                                     {
                                         <li>
                                             <a class="dropdown-item status-option" href="#" data-value="@status" data-listing-id="@listing.ListingID">
@@ -67,7 +69,6 @@ Adding comments to better explain documentation.
 </div>
 
 <div class="pagination-section">
-
     <div class="d-flex justify-content-between align-items-center">
         <div class="rows-per-page-container">
             <label for="pageSize" class="rowamount-label">Rows per page:</label>

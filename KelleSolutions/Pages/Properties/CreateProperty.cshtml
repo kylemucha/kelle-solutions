@@ -3,10 +3,9 @@
 @{ ViewData["Title"] = "Create New Property"; }
 <!--
 Date: 02/11/2025 
-Updating CreateProperty.cshtml to reflect new and modified input fields needed to create Property entity
-to be stored in the Properties table.
-Adding comments to better explain documentation.
+Reworked CreateProperty.cshtml to reflect the updated Property model.
 -->
+
 <head>
     <link rel="stylesheet" href="~/wwwroot/css/CreateProperty.css" asp-append-version="true">
     <h2>Create New Property</h2>
@@ -14,16 +13,12 @@ Adding comments to better explain documentation.
 
 <body>
     <form method="post">
-        <!-- Address input field (Required) -->
+        <!-- Street input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.Address" class="control-label required">Address</label>
-            <input asp-for="Property.Address" id="Address" class="form-control"
-                placeholder="Start typing an address..." autocomplete="off"/>
-            <span asp-validation-for="Property.Address" class="text-danger"></span>
-
-            <!-- Address with auto-suggestions for selecting an address (Populates field via PropertyApiController.cs) -->
-            <!-- Side note: "d-none" keeps the suggestions hidden until needed for autocomplete -->
-            <ul id="propertySuggestions" class="list-group d-none"></ul>
+            <label asp-for="Property.Street" class="control-label required">Street</label>
+            <input asp-for="Property.Street" id="Street" class="form-control"
+                placeholder="Start typing a street address..." autocomplete="off"/>
+            <span asp-validation-for="Property.Street" class="text-danger"></span>
         </div>
 
         <!-- City input field (Required) -->
@@ -33,116 +28,92 @@ Adding comments to better explain documentation.
             <span asp-validation-for="Property.City" class="text-danger"></span>
         </div>
 
-        <!-- State input field (Required) -->
+        <!-- StateProvince input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.State" class="control-label required">State</label>
-            <input asp-for="Property.State" class="form-control"/>
-            <span asp-validation-for="Property.State" class="text-danger"></span>
+            <label asp-for="Property.StateProvince" class="control-label required">State/Province</label>
+            <input asp-for="Property.StateProvince" class="form-control"/>
+            <span asp-validation-for="Property.StateProvince" class="text-danger"></span>
         </div>
 
-        <!-- Zip Code input field (Required) -->
+        <!-- Postal Code input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.ZipCode" class="control-label required">Zip Code</label>
-            <input asp-for="Property.ZipCode" class="form-control" type="text"/>
-            <span asp-validation-for="Property.ZipCode" class="text-danger"></span>
+            <label asp-for="Property.Postal" class="control-label required">Postal Code</label>
+            <input asp-for="Property.Postal" class="form-control" type="text"/>
+            <span asp-validation-for="Property.Postal" class="text-danger"></span>
         </div>
 
-        <!-- Size input field (Optional) -->
+        <!-- Building Size input field (Optional) -->
         <div class="form-group">
-            <label asp-for="Property.Size" class="control-label">Property Size (sq ft)</label>
-            <input asp-for="Property.Size" class="form-control" type="number" min="0" step="1"
-                placeholder="Enter the size in square feet"/>
-            <span asp-validation-for="Property.Size" class="text-danger"></span>
+            <label asp-for="Property.SqFt_Building" class="control-label">Building Size (sq ft)</label>
+            <input asp-for="Property.SqFt_Building" class="form-control" type="number" min="0" step="1"
+                placeholder="Enter the building size in square feet"/>
+            <span asp-validation-for="Property.SqFt_Building" class="text-danger"></span>
         </div>
 
-        <!-- Land Size input (Optional) -->
+        <!-- Land Size input field (Optional) -->
         <div class="form-group">
-            <label asp-for="Property.LandSize" class="control-label">Land Size</label>
-
-            <!-- Radio buttons prompting user to selected an input type -->
+            <label asp-for="Property.SqFt_Land" class="control-label">Land Size</label>
             <div>
                 <input type="radio" id="sqftOption" name="landSizeUnit" value="sqft" checked>
                 <label for="sqftOption">in Square Feet</label>
-
                 <input type="radio" id="acreOption" name="landSizeUnit" value="acre">
                 <label for="acreOption">in Acres</label>
             </div>
-
-            <!-- Actual Land Size input field -->
             <div class="input-group">
-                <input asp-for="Property.LandSize" id="LandSizeInput" class="form-control"
+                <input asp-for="Property.SqFt_Land" id="LandSizeInput" class="form-control"
                     type="number" min="0" step="1" placeholder="Enter the land size"/>
-                <span asp-validation-for="Property.LandSize" class="text-danger">sq ft</span>
+                <span class="input-group-text" id="unitLabel">sq ft</span>
             </div>
-
-            <!-- Approximate Converted Value -->
             <div>
                 <strong>Converted Size:</strong> <span id="ConvertedSize">0</span>
                 <span id="ConvertedUnit">acres</span>
             </div>
         </div>
 
-        <!-- Bedroom Count input field (Required) -->
+        <!-- Bedrooms input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.BedCount" class="control-label required">Bedrooms</label>
-            <input asp-for="Property.BedCount" class="form-control" type="number" min="0" value="0"/>
-            <span asp-validation-for="Property.BedCount" class="text-danger"></span>
+            <label asp-for="Property.Beds" class="control-label required">Bedrooms</label>
+            <input asp-for="Property.Beds" class="form-control" type="number" min="0" value="0"/>
+            <span asp-validation-for="Property.Beds" class="text-danger"></span>
         </div>
         
-        <!-- Bathroom Count input field (Required) -->
+        <!-- Bathrooms input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.BathCount" class="control-label required">Bathrooms</label>
-            <input asp-for="Property.BathCount" class="form-control" type="number" min="0" value="0"/>
-            <span asp-validation-for="Property.BathCount" class="text-danger"></span>
+            <label asp-for="Property.Baths" class="control-label required">Bathrooms</label>
+            <input asp-for="Property.Baths" class="form-control" type="number" min="0" value="0"/>
+            <span asp-validation-for="Property.Baths" class="text-danger"></span>
         </div>
 
-        <!-- Garage Count input field (Required) -->
+        <!-- Garages input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.GarageCount" class="control-label required">Garages</label>
-            <input asp-for="Property.GarageCount" class="form-control" type="number" min="0" value="0"/>
-            <span asp-validation-for="Property.GarageCount" class="text-danger"></span>
-        </div>
-
-        <!-- Checkbox if Property is Complex or not, default unchecked -->
-        <div class="form-group">
-            <label asp-for="Property.IsComplex" class="control-label">is the Property Complex?</label>
-            <input asp-for="Property.IsComplex" id="IsComplexCheckbox" type="checkbox" class="form-check-input"/>
-        </div>
-
-        <!-- Partial Count input field (Initially hidden) -->
-        <div class="form-group" id="PartialCountContainer">
-            <label asp-for="Property.PartialCount" class="control-label"></label>
-            <input asp-for="Property.PartialCount" class="form-control" type="number" min="0" value="0"/>
+            <label asp-for="Property.Garages" class="control-label required">Garages</label>
+            <input asp-for="Property.Garages" class="form-control" type="number" min="0" value="0"/>
+            <span asp-validation-for="Property.Garages" class="text-danger"></span>
         </div>
 
         <!-- Year Constructed input field (Required) -->
         <div class="form-group">
-            <label asp-for="Property.YearConstructed" class="control-label required"></label>
-            <input asp-for="Property.YearConstructed" class="form-control" type="number" min="1500"
-                max="" maxlength="4"/>
-            <span asp-asp-validation-for="Property.YearConstructed" class="text-danger"></span>
+            <label asp-for="Property.Constructed" class="control-label required">Year Constructed</label>
+            <input asp-for="Property.Constructed" class="form-control" type="number" min="1500" 
+                max="@DateTime.UtcNow.Year" maxlength="4"/>
+            <span asp-validation-for="Property.Constructed" class="text-danger"></span>
         </div>
 
-        <!-- Checkbox if Property is Remodeled or not, default unchecked -->
+        <!-- Comments input field (Optional) -->
         <div class="form-group">
-            <label asp-for="Property.IsRemodeled" class="control-label"></label>
-            <input asp-for="Property.IsRemodeled" id="IsRemodeledCheckbox" class="form-check-input" type="checkbox"/>
-        </div>
-
-        <!-- Notes input field (Optional) -->
-        <div class="form-group">
-            <label asp-for="Property.Notes" class="control-label"></label>
-            <textarea asp-for="Property.Notes" id="Notes" class="form-control" rows="4" maxlength="255"
-                placeholder="Enter additional notes here (max 255 characters)..."></textarea>
-            <span asp-asp-validation-for="Property.Notes" class="text-danger"></span>
+            <label asp-for="Property.Comments" class="control-label">Comments</label>
+            <textarea asp-for="Property.Comments" id="Comments" class="form-control" rows="4" maxlength="2048"
+                placeholder="Enter additional comments here (max 2048 characters)..."></textarea>
+            <span asp-validation-for="Property.Comments" class="text-danger"></span>
         </div>
 
         <!-- Property Type drop-down list (Required) -->
         <div class="form-group">
-            <label asp-for="Property.PropertyType" class="control-label"></label>
-            <select asp-for="Property.PropertyType" asp-items="Html.GetEnumSelectList<Models.Property.PropertyTypes>()" class="form-control searchable-dropdown"></select>
-            <option value=""></option>
-            <span asp-validation-for="Property.PropertyType" class="text-danger"></span>
+            <label asp-for="Property.MyType" class="control-label required">Property Type</label>
+            <select asp-for="Property.MyType" asp-items="Html.GetEnumSelectList<Models.PropertyTypeEnum>()" class="form-control searchable-dropdown">
+                <option value="">Select Property Type</option>
+            </select>
+            <span asp-validation-for="Property.MyType" class="text-danger"></span>
         </div>
 
         <!-- Submit and Cancel buttons -->
@@ -150,6 +121,13 @@ Adding comments to better explain documentation.
         <a asp-page="/AT_Dashboard" id="cancelButton" class="btn btn-secondary">Cancel</a>
     </form>
 </body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include your JavaScript for auto-suggestions, cancel handling, land size conversion, and year validation here -->
+}
+
 
 @section Scripts {
     <!-- ASP.NET has built-in validation scripts that can be imported via this line -->

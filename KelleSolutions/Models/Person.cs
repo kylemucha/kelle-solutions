@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KelleSolutions.Models
 {
@@ -179,4 +181,6 @@ namespace KelleSolutions.Models
         Category2 = 1
         // Extend with additional categories as needed
     }
+
+    
 }

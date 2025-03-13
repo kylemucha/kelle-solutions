@@ -1,15 +1,12 @@
 @page
 @model KelleSolutions.Pages.Leads.ViewLeadsModel
-
 @{
     ViewData["Title"] = "User Leads";
 }
-
 <link rel="stylesheet" href="~/css/mainpages.css" />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet" />
 
 <body>
-
 <div class="header-section">
     <p>
         <a href="/AT_Dashboard">
@@ -21,90 +18,14 @@
     </p>
 </div>
 
-<div class="buttons">
-    <div class="d-flex">
-        <div class="dropdown me-2">
-            <label for="dropdownButton" class="button-label">Lead source</label>
-            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Options
-            </button>
-            <ul class="dropdown-menu filter-menu p-2">
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option1">
-                    <label class="form-check-label" for="option1">Option 1</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option2">
-                    <label class="form-check-label" for="option2">Option 2</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option3">
-                    <label class="form-check-label" for="option3">Option 3</label>
-                </li>
-            </ul>
-        </div>
-        <div class="dropdown">
-            <label for="dropdownButton" class="button-label">Listing status</label>
-            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Options
-            </button>
-            <ul class="dropdown-menu filter-menu p-2">
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="ON HOLD" @(Model.SelectedStatuses.Contains("ON HOLD") ? "checked" : "")>
-                    <label class="form-check-label">On Hold</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="OPEN HOUSE" @(Model.SelectedStatuses.Contains("OPEN HOUSE") ? "checked" : "")>
-                    <label class="form-check-label">Open House</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="ACTIVE" @(Model.SelectedStatuses.Contains("ACTIVE") ? "checked" : "")>
-                    <label class="form-check-label">Active</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="PENDING" @(Model.SelectedStatuses.Contains("PENDING") ? "checked" : "")>
-                    <label class="form-check-label">Pending</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="CLOSED" @(Model.SelectedStatuses.Contains("CLOSED") ? "checked" : "")>
-                    <label class="form-check-label">Closed</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="EXPIRED" @(Model.SelectedStatuses.Contains("EXPIRED") ? "checked" : "")>
-                    <label class="form-check-label">Expired</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="WITHDRAWN" @(Model.SelectedStatuses.Contains("WITHDRAWN") ? "checked" : "")>
-                    <label class="form-check-label">Withdrawn</label>
-                </li>
-                <li>
-                    <input class="form-check-input me-2 option-checkbox" type="checkbox" value="CANCELED" @(Model.SelectedStatuses.Contains("CANCELED") ? "checked" : "")>
-                    <label class="form-check-label">Canceled</label>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <a href="/Leads/CreateLead">
-        <button class="gradient-button">
-            Add
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-            </svg>
-        </button>
-    </a>
-</div>
-
 <div class="content-container">
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Created</th>
-                <th>Status</th>
-                <th>Assignee</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Phone #</th>
+                <th>Full Name</th>
+                <th>Phone</th>
                 <th>Email</th>
             </tr>
         </thead>
@@ -112,31 +33,9 @@
             @foreach (var item in Model.ViewUserLeads)
             {
                 <tr>
-                    <td><a href="ViewPerson" style="text-decoration: none;">@item.ID</a></td>
+                    <td><a href="ViewLead?id=@item.ID" style="text-decoration: none;">@item.ID</a></td>
                     <td>@item.CreationDate.ToString("yyyy-MM-dd")</td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn status-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span id="currentStatus" class="status-text">@item.Status</span>
-                                <span class="status-btn-svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill=white><path d="M480-373.85 303.85-550h352.3L480-373.85Z"/></svg>
-                                </span>
-                            </button>
-                            <ul class="dropdown-menu status-menu">
-                                <li><a class="dropdown-item status-option" href="#" data-status="ON HOLD">ON HOLD</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="OPEN HOUSE">OPEN HOUSE</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="ACTIVE">ACTIVE</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="PENDING">PENDING</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="CLOSED">CLOSED</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="EXPIRED">EXPIRED</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="WITHDRAWN">WITHDRAWN</a></li>
-                                <li><a class="dropdown-item status-option" href="#" data-status="CANCELED">CANCELED</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>@item.Assignee</td>
-                    <td>@item.LastName</td>
-                    <td>@item.FirstName</td>
+                    <td>@item.FullName</td>
                     <td>@item.Phone</td>
                     <td>@item.Email</td>
                 </tr>
@@ -146,184 +45,20 @@
 </div>
 
 <div class="pagination-section">
-
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="rows-per-page-container">
-            <label for="pageSize" class="rowamount-label">Rows per page:</label>
-            <div class="dropdown-wrapper">
-                <select id="pageSize" class="form-control dropdown-outline" onchange="updatePageSize()">
-                    <option value="5" selected="@(Model.PageSize == 5 ? "selected" : null)">5</option>
-                    <option value="10" selected="@(Model.PageSize == 10 ? "selected" : null)">10</option>
-                    <option value="20" selected="@(Model.PageSize == 20 ? "selected" : null)">20</option>
-                    <option value="50" selected="@(Model.PageSize == 50 ? "selected" : null)">50</option>
-                </select>
-                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#5f6368">
-                    <path d="M7 10l5 5 5-5z"/>
-                </svg>
-            </div>
-        </div>
-    </div>
-
     <div class="page-navigation">
-        <div class="page-desc">
-            <span>
-                @( (Model.PageNumber - 1) * Model.PageSize + 1) - 
-                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.AllLeads.Count))
-                of @Model.AllLeads.Count
-            </span>
+        <div class="page-item">
+            <a class="page-link">Previous</a>
         </div>
-
-        <div class="page-btn">
-            @if (Model.PageNumber > 1)
-            {
-                <a href="?PageNumber=@(Model.PageNumber - 1)&PageSize=@Model.PageSize
-                @(Model.SelectedStatuses.Any() ? "&SelectedStatuses=" + string.Join(",", Model.SelectedStatuses) : "")">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
-                    </svg>
-                </a>
-            }
-            else
-            {
-                <span class="disabled-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
-                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
-                    </svg>
-                </span>
-            }
+        <div class="page-item">
+            <a class="page-link active">1</a>
         </div>
-
-        <div class="page-btn">
-            @if (Model.PageNumber < Model.TotalPages)
-            {
-                <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize
-                @(Model.SelectedStatuses.Any() ? "&SelectedStatuses=" + string.Join(",", Model.SelectedStatuses) : "")">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-                    </svg>
-                </a>
-            }
-            else
-            {
-                <span class="disabled-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
-                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-                    </svg>
-                </span>
-            }
+        <div class="page-item">
+            <a class="page-link">Next</a>
         </div>
     </div>
 </div>
-
 </body>
 
-
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!--updates the filtering dropdown menus with the amount of itmes that have been selected-->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".dropdown").forEach(dropdown => {
-                const checkboxes = dropdown.querySelectorAll(".option-checkbox");
-                const dropdownButton = dropdown.querySelector(".dropdown-toggle");
-    
-                function updateButtonText() {
-                    const checkedCount = dropdown.querySelectorAll(".option-checkbox:checked").length;
-                    dropdownButton.textContent = checkedCount > 0 ? `${checkedCount} selected` : "Select Options";
-                }
-    
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener("change", updateButtonText);
-                });
-
-                updateButtonText(); // Ensure the correct text is displayed on page load
-            });
-        });
-    </script>
-    <script>
-        function updatePageSize() {
-            var pageSize = document.getElementById("pageSize").value;
-            window.location.href = "?PageSize=" + pageSize + "&PageNumber=1";
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                let statusBtn = dropdown.querySelector('.status-btn');
-                let statusText = dropdown.querySelector('.status-text');
-
-                const statusColors = {
-                    "ON HOLD": "status-btn-onhold",
-                    "OPEN HOUSE": "status-btn-openhouse",
-                    "ACTIVE": "status-btn-active",
-                    "PENDING": "status-btn-pending",
-                    "CLOSED": "status-btn-closed",
-                    "EXPIRED": "status-btn-expired",
-                    "WITHDRAWN": "status-btn-withdrawn",
-                    "CANCELED": "status-btn-canceled"
-                };
-
-                // Function to update the button color
-                function updateButtonColor(status) {
-                    // Remove any previously applied classes
-                    statusBtn.classList.remove(...Object.values(statusColors));
-
-                    // Apply the new class based on status
-                    if (statusColors[status]) {
-                        statusBtn.classList.add(statusColors[status]);
-                    }
-                }
-
-                // Wait until Razor syntax renders the dynamic status, then apply the correct color
-                setTimeout(() => {
-                    let currentStatus = statusText.textContent.trim();
-                    updateButtonColor(currentStatus);
-                }, 0);
-
-                // Event listeners for dropdown selection
-                dropdown.querySelectorAll('.status-option').forEach(option => {
-                    option.addEventListener('click', function (e) {
-                        e.preventDefault();
-
-                        // Get the new status value
-                        let newStatus = this.getAttribute('data-status');
-
-                        // Update button text
-                        statusText.textContent = newStatus;
-
-                        // Update button color
-                        updateButtonColor(newStatus);
-                    });
-                });
-            });
-        });        
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const checkboxes = document.querySelectorAll(".option-checkbox");
-        
-            function updateFilter() {
-                // Get selected checkboxes
-                let selectedStatuses = Array.from(checkboxes)
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value);
-        
-                // Construct URL with query parameters
-                let url = new URL(window.location.href);
-                url.searchParams.delete("SelectedStatuses"); // Clear previous filters
-                selectedStatuses.forEach(status => url.searchParams.append("SelectedStatuses", status));
-        
-                // Redirect to fetch new filtered data
-                window.location.href = url.toString();
-            }
-        
-            // Attach event listener to checkboxes
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener("change", updateFilter);
-            });
-
-            
-        });
-    </script>
+    <partial name="_ValidationScriptsPartial"/>
 }

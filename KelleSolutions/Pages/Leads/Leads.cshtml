@@ -3,12 +3,11 @@
 @{
     ViewData["Title"] = "Leads";
 }
-
-<link rel="stylesheet" href="~/css/mainpages.css" />    
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/css/mainpages.css" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet" />
 
 <div class="header-section">
-    <h3></h3>
+    <h3>Leads</h3>
 </div>
 
 <div class="listings-container">
@@ -16,8 +15,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Phone Number</th>
+                <th>Full Name</th>
+                <th>Phone</th>
                 <th>Email</th>
                 <th>Created</th>
                 <th>Action</th>
@@ -28,12 +27,12 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.UserName</td>
-                    <td>@item.PhoneNumber</td>
+                    <td>@item.FullName</td>
+                    <td>@item.Phone</td>
                     <td>@item.Email</td>
-                    <td>@item.CreationDate</td>
+                    <td>@item.CreationDate.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <a href="/Properties/ViewProperty?userId=@item.Id" class="view-listings">View Leads</a>
+                        <a href="/Leads/ViewLead?id=@item.Id" class="view-listings">View Lead</a>
                     </td>
                 </tr>
             }
