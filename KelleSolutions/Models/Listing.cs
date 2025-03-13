@@ -51,16 +51,11 @@ namespace KelleSolutions.Models {
         [Required]
         [Column("Team", TypeName = "smallint")]
         public TeamEnum Team { get; set; }
-        // Team represented by a smallint
-        [Required]
-        [Column("Team", TypeName = "smallint")]
-        public TeamEnum Team { get; set; }
+        
 
         // Visibility stored as a tinyint
         // Visibility stored as a tinyint
         [Required]
-        [Column("Visibility", TypeName = "tinyint")]
-        public VisibilityEnum Visibility { get; set; }
         [Column("Visibility", TypeName = "tinyint")]
         public VisibilityEnum Visibility { get; set; }
 
@@ -75,62 +70,7 @@ namespace KelleSolutions.Models {
         // Date when the listing went on market
         [Column("OnMarket", TypeName = "datetime2")]
         public DateTime? OnMarket { get; set; }
-        // Indicates if the listing is external
-        [Column("ExternalListing")]
-        public bool? ExternalListing { get; set; }
 
-        // Indicates if the listing is a pocket listing
-        [Column("PocketListing")]
-        public bool? PocketListing { get; set; }
-
-        // Date when the listing went on market
-        [Column("OnMarket", TypeName = "datetime2")]
-        public DateTime? OnMarket { get; set; }
-
-        // Date when the listing was published
-        [Column("Listed", TypeName = "datetime2")]
-        public DateTime? Listed { get; set; }
-
-        // Date when the listing was accepted
-        [Column("Accepted", TypeName = "datetime2")]
-        public DateTime? Accepted { get; set; }
-
-        // Date when the listing was closed
-        [Column("Closed", TypeName = "datetime2")]
-        public DateTime? Closed { get; set; }
-
-        // Listing price; mapped as money
-        [Column("Price", TypeName = "money")]
-        public decimal? Price { get; set; }
-
-        // Actual price; mapped as money
-        [Column("Price_Actual", TypeName = "money")]
-        public decimal? PriceActual { get; set; }
-
-        // Commission rate with a precision of 6,4
-        [Column("CommissionRate", TypeName = "decimal(6,4)")]
-        public decimal? CommissionRate { get; set; }
-
-        // Fixed commission amount; mapped as money
-        [Column("CommissionFixed", TypeName = "money")]
-        public decimal? CommissionFixed { get; set; }
-
-        // Actual commission amount; mapped as money
-        [Column("CommissionActual", TypeName = "money")]
-        public decimal? CommissionActual { get; set; }
-
-        // Flag to display the listing on the website
-        [Column("DisplayOnWebsite")]
-        public bool? DisplayOnWebsite { get; set; }
-
-        // Display priority as a tinyint
-        [Column("DisplayPriority", TypeName = "tinyint")]
-        public byte? DisplayPriority { get; set; }
-
-        // MLS ID with a max length of 30 characters
-        [StringLength(30)]
-        [Column("MLS_ID", TypeName = "varchar(30)")]
-        public string? MLS_ID { get; set; }
         // Date when the listing was published
         [Column("Listed", TypeName = "datetime2")]
         public DateTime? Listed { get; set; }

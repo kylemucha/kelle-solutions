@@ -49,10 +49,6 @@ namespace KelleSolutions.Pages.Properties
                     p.Street,
                     p.Beds,
                     p.Baths
-                    p.Postal,
-                    p.Street,
-                    p.Beds,
-                    p.Baths
                 })
                 .ToListAsync();
 
