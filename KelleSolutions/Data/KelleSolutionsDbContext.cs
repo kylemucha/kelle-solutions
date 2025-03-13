@@ -113,17 +113,28 @@ namespace KelleSolutions.Data
             builder.Entity<PermissionGroup>()
                 .HasKey(pg => pg.PermissionGroupID);
 
+            // Define the parent-child relationship within PermissionGroups
             builder.Entity<PermissionGroup>()
-                .HasOne(pg => pg.ParentGroup)
-                .WithMany()
-                .HasForeignKey(pg => pg.ParentGroupID);
+                .HasMany(pg => pg.ChildGroups)
+                .WithOne(pg => pg.ParentGroup)
+                .HasForeignKey(pg => pg.ParentGroupID)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Set up the relationship between PermissionGroup and Permissions
             builder.Entity<PermissionGroup>()
                 .HasOne(pg => pg.Permission)
                 .WithMany()
-                .HasForeignKey(pg => pg.PermissionID);
+                .HasForeignKey(pg => pg.PermissionID)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure RolePermissionGroupEntity
+            builder.Entity<PermissionGroup>()
+                .Property(pg => pg.Created)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Entity<PermissionGroup>()
+                .Property(pg => pg.Updated)
+                .HasDefaultValueSql("GETUTCDATE()");
+
             builder.Entity<RolePermissionGroupEntity>()
                 .HasKey(rpge => new { rpge.RoleID, rpge.PermissionGroupID, rpge.PageAccessID });
 
@@ -187,27 +198,33 @@ namespace KelleSolutions.Data
         // DbSet for Entities
         public DbSet<Entity> Entities { get; set; }
 
-        // DbSet for PersonToEntity
-        public DbSet<PersonToEntity> PersonToEntity { get; set; }
-
-        // DbSet for PermissionGroup
-        public DbSet<PermissionGroup> PermissionGroup { get; set; }
-        
-        // DbSet for RolePermissionGroupEntity
-        public DbSet<RolePermissionGroupEntity> RolePermissionGroupEntity { get; set; }
-
         // DbSet for Permissions
         public DbSet<Permission> Permissions { get; set; }
 
-        // DbSet for PersonToPerson
-        public DbSet<PersonToPerson> PersonToPerson { get; set; }
+        // DbSet for PermissionGroup
+        public DbSet<PermissionGroup> PermissionGroups { get; set; }
 
-        // DbSet for PersonToProperties
-        public DbSet<PersonToProperties> PersonToProperties { get; set; }
+        // DbSet for PersonToEntity
+        public DbSet<PersonToEntity> PersonToEntity { get; set; }
 
-        // DbSet for Actions
+        // DbSet for RolePermissionGroupEntity
+        public DbSet<RolePermissionGroupEntity> RolePermissionGroupEntity { get; set; }
+
+        //DbSet for PersonToPerson
+        public DbSet<PersonToPerson> PersonToPerson {get;set;}
+
+        //DbSet for PersonToProperties
+        public DbSet<PersonToProperties> PersonToProperties {get;set;}
+
+        //DbSet for Actions
         public DbSet<ActionEntity> ActionEntities { get; set; }
 
         public DbSet<Dashboard> Dashboards { get; set; }
+
+        //DbSet for StatusMappings
+        public DbSet<StatusMapping> StatusMappings { get; set; }
+
+        //DbSet for SellerIDMappings
+        public DbSet<SellerIDMapping> SellerIDMappings { get; set; }
     }
 }
