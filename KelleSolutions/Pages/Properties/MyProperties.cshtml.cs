@@ -29,7 +29,6 @@ namespace KelleSolutions.Pages.Properties
         // Paging parameters
         [BindProperty(SupportsGet = true)]
         public int PageSize { get; set; } = 10;
-
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
@@ -46,6 +45,10 @@ namespace KelleSolutions.Pages.Properties
                     p.Created,
                     p.County,
                     p.City,
+                    p.Postal,
+                    p.Street,
+                    p.Beds,
+                    p.Baths
                     p.Postal,
                     p.Street,
                     p.Beds,

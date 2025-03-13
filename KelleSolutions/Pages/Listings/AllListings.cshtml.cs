@@ -43,6 +43,7 @@ namespace KelleSolutions.Pages.Listings {
 
             int totalListings = await query.CountAsync();
             TotalPages = (int)Math.Ceiling((double)totalListings / PageSize);
+            TotalPages = (int)Math.Ceiling((double)totalListings / PageSize);
 
             AllListings = await query
                 .OrderByDescending(l => l.Date)
@@ -64,3 +65,4 @@ namespace KelleSolutions.Pages.Listings {
         }
     }
 }
+

@@ -10,6 +10,14 @@ using System.Threading.Tasks;
 using KelleSolutions.Data;
 using KelleSolutions.Models;
 using KelleSolutions.Models.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using KelleSolutions.Data;
+using KelleSolutions.Models;
+using KelleSolutions.Models.ViewModels;
 
 namespace KelleSolutions.Pages.Listings {
     public class MyListingsModel : PageModel {
@@ -50,6 +58,7 @@ namespace KelleSolutions.Pages.Listings {
             // Fetch raw listings ordered by Created date
             var rawListings = await listingsQuery
                 .OrderByDescending(l => l.Created)
+                .OrderByDescending(l => l.Created)
                 .ToListAsync();
 
             AllListings = rawListings.Select(l => new ViewUserListings {
@@ -65,11 +74,13 @@ namespace KelleSolutions.Pages.Listings {
             }).ToList();
 
             // Paginate the listings
+            // Paginate the listings
             MyListings = AllListings
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
+            // Initialize the CreateListingModalModel
             // Initialize the CreateListingModalModel
             CreateListingModel = new CreateListingModalModel(_context, _userManager, User);
             await CreateListingModel.OnGetAsync();
@@ -91,6 +102,7 @@ namespace KelleSolutions.Pages.Listings {
         public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request) {
             var listing = await _context.Listings.FindAsync(request.Id);
             if (listing == null) {
+                return new JsonResult(new { success = false, message = "Listing not found" });
                 return new JsonResult(new { success = false, message = "Listing not found" });
             }
 

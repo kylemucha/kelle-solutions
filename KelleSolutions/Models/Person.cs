@@ -19,6 +19,17 @@ namespace KelleSolutions.Models
         // Created timestamp (datetime2 NOT NULL)
         [Required]
         [Column(TypeName = "datetime2")]
+        // Primary key: Code (int NOT NULL)
+        [Key]
+        public int Code { get; set; }
+
+        // Indicates if the person is archived (bit NOT NULL)
+        [Required]
+        public bool Archived { get; set; }
+
+        // Created timestamp (datetime2 NOT NULL)
+        [Required]
+        [Column(TypeName = "datetime2")]
         public DateTime Created { get; set; }
 
         // Updated timestamp (datetime2 NOT NULL)
