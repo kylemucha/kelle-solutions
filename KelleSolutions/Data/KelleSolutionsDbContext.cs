@@ -17,14 +17,14 @@ namespace KelleSolutions.Data
             base.OnModelCreating(builder);
 
             // Ensure roles exist before inserting them
-            if (!builder.Model.GetEntityTypes().Any(t => t.ClrType == typeof(IdentityRole)))
+            /*if (!builder.Model.GetEntityTypes().Any(t => t.ClrType == typeof(IdentityRole)))
             {
                 var admin = new IdentityRole("Admin") { NormalizedName = "ADMIN" };
                 var broker = new IdentityRole("Broker") { NormalizedName = "BROKER" };
                 var agent = new IdentityRole("Agent") { NormalizedName = "AGENT" };
 
                 builder.Entity<IdentityRole>().HasData(admin, broker, agent);
-            }
+            }*/
 
             // One Tenant can have Many Users
             builder.Entity<User>()
