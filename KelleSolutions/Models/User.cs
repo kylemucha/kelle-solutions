@@ -25,9 +25,9 @@ namespace KelleSolutions.Models
         public bool IsTenant { get; set; }
 
         // Foreign Key to Role Table
-        [ForeignKey("Role")]
+        /*[ForeignKey("Role")]
         public int RoleID { get; set; }
-        public virtual Role Role { get; set; } = null!;
+        public virtual Role Role { get; set; } = null!;*/
 
         // Foreign Key to Tenant Table (Restored from previous model)
         public int? TenantID { get; set; }  // Nullable in case a user is not assigned a tenant
