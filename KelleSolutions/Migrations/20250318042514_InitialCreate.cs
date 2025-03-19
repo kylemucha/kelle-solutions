@@ -68,38 +68,72 @@ namespace KelleSolutions.Migrations
                 name: "Entities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Code = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Archived = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Operator = table.Column<short>(type: "smallint", nullable: false),
+                    Team = table.Column<short>(type: "smallint", nullable: false),
+                    Visibility = table.Column<byte>(type: "tinyint", nullable: false),
+                    Category = table.Column<short>(type: "smallint", nullable: false),
+                    EntityName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    StateProvince = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Postal = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DoNot_Market = table.Column<bool>(type: "bit", nullable: false),
+                    DoNot_Contact = table.Column<bool>(type: "bit", nullable: false),
+                    Website = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Entities", x => x.Id);
+                    table.PrimaryKey("PK_Entities", x => x.Code);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Leads",
                 columns: table => new
                 {
-                    LeadID = table.Column<int>(type: "int", nullable: false)
+                    Code = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LeadName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AssignedTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LeadSource = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Archived = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Operator = table.Column<short>(type: "smallint", nullable: false),
+                    Originator = table.Column<short>(type: "smallint", nullable: false),
+                    Team = table.Column<short>(type: "smallint", nullable: false),
+                    Visibility = table.Column<byte>(type: "tinyint", nullable: false),
+                    Campaign = table.Column<int>(type: "int", nullable: true),
+                    Person = table.Column<int>(type: "int", nullable: true),
+                    StageWorked = table.Column<bool>(type: "bit", nullable: false),
+                    TempWarm = table.Column<bool>(type: "bit", nullable: false),
+                    NameFirst = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NameMiddle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NameLast = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    StateProvince = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Postal = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OrganizationName = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    OrganizationTitle = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    OriginatorFeeRate = table.Column<decimal>(type: "decimal(9,4)", nullable: false),
+                    OriginatorFeeFixed = table.Column<decimal>(type: "money", nullable: false),
+                    DoNotMarket = table.Column<bool>(type: "bit", nullable: false),
+                    DoNotContact = table.Column<bool>(type: "bit", nullable: false),
+                    Tracking = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leads", x => x.LeadID);
+                    table.PrimaryKey("PK_Leads", x => x.Code);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,8 +156,8 @@ namespace KelleSolutions.Migrations
                     PermissionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ResourceType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Action = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ResourceType = table.Column<int>(type: "int", nullable: false),
+                    Action = table.Column<int>(type: "int", nullable: false),
                     IsAllowed = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -140,17 +174,82 @@ namespace KelleSolutions.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Code = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Archived = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OperatorName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Operator = table.Column<short>(type: "smallint", nullable: false),
+                    Team = table.Column<short>(type: "smallint", nullable: false),
+                    Visibility = table.Column<byte>(type: "tinyint", nullable: false),
+                    Category = table.Column<short>(type: "smallint", nullable: false),
+                    MySource = table.Column<short>(type: "smallint", nullable: false),
+                    Verified = table.Column<bool>(type: "bit", nullable: false),
+                    VIP = table.Column<bool>(type: "bit", nullable: false),
+                    NameFirst = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NameMiddle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NameLast = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NameDisplay = table.Column<string>(type: "nvarchar(92)", maxLength: 92, nullable: false),
+                    Headline = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    EmailPrimary = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    EmailSecondary = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    EmailPrimaryLabel = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    EmailSecondaryLabel = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PhonePrimary = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PhoneSecondary = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PhonePrimaryLabel = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PhoneSecondaryLabel = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    StateProvince = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Postal = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DoNotMarket = table.Column<bool>(type: "bit", nullable: false),
+                    DoNotContact = table.Column<bool>(type: "bit", nullable: false),
+                    Tracking = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: true),
+                    Comments = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.Id);
+                    table.PrimaryKey("PK_Person", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Properties",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Archived = table.Column<bool>(type: "bit", nullable: false),
+                    Visibility = table.Column<byte>(type: "tinyint", nullable: false),
+                    Operator = table.Column<short>(type: "smallint", nullable: false),
+                    Team = table.Column<short>(type: "smallint", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Validated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MyType = table.Column<short>(type: "smallint", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
+                    StateProvince = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
+                    County = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Postal = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Residential = table.Column<bool>(type: "bit", nullable: false),
+                    Beds = table.Column<byte>(type: "tinyint", nullable: true),
+                    Baths = table.Column<byte>(type: "tinyint", nullable: true),
+                    BathsPartial = table.Column<byte>(type: "tinyint", nullable: true),
+                    Garages = table.Column<byte>(type: "tinyint", nullable: true),
+                    Constructed = table.Column<short>(type: "smallint", nullable: true),
+                    Remodeled = table.Column<short>(type: "smallint", nullable: true),
+                    SqFt_Land = table.Column<int>(type: "int", nullable: true),
+                    SqFt_Building = table.Column<int>(type: "int", nullable: true),
+                    APN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Comments = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Properties", x => x.Code);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,25 +344,28 @@ namespace KelleSolutions.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PermissionGroup",
+                name: "PermissionGroups",
                 columns: table => new
                 {
                     PermissionGroupID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PermissionID = table.Column<int>(type: "int", nullable: false),
                     GroupName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    ParentGroupID = table.Column<int>(type: "int", nullable: true)
+                    ParentGroupID = table.Column<int>(type: "int", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PermissionGroup", x => x.PermissionGroupID);
+                    table.PrimaryKey("PK_PermissionGroups", x => x.PermissionGroupID);
                     table.ForeignKey(
-                        name: "FK_PermissionGroup_PermissionGroup_ParentGroupID",
+                        name: "FK_PermissionGroups_PermissionGroups_ParentGroupID",
                         column: x => x.ParentGroupID,
-                        principalTable: "PermissionGroup",
-                        principalColumn: "PermissionGroupID");
+                        principalTable: "PermissionGroups",
+                        principalColumn: "PermissionGroupID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PermissionGroup_Permissions_PermissionID",
+                        name: "FK_PermissionGroups_Permissions_PermissionID",
                         column: x => x.PermissionID,
                         principalTable: "Permissions",
                         principalColumn: "PermissionID",
@@ -291,13 +393,13 @@ namespace KelleSolutions.Migrations
                         name: "FK_PersonToEntity_Entities_Entity",
                         column: x => x.Entity,
                         principalTable: "Entities",
-                        principalColumn: "Id",
+                        principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonToEntity_Person_Person",
                         column: x => x.Person,
                         principalTable: "Person",
-                        principalColumn: "Id",
+                        principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -313,8 +415,7 @@ namespace KelleSolutions.Migrations
                     PersonId = table.Column<int>(type: "int", nullable: false),
                     Person2Id = table.Column<int>(type: "int", nullable: false),
                     Relation = table.Column<short>(type: "smallint", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PersonId1 = table.Column<int>(type: "int", nullable: true)
+                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -323,19 +424,120 @@ namespace KelleSolutions.Migrations
                         name: "FK_PersonToPerson_Person_Person2Id",
                         column: x => x.Person2Id,
                         principalTable: "Person",
-                        principalColumn: "Id",
+                        principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonToPerson_Person_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Person",
-                        principalColumn: "Id",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Listings",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Archived = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Property = table.Column<int>(type: "int", nullable: false),
+                    MyStatus = table.Column<short>(type: "smallint", nullable: false),
+                    MySource = table.Column<short>(type: "smallint", nullable: false),
+                    Operator = table.Column<short>(type: "smallint", nullable: false),
+                    Team = table.Column<short>(type: "smallint", nullable: false),
+                    Visibility = table.Column<byte>(type: "tinyint", nullable: false),
+                    ExternalListing = table.Column<bool>(type: "bit", nullable: true),
+                    PocketListing = table.Column<bool>(type: "bit", nullable: true),
+                    OnMarket = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Listed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Accepted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Closed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Price = table.Column<decimal>(type: "money", nullable: true),
+                    Price_Actual = table.Column<decimal>(type: "money", nullable: true),
+                    CommissionRate = table.Column<decimal>(type: "decimal(6,4)", nullable: true),
+                    CommissionFixed = table.Column<decimal>(type: "money", nullable: true),
+                    CommissionActual = table.Column<decimal>(type: "money", nullable: true),
+                    DisplayOnWebsite = table.Column<bool>(type: "bit", nullable: true),
+                    DisplayPriority = table.Column<byte>(type: "tinyint", nullable: true),
+                    MLS_ID = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true),
+                    MLS_URL = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true),
+                    Comments = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Listings", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_Listings_Properties_Property",
+                        column: x => x.Property,
+                        principalTable: "Properties",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PersonToProperties",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Deprecated = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "DateTime2", nullable: false),
+                    Creator = table.Column<short>(type: "smallint", nullable: false),
+                    Person = table.Column<int>(type: "int", nullable: false),
+                    Properties = table.Column<int>(type: "int", nullable: false),
+                    Relation = table.Column<short>(type: "smallint", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonToProperties", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_PersonToProperties_Person_Person",
+                        column: x => x.Person,
+                        principalTable: "Person",
+                        principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PersonToPerson_Person_PersonId1",
-                        column: x => x.PersonId1,
+                        name: "FK_PersonToProperties_Properties_Properties",
+                        column: x => x.Properties,
+                        principalTable: "Properties",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SellerIDMappings",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonID = table.Column<int>(type: "int", nullable: false),
+                    PropertyID = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SellerIDMappings", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_SellerIDMappings_Person_PersonID",
+                        column: x => x.PersonID,
                         principalTable: "Person",
-                        principalColumn: "Id");
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SellerIDMappings_Properties_PropertyID",
+                        column: x => x.PropertyID,
+                        principalTable: "Properties",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -348,10 +550,10 @@ namespace KelleSolutions.Migrations
                     Affiliation = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     LicenseNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsTenant = table.Column<bool>(type: "bit", nullable: false),
-                    RoleID = table.Column<int>(type: "int", nullable: false),
                     TenantID = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoleID = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -374,8 +576,7 @@ namespace KelleSolutions.Migrations
                         name: "FK_AspNetUsers_Role_RoleID",
                         column: x => x.RoleID,
                         principalTable: "Role",
-                        principalColumn: "RoleID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RoleID");
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Tenant_TenantID",
                         column: x => x.TenantID,
@@ -402,9 +603,9 @@ namespace KelleSolutions.Migrations
                         principalColumn: "PageAccessID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RolePermissionGroupEntity_PermissionGroup_PermissionGroupID",
+                        name: "FK_RolePermissionGroupEntity_PermissionGroups_PermissionGroupID",
                         column: x => x.PermissionGroupID,
-                        principalTable: "PermissionGroup",
+                        principalTable: "PermissionGroups",
                         principalColumn: "PermissionGroupID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -413,6 +614,32 @@ namespace KelleSolutions.Migrations
                         principalTable: "Role",
                         principalColumn: "RoleID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PersonToListing",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    ListingId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonToListing", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_PersonToListing_Listings_ListingId",
+                        column: x => x.ListingId,
+                        principalTable: "Listings",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PersonToListing_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -521,50 +748,6 @@ namespace KelleSolutions.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Properties",
-                columns: table => new
-                {
-                    PropertyID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OwnerID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsArchived = table.Column<bool>(type: "bit", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Size = table.Column<int>(type: "int", nullable: true),
-                    LandSize = table.Column<int>(type: "int", nullable: true),
-                    BedCount = table.Column<int>(type: "int", nullable: false),
-                    BathCount = table.Column<int>(type: "int", nullable: false),
-                    GarageCount = table.Column<int>(type: "int", nullable: false),
-                    IsComplex = table.Column<bool>(type: "bit", nullable: false),
-                    PartialCount = table.Column<int>(type: "int", nullable: false),
-                    YearConstructed = table.Column<int>(type: "int", nullable: false),
-                    IsRemodeled = table.Column<bool>(type: "bit", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    PropertyType = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TenantID = table.Column<int>(type: "int", nullable: true),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Properties", x => x.PropertyID);
-                    table.ForeignKey(
-                        name: "FK_Properties_AspNetUsers_UserID",
-                        column: x => x.UserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Properties_Tenant_TenantID",
-                        column: x => x.TenantID,
-                        principalTable: "Tenant",
-                        principalColumn: "TenantID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TenantToPeople",
                 columns: table => new
                 {
@@ -590,142 +773,14 @@ namespace KelleSolutions.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Listings",
-                columns: table => new
-                {
-                    ListingID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PropertyID = table.Column<int>(type: "int", nullable: false),
-                    AgentID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ListingType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    Affiliation = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Listings", x => x.ListingID);
-                    table.ForeignKey(
-                        name: "FK_Listings_AspNetUsers_AgentID",
-                        column: x => x.AgentID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Listings_Properties_PropertyID",
-                        column: x => x.PropertyID,
-                        principalTable: "Properties",
-                        principalColumn: "PropertyID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PersonToProperties",
-                columns: table => new
-                {
-                    Code = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Deprecated = table.Column<bool>(type: "bit", nullable: false),
-                    Created = table.Column<DateTime>(type: "DateTime2", nullable: false),
-                    Creator = table.Column<short>(type: "smallint", nullable: false),
-                    Person = table.Column<int>(type: "int", nullable: false),
-                    Properties = table.Column<int>(type: "int", nullable: false),
-                    Relation = table.Column<short>(type: "smallint", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PersonToProperties", x => x.Code);
-                    table.ForeignKey(
-                        name: "FK_PersonToProperties_Person_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Person",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PersonToProperties_Person_Properties",
-                        column: x => x.Properties,
-                        principalTable: "Person",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PersonToProperties_Properties_Properties",
-                        column: x => x.Properties,
-                        principalTable: "Properties",
-                        principalColumn: "PropertyID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SellerIDMappings",
-                columns: table => new
-                {
-                    Code = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonID = table.Column<int>(type: "int", nullable: false),
-                    PropertyID = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SellerIDMappings", x => x.Code);
-                    table.ForeignKey(
-                        name: "FK_SellerIDMappings_Person_PersonID",
-                        column: x => x.PersonID,
-                        principalTable: "Person",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SellerIDMappings_Properties_PropertyID",
-                        column: x => x.PropertyID,
-                        principalTable: "Properties",
-                        principalColumn: "PropertyID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PersonToListing",
-                columns: table => new
-                {
-                    Code = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
-                    ListingId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PersonToListing", x => x.Code);
-                    table.ForeignKey(
-                        name: "FK_PersonToListing_Listings_ListingId",
-                        column: x => x.ListingId,
-                        principalTable: "Listings",
-                        principalColumn: "ListingID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PersonToListing_Person_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Person",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3810b99b-904e-4e96-94e9-bdeb28f50098", null, "Broker", "BROKER" },
-                    { "537cfb63-3d1e-4ceb-b498-83aefb065476", null, "Admin", "ADMIN" },
-                    { "cc08ea00-7b53-43bd-bf58-0c4fa4d737bf", null, "Agent", "AGENT" }
+                    { "792da7b1-5c69-4d77-ae0f-667f31444749", null, "Broker", "BROKER" },
+                    { "cf4cd97f-8687-4a7d-8c22-5499bf8aacd1", null, "Agent", "AGENT" },
+                    { "e9f24567-73c0-4173-8dc6-6c1720bfc6af", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -784,23 +839,18 @@ namespace KelleSolutions.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Listings_AgentID",
+                name: "IX_Listings_Property",
                 table: "Listings",
-                column: "AgentID");
+                column: "Property");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Listings_PropertyID",
-                table: "Listings",
-                column: "PropertyID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PermissionGroup_ParentGroupID",
-                table: "PermissionGroup",
+                name: "IX_PermissionGroups_ParentGroupID",
+                table: "PermissionGroups",
                 column: "ParentGroupID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionGroup_PermissionID",
-                table: "PermissionGroup",
+                name: "IX_PermissionGroups_PermissionID",
+                table: "PermissionGroups",
                 column: "PermissionID");
 
             migrationBuilder.CreateIndex(
@@ -834,29 +884,14 @@ namespace KelleSolutions.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonToPerson_PersonId1",
-                table: "PersonToPerson",
-                column: "PersonId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersonToProperties_PersonId",
+                name: "IX_PersonToProperties_Person",
                 table: "PersonToProperties",
-                column: "PersonId");
+                column: "Person");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersonToProperties_Properties",
                 table: "PersonToProperties",
                 column: "Properties");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Properties_TenantID",
-                table: "Properties",
-                column: "TenantID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Properties_UserID",
-                table: "Properties",
-                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermissionGroupEntity_PageAccessID",
@@ -954,19 +989,19 @@ namespace KelleSolutions.Migrations
                 name: "PageAccess");
 
             migrationBuilder.DropTable(
-                name: "PermissionGroup");
+                name: "PermissionGroups");
 
             migrationBuilder.DropTable(
                 name: "Person");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Properties");
 
             migrationBuilder.DropTable(
                 name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Role");
