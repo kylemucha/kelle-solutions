@@ -88,10 +88,9 @@ namespace KelleSolutions.Models
         [Required]
         public bool DoNot_Contact { get; set; }
 
-        // Website (varchar(2048) NOT NULL)
-        [Required(ErrorMessage = "Website is required")]
+        // Website (varchar(2048))
         [StringLength(2048)]
-        public string Website { get; set; }
+        public string? Website { get; set; }
 
         // Comments (varchar(2048), optional)
         [StringLength(2048)]

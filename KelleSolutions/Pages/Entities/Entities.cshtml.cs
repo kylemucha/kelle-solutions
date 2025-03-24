@@ -6,6 +6,7 @@ using KelleSolutions.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace KelleSolutions.Pages.Entities
 {
@@ -22,9 +23,9 @@ namespace KelleSolutions.Pages.Entities
 
         public async Task OnGetAsync()
         {
-            // Use Code as the key property
             Entities = await _context.Entities
-                .OrderBy(e => e.Code)
+                .Where(e => !e.Archived)
+                .OrderBy(e => e.EntityName)
                 .ToListAsync();
         }
 
@@ -36,34 +37,58 @@ namespace KelleSolutions.Pages.Entities
                 return NotFound();
             }
 
-            // Update entity from form values with new field names
-            entity.EntityName = Request.Form["EntityName"];
-            if (int.TryParse(Request.Form["Category"], out int catValue))
+            try
             {
-                entity.Category = (CategoryEnum)catValue;
-            }
-            entity.Phone = Request.Form["Phone"];
-            entity.Country = Request.Form["Country"];
-            entity.City = Request.Form["City"];
-            entity.StateProvince = Request.Form["StateProvince"];
-            entity.Postal = Request.Form["Postal"];
-            entity.Street = Request.Form["Street"];
-            entity.Website = Request.Form["Website"];
-            entity.Comments = Request.Form["Comments"];
+                // Update entity from form values
+                entity.EntityName = Request.Form["EntityName"];
+                if (int.TryParse(Request.Form["Category"], out int catValue))
+                {
+                    entity.Category = (CategoryEnum)catValue;
+                }
+                entity.Phone = Request.Form["Phone"];
+                entity.Country = Request.Form["Country"];
+                entity.City = Request.Form["City"];
+                entity.StateProvince = Request.Form["StateProvince"];
+                entity.Postal = Request.Form["Postal"];
+                entity.Street = Request.Form["Street"];
+                entity.Updated = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
-            return RedirectToPage();
+                await _context.SaveChangesAsync();
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                // Load the entities list before returning the page
+                Entities = await _context.Entities
+                    .Where(e => !e.Archived)
+                    .OrderBy(e => e.EntityName)
+                    .ToListAsync();
+                ModelState.AddModelError("", "Error updating the entity. Please try again.");
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             var entity = await _context.Entities.FindAsync(id);
-            if (entity != null)
+            if (entity == null)
             {
-                _context.Entities.Remove(entity);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            return RedirectToPage();
+
+            try
+            {
+                // Soft delete by setting Archived flag
+                entity.Archived = true;
+                entity.Updated = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error deleting the entity. Please try again.");
+                return Page();
+            }
         }
     }
 }

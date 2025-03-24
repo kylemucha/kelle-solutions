@@ -1,4 +1,5 @@
 @page
+@using KelleSolutions.Models
 @model KelleSolutions.Pages.Entities.CreateEntitiesModel
 @{
     ViewData["Title"] = "Add New Vendor";
@@ -21,23 +22,38 @@
     </p>
 </div>
 
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var modelState in ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
 <div class="content-container">
     <form method="post" class="form-group">
         <!-- Business Name -->
         <div class="mb-3">
             <label asp-for="Entity.EntityName" class="form-label">Business Name</label>
-            <input asp-for="Entity.EntityName" class="form-control" />
+            <input asp-for="Entity.EntityName" class="form-control" required />
             <span asp-validation-for="Entity.EntityName" class="text-danger"></span>
         </div>
 
         <!-- Category dropdown -->
         <div class="mb-3">
             <label asp-for="Entity.Category" class="form-label">Category</label>
-            <select asp-for="Entity.Category" class="form-control form-select">
+            <select asp-for="Entity.Category" class="form-control form-select" required>
                 <option value="">Select Category</option>
-                <option value="0">Broker</option>
-                <option value="1">Contractor</option>
-                <option value="2">Escrow</option>
+                <option value="@((int)CategoryEnum.Category1)">Broker</option>
+                <option value="@((int)CategoryEnum.Category2)">Contractor</option>
+                <option value="@((int)CategoryEnum.Category3)">Escrow</option>
             </select>
             <span asp-validation-for="Entity.Category" class="text-danger"></span>
         </div>
@@ -45,42 +61,42 @@
         <!-- Phone -->
         <div class="mb-3">
             <label asp-for="Entity.Phone" class="form-label">Phone Number</label>
-            <input asp-for="Entity.Phone" class="form-control" type="tel" />
+            <input asp-for="Entity.Phone" class="form-control" type="tel" required />
             <span asp-validation-for="Entity.Phone" class="text-danger"></span>
         </div>
 
         <!-- Location: Country -->
         <div class="mb-3">
             <label asp-for="Entity.Country" class="form-label">Country</label>
-            <input asp-for="Entity.Country" class="form-control" />
+            <input asp-for="Entity.Country" class="form-control" required />
             <span asp-validation-for="Entity.Country" class="text-danger"></span>
         </div>
 
         <!-- Location: State/Province -->
         <div class="mb-3">
             <label asp-for="Entity.StateProvince" class="form-label">State/Province</label>
-            <input asp-for="Entity.StateProvince" class="form-control" />
+            <input asp-for="Entity.StateProvince" class="form-control" required />
             <span asp-validation-for="Entity.StateProvince" class="text-danger"></span>
         </div>
 
         <!-- Location: City -->
         <div class="mb-3">
             <label asp-for="Entity.City" class="form-label">City</label>
-            <input asp-for="Entity.City" class="form-control" />
+            <input asp-for="Entity.City" class="form-control" required />
             <span asp-validation-for="Entity.City" class="text-danger"></span>
         </div>
 
         <!-- Location: Postal Code -->
         <div class="mb-3">
             <label asp-for="Entity.Postal" class="form-label">Postal Code</label>
-            <input asp-for="Entity.Postal" class="form-control" />
+            <input asp-for="Entity.Postal" class="form-control" required />
             <span asp-validation-for="Entity.Postal" class="text-danger"></span>
         </div>
 
         <!-- Location: Street Address -->
         <div class="mb-3">
             <label asp-for="Entity.Street" class="form-label">Street Address</label>
-            <input asp-for="Entity.Street" class="form-control" />
+            <input asp-for="Entity.Street" class="form-control" required />
             <span asp-validation-for="Entity.Street" class="text-danger"></span>
         </div>
 
@@ -93,4 +109,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Add client-side validation
+        $(document).ready(function() {
+            $('form').submit(function(e) {
+                if (!this.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                $(this).addClass('was-validated');
+            });
+        });
+    </script>
 }

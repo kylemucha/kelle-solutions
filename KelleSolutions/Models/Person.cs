@@ -178,7 +178,8 @@ namespace KelleSolutions.Models
     public enum CategoryEnum : short
     {
         Category1 = 0,
-        Category2 = 1
+        Category2 = 1,
+        Category3 = 2
         // Extend with additional categories as needed
     }
 
