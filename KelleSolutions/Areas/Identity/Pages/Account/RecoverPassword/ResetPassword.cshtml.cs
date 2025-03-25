@@ -84,7 +84,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             user.ResetCodeExpiry = null;
             await _userManager.UpdateAsync(user);
 
-            return RedirectToPage("./Login");
+            return RedirectToPage("../Login/Login");
         }
     }
 }
