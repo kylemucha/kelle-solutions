@@ -1,96 +1,79 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 using KelleSolutions.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 
-namespace KelleSolutions.Areas.Identity.Pages.Account
+public class ForgotPasswordModel : PageModel
 {
-    public class ForgotPasswordModel : PageModel
+    private readonly UserManager<User> _userManager;
+    private readonly EmailService _emailService;
+    private readonly ILogger<ForgotPasswordModel> _logger;
+
+    public ForgotPasswordModel(UserManager<User> userManager, EmailService emailService, ILogger<ForgotPasswordModel> logger)
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IEmailSender _emailSender;
+        _userManager = userManager;
+        _emailService = emailService;
+        _logger = logger;
+    }
 
-        public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
+    [BindProperty]
+    public InputModel Input { get; set; }
+
+    public class InputModel
+    {
+        public string Email { get; set; }
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid)
         {
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required (ErrorMessage = "Please enter a valid Email or Phone Number.")]
-            public string EmailOrPhoneNum {get; set;}
-
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                //finding if the user exists by phone number or email
-
-                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == Input.EmailOrPhoneNum || u.Email == Input.EmailOrPhoneNum);
-
-                if (user == null)
-                {
-                    // Don't go to the next page if user does not exists
-                    ModelState.AddModelError("", "Invalid email or phone number.");
-                    return Page();
-                }
-
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                // Make var code available for use in PasswordRecoverVerification
-                TempData["PasswordResetCode"] = code;
-
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme
-                );
-
-                await _emailSender.SendEmailAsync(
-                    Input.EmailOrPhoneNum,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
-                    );
-
-                return RedirectToPage("./PasswordRecoverVerification");
-            }
-
             return Page();
+        }        
+
+        // Store the email in TempData for use in verification step
+        TempData["Email"] = Input.Email;
+
+        // Check if email is associated with an account
+        var user = await _userManager.FindByEmailAsync(Input.Email);
+        if (user == null)
+        {
+            // Prevent user enumeration attacks by always redirecting to the confirmation page
+            return RedirectToPage("./PasswordRecoverVerification");
         }
+
+        // Generate a 6-digit reset code
+        string resetCode = GenerateResetCode();
+
+        TempData["Code"] = resetCode;
+
+        // Store the reset code securely (e.g., in the user database or cache)
+        var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+        user.PasswordResetToken = resetToken;  // Store the actual token
+        int expiryTime = 10;
+        user.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(expiryTime);
+        await _userManager.UpdateAsync(user);
+
+        // Email content
+        string subject = "Your Password Reset Code";
+        string body = $"<p>Your password reset code is: <strong>{resetCode}</strong></p><p>This code will expire in {expiryTime} minutes.</p>";
+
+        _logger.LogInformation("Code: {resetCode}", resetCode);
+
+        // Send the email
+        await _emailService.SendEmailAsync(Input.Email, subject, body);
+
+        return RedirectToPage("./PasswordRecoverVerification", new { email = Input.Email });
+    }
+
+    private string GenerateResetCode()
+    {
+        Random random = new Random();
+        return random.Next(100000, 999999).ToString(); // Generates a 6-digit code
     }
 }

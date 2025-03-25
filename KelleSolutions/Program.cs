@@ -30,6 +30,8 @@ builder.Services.AddCors(options =>
                             .AllowAnyHeader());
     });
 
+builder.Services.AddScoped<EmailService>();
+
 var app = builder.Build();
 
 // **Run the migrations**

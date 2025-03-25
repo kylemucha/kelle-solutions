@@ -40,5 +40,8 @@ namespace KelleSolutions.Models
         public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
 
         public virtual Dashboard Dashboard { get; set; } // One-to-One relationship
+
+        public string? PasswordResetToken { get; set; }
+        public DateTime? ResetCodeExpiry { get; set; }
     }
 }
