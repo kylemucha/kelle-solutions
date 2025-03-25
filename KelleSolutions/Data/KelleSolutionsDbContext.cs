@@ -236,8 +236,5 @@ namespace KelleSolutions.Data
         //DbSet for SellerIDMappings
         public DbSet<SellerIDMapping> SellerIDMappings { get; set; }
 
-        //DbSet for Roles
-        public DbSet<Role> Roles { get; set; }
-
     }
 }
