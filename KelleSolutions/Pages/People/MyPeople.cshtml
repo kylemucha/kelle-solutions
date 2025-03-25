@@ -104,7 +104,7 @@
             @foreach (var item in Model.ViewUserPeople)
             {
                 <tr>
-                    <td><a href="ViewPerson" style="text-decoration: none;">@item.ID</a></td>
+                    <td><a href="/People/ViewPerson?code=@item.ID" style="text-decoration: none;">@item.ID</a></td>
                     <td>@item.LastName</td>
                     <td>@item.FirstName</td>
                     <td>@item.Phone</td>

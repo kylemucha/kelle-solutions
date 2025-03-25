@@ -4,6 +4,7 @@ using KelleSolutions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    partial class KelleSolutionsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325062424_AddSellerIDAndStatusMapping")]
+    partial class AddSellerIDAndStatusMapping
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -692,7 +695,7 @@ namespace KelleSolutions.Migrations
 
                     b.HasKey("Code");
 
-                    b.ToTable("People");
+                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.PersonToEntity", b =>
@@ -1302,19 +1305,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "621bf771-cd59-4223-a7f2-59de8e092fbc",
+                            Id = "f90ad76d-22e5-4afc-b8a6-5d2d90cde67c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "89d5ab8f-78e1-4ad9-b571-35c7d051b2cf",
+                            Id = "08c91f1f-e00f-498b-a7aa-1d34f6f0e1f7",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "3c33e807-11ed-4bc2-8f66-a0b6d442febf",
+                            Id = "cf6d99ac-bb79-41e7-8eb5-9a076378bf25",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });

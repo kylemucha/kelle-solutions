@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using KelleSolutions.Models;
+using KelleSolutions.Data;
 using System;
 using System.Threading.Tasks;
 
@@ -10,12 +11,14 @@ namespace KelleSolutions.Pages.People
     public class CreatePersonModel : PageModel
     {
         private readonly UserManager<User> _userManager;
+        private readonly KelleSolutionsDbContext _context;
 
-        public CreatePersonModel(UserManager<User> userManager)
+        public CreatePersonModel(UserManager<User> userManager, KelleSolutionsDbContext context)
         {
             _userManager = userManager;
-
-            // Initialize an empty person with default values.
+            _context = context;
+            
+            // initialize an empty person with default values
             Person = new PersonViewModel
             {
                 NameFirst = string.Empty,
@@ -56,16 +59,69 @@ namespace KelleSolutions.Pages.People
             try
             {
                 var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null)
+                {
+                    return RedirectToPage("/Account/Login");
+                }
 
-                // Here you would normally map the view model to your Person entity
-                // and set additional fields like Created, Updated, Archived, etc.
-                // For now, we assume the data is saved successfully.
+                // create a new Person entity and map the view model data to it
+                var personEntity = new Person
+                {
+                    // Basic information
+                    NameFirst = Person.NameFirst,
+                    NameMiddle = Person.NameMiddle ?? string.Empty,
+                    NameLast = Person.NameLast,
+                    NameDisplay = !string.IsNullOrEmpty(Person.NameDisplay) ? 
+                        Person.NameDisplay : 
+                        $"{Person.NameFirst} {Person.NameLast}",
+                    Headline = Person.Headline ?? string.Empty,
+                    
+                    // Contact information
+                    EmailPrimary = Person.EmailPrimary,
+                    EmailSecondary = Person.EmailSecondary ?? string.Empty,
+                    EmailPrimaryLabel = "Primary",
+                    EmailSecondaryLabel = "Secondary",
+                    PhonePrimary = Person.PhonePrimary,
+                    PhoneSecondary = Person.PhoneSecondary ?? string.Empty,
+                    PhonePrimaryLabel = Person.PhonePrimaryLabel ?? "Primary",
+                    PhoneSecondaryLabel = Person.PhoneSecondaryLabel ?? "Secondary",
+                    
+                    // Address information
+                    Street = Person.Street,
+                    City = Person.City,
+                    StateProvince = Person.StateProvince,
+                    Postal = Person.Postal,
+                    Country = Person.Country,
+                    
+                    // System fields
+                    Created = DateTime.UtcNow,
+                    Updated = DateTime.UtcNow,
+                    Archived = false,
+                    Operator = OperatorEnum.Operator1,
+                    Team = TeamEnum.TeamA,
+                    Visibility = VisibilityEnum.Medium,
+                    Category = CategoryEnum.Category1,
+                    MySource = MySourceEnum.Internal,
+                    Verified = false,
+                    VIP = false,
+                    DoNotMarket = false,
+                    DoNotContact = false,
+                    
+                    // Additional fields
+                    Tracking = string.Empty,
+                    Comments = Person.Notes ?? string.Empty,
+                    Bio = string.Empty
+                };
+
+                // Add to database and save changes
+                _context.People.Add(personEntity);
+                await _context.SaveChangesAsync();
 
                 return RedirectToPage("/People/People");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "An error occurred. Please try again.");
+                ModelState.AddModelError("", "An error occurred while saving the person. Please try again.");
                 Console.WriteLine($"Error: {ex.Message}");
                 return Page();
             }
@@ -91,8 +147,5 @@ namespace KelleSolutions.Pages.People
         public string Postal { get; set; }
         public string Country { get; set; }
         public string Notes { get; set; }
-
-        // Additional fields such as DoNotMarket, DoNotContact, Tracking, Comments, or Bio
-        // can be added here if you want them to be editable via the UI.
     }
 }

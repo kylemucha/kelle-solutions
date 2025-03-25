@@ -189,6 +189,9 @@ namespace KelleSolutions.Data
         // DbSet for Listings
         public DbSet<Listing> Listings { get; set; }
 
+        // DbSet for People
+        public DbSet<Person> People { get; set; }
+
         // DbSet for Transactions
         public DbSet<Transaction> Transactions { get; set; }
 
