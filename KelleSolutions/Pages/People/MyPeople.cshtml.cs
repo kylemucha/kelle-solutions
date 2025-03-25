@@ -1,15 +1,19 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using KelleSolutions.Data;
+using KelleSolutions.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace KelleSolutions.Pages.People
 {
     public class ViewPeopleModel : PageModel
     {
-        public List<ViewUserPeople> AllPeople { get; set; }
-        public List<ViewUserPeople> ViewUserPeople { get; set; }
+        private readonly KelleSolutionsDbContext _context;
+        private readonly UserManager<User> _userManager;
+
+        public required List<Person> AllPeople { get; set; }
+        public required List<Person> ViewUserPeople { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public int PageSize { get; set; } = 10;
@@ -17,42 +21,37 @@ namespace KelleSolutions.Pages.People
         [BindProperty(SupportsGet = true)]
         public int PageNumber { get; set; } = 1;
 
-        public int TotalPages => (int)System.Math.Ceiling((double)AllPeople.Count / PageSize);
+        public int TotalPages => (int)Math.Ceiling(AllPeople.Count / (double)PageSize);
 
-        public void OnGet()
+        public ViewPeopleModel(KelleSolutionsDbContext context, UserManager<User> userManager)
         {
-            // Sample Data
-            AllPeople = new List<ViewUserPeople>();
-            for (int i = 1; i <= 128; i++)
-            {
-                AllPeople.Add(new ViewUserPeople
-                {
-                    ID = i,
-                    LastName = "Stone",
-                    FirstName = "Billy",
-                    Phone = "1234567890", // Changed from int to string
-                    Email = "billy@test.com",
-                    CreationDate = new DateOnly(2024, 4, 12),
-                    Category = "Partner" // For example: Agent, Vendor, Client, Friend, etc.
-                });
-            }
+            _context = context;
+            _userManager = userManager;
+        }
 
-            // Apply Pagination
+        public async Task OnGetAsync()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var roles = await _userManager.GetRolesAsync(currentUser);
+
+            bool isAdmin = roles.Contains("Admin");
+            bool isBroker = roles.Contains("Broker");
+            bool isAgent = roles.Contains("Agent");
+
+            IQueryable<Person> query = _context.Person
+                .Where(p => _context.TenantToPeople
+                    .Any(tp => tp.PersonID == p.Code && tp.TenantID == currentUser.TenantID && (
+                        (isAdmin) ||
+                        (isBroker && tp.Role == "Broker") ||
+                        (isAgent && tp.Role == "Agent")
+                    )));
+
+            AllPeople = await query.OrderByDescending(p => p.Created).ToListAsync();
+
             ViewUserPeople = AllPeople
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
         }
-    }
-
-    public class ViewUserPeople
-    {
-        public int ID { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public string Phone { get; set; } // Updated to string
-        public string Email { get; set; }
-        public DateOnly CreationDate { get; set; }
-        public string Category { get; set; }
     }
 }

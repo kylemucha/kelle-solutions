@@ -253,19 +253,6 @@ namespace KelleSolutions.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
-                columns: table => new
-                {
-                    RoleID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Role", x => x.RoleID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StatusMappings",
                 columns: table => new
                 {
@@ -415,7 +402,8 @@ namespace KelleSolutions.Migrations
                     PersonId = table.Column<int>(type: "int", nullable: false),
                     Person2Id = table.Column<int>(type: "int", nullable: false),
                     Relation = table.Column<short>(type: "smallint", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Comments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    RelatedId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -553,7 +541,6 @@ namespace KelleSolutions.Migrations
                     TenantID = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoleID = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -573,11 +560,6 @@ namespace KelleSolutions.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID");
-                    table.ForeignKey(
                         name: "FK_AspNetUsers_Tenant_TenantID",
                         column: x => x.TenantID,
                         principalTable: "Tenant",
@@ -589,13 +571,19 @@ namespace KelleSolutions.Migrations
                 name: "RolePermissionGroupEntity",
                 columns: table => new
                 {
-                    RoleID = table.Column<int>(type: "int", nullable: false),
+                    RoleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PermissionGroupID = table.Column<int>(type: "int", nullable: false),
                     PageAccessID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RolePermissionGroupEntity", x => new { x.RoleID, x.PermissionGroupID, x.PageAccessID });
+                    table.ForeignKey(
+                        name: "FK_RolePermissionGroupEntity_AspNetRoles_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RolePermissionGroupEntity_PageAccess_PageAccessID",
                         column: x => x.PageAccessID,
@@ -607,12 +595,6 @@ namespace KelleSolutions.Migrations
                         column: x => x.PermissionGroupID,
                         principalTable: "PermissionGroups",
                         principalColumn: "PermissionGroupID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RolePermissionGroupEntity_Role_RoleID",
-                        column: x => x.RoleID,
-                        principalTable: "Role",
-                        principalColumn: "RoleID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -752,18 +734,25 @@ namespace KelleSolutions.Migrations
                 columns: table => new
                 {
                     TenantID = table.Column<int>(type: "int", nullable: false),
-                    PersonID = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    PersonID = table.Column<int>(type: "int", nullable: false),
                     TenantToPersonID = table.Column<int>(type: "int", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    AssignedToUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssignedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TenantToPeople", x => new { x.TenantID, x.PersonID });
                     table.ForeignKey(
-                        name: "FK_TenantToPeople_AspNetUsers_PersonID",
-                        column: x => x.PersonID,
+                        name: "FK_TenantToPeople_AspNetUsers_AssignedUserId",
+                        column: x => x.AssignedUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TenantToPeople_Person_PersonID",
+                        column: x => x.PersonID,
+                        principalTable: "Person",
+                        principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TenantToPeople_Tenant_TenantID",
@@ -778,9 +767,9 @@ namespace KelleSolutions.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "792da7b1-5c69-4d77-ae0f-667f31444749", null, "Broker", "BROKER" },
-                    { "cf4cd97f-8687-4a7d-8c22-5499bf8aacd1", null, "Agent", "AGENT" },
-                    { "e9f24567-73c0-4173-8dc6-6c1720bfc6af", null, "Admin", "ADMIN" }
+                    { "59d417ad-ea02-4b33-899f-2c166b6b5248", null, "Agent", "AGENT" },
+                    { "6e9f1cd6-18cc-4d45-bf37-d969380efcb6", null, "Broker", "BROKER" },
+                    { "7dfacf67-4e12-4651-9234-6ec888924c84", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -814,11 +803,6 @@ namespace KelleSolutions.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_RoleID",
-                table: "AspNetUsers",
-                column: "RoleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_TenantID",
@@ -914,6 +898,11 @@ namespace KelleSolutions.Migrations
                 column: "PropertyID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TenantToPeople_AssignedUserId",
+                table: "TenantToPeople",
+                column: "AssignedUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TenantToPeople_PersonID",
                 table: "TenantToPeople",
                 column: "PersonID");
@@ -977,13 +966,13 @@ namespace KelleSolutions.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
                 name: "Entities");
 
             migrationBuilder.DropTable(
                 name: "Listings");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "PageAccess");
@@ -992,19 +981,16 @@ namespace KelleSolutions.Migrations
                 name: "PermissionGroups");
 
             migrationBuilder.DropTable(
-                name: "Person");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "Properties");
 
             migrationBuilder.DropTable(
                 name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Tenant");

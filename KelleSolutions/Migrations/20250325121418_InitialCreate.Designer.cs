@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20250318042514_InitialCreate")]
+    [Migration("20250325121418_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -791,6 +791,9 @@ namespace KelleSolutions.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
+                    b.Property<int>("RelatedId")
+                        .HasColumnType("int");
+
                     b.Property<short>("Relation")
                         .HasColumnType("smallint");
 
@@ -942,28 +945,10 @@ namespace KelleSolutions.Migrations
                     b.ToTable("Properties");
                 });
 
-            modelBuilder.Entity("KelleSolutions.Models.Role", b =>
-                {
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("RoleID");
-
-                    b.ToTable("Role");
-                });
-
             modelBuilder.Entity("KelleSolutions.Models.RolePermissionGroupEntity", b =>
                 {
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PermissionGroupID")
                         .HasColumnType("int");
@@ -1104,8 +1089,13 @@ namespace KelleSolutions.Migrations
                     b.Property<int>("TenantID")
                         .HasColumnType("int");
 
-                    b.Property<string>("PersonID")
-                        .HasMaxLength(450)
+                    b.Property<int>("PersonID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AssignedToUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AssignedUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Role")
@@ -1117,6 +1107,8 @@ namespace KelleSolutions.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TenantID", "PersonID");
+
+                    b.HasIndex("AssignedUserId");
 
                     b.HasIndex("PersonID");
 
@@ -1238,9 +1230,6 @@ namespace KelleSolutions.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RoleID")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -1263,8 +1252,6 @@ namespace KelleSolutions.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("RoleID");
 
                     b.HasIndex("TenantID");
 
@@ -1300,19 +1287,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e9f24567-73c0-4173-8dc6-6c1720bfc6af",
+                            Id = "7dfacf67-4e12-4651-9234-6ec888924c84",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "792da7b1-5c69-4d77-ae0f-667f31444749",
+                            Id = "6e9f1cd6-18cc-4d45-bf37-d969380efcb6",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "cf4cd97f-8687-4a7d-8c22-5499bf8aacd1",
+                            Id = "59d417ad-ea02-4b33-899f-2c166b6b5248",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });
@@ -1558,11 +1545,12 @@ namespace KelleSolutions.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KelleSolutions.Models.Role", "RoleNavigation")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "RoleNavigation")
                         .WithMany()
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_RolePermissionGroupEntity_AspNetRoles_RoleID");
 
                     b.Navigation("PageAccess");
 
@@ -1592,12 +1580,16 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.TenantToPerson", b =>
                 {
-                    b.HasOne("KelleSolutions.Models.User", "Person")
+                    b.HasOne("KelleSolutions.Models.User", "AssignedUser")
+                        .WithMany()
+                        .HasForeignKey("AssignedUserId");
+
+                    b.HasOne("KelleSolutions.Models.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_TenantToPeople_AspNetUsers_PersonID");
+                        .HasConstraintName("FK_TenantToPeople_Person_PersonID");
 
                     b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
                         .WithMany("TenantToPeople")
@@ -1606,6 +1598,8 @@ namespace KelleSolutions.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_TenantToPeople_Tenant_TenantID");
 
+                    b.Navigation("AssignedUser");
+
                     b.Navigation("Person");
 
                     b.Navigation("Tenant");
@@ -1613,10 +1607,6 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.User", b =>
                 {
-                    b.HasOne("KelleSolutions.Models.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleID");
-
                     b.HasOne("KelleSolutions.Models.Tenant", "Tenant")
                         .WithMany("Users")
                         .HasForeignKey("TenantID")
@@ -1679,11 +1669,6 @@ namespace KelleSolutions.Migrations
             modelBuilder.Entity("KelleSolutions.Models.PermissionGroup", b =>
                 {
                     b.Navigation("ChildGroups");
-                });
-
-            modelBuilder.Entity("KelleSolutions.Models.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("KelleSolutions.Models.Tenant", b =>

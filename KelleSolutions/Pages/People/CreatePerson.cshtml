@@ -15,7 +15,7 @@
             </svg>
         </a>
         <span>/</span>
-        <a href="/People/People">People</a>
+        <a href="/People/MyPeople">People</a>
         <span>/</span>
         <span class="pagename-text">Create New</span>
     </p>
@@ -127,9 +127,9 @@
 
         <!-- Optional Fields -->
         <div class="mb-3">
-            <label asp-for="Person.Notes" class="form-label">Notes</label>
-            <textarea asp-for="Person.Notes" class="form-control" rows="4"></textarea>
-            <span asp-validation-for="Person.Notes" class="text-danger"></span>
+            <label asp-for="Person.Comments" class="form-label">Notes</label>
+            <textarea asp-for="Person.Comments" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Person.Comments" class="text-danger"></span>
         </div>
 
         <div class="mt-4">

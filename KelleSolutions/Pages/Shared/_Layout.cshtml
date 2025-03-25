@@ -1,9 +1,9 @@
-﻿@* 
+﻿@*
     This is the layout page for Kelle Solutions. It provides the overall structure for the application by defining common HTML elements like the header, navigation bar, and footer, as well as rendering the main content of each page.
     Features:
     - Responsive layout using Bootstrap
     - Navigation links to Home and Privacy pages
-    - Dynamic content insertion using Razor's `@RenderBody()` and `@RenderSectionAsync()`
+    - Dynamic content insertion using Razor's @RenderBody() and @RenderSectionAsync()
     - Includes a partial view for login/logout functionality
     - Footer with privacy link
     - External resources for Bootstrap and jQuery
@@ -31,8 +31,7 @@
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand" asp-area="" asp-page="/Index">Kelle Solutions</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
@@ -42,7 +41,6 @@
                                 <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
                             </li>
                         </ul>
-
                         <partial name="_LoginPartial" />
                     </div>
                 </div>
@@ -50,60 +48,86 @@
         </header>
     }
 
-    @* Collapsible Sidebar Navbar, only visible when the user is signed in and on specified pages *@
-@if (SignInManager.IsSignedIn(User) && (Context.Request.Path == "/AT_Dashboard" || Context.Request.Path == "/Roles/Roles" || Context.Request.Path == "/Listings/Listings"
-    || Context.Request.Path == "/Listings/ViewListing" || Context.Request.Path == "/Affiliations/CreateAffiliate" || Context.Request.Path == "/Transactions/Transactions"
-    || Context.Request.Path == "/Entities/Entities" || Context.Request.Path == "/People/People" || Context.Request.Path == "/People/ViewPeople" 
-    || Context.Request.Path == "/Properties/Properties" || Context.Request.Path == "/Leads/Leads" || Context.Request.Path == "/Properties/ViewProperty"))
-    
-{
-    <div class="d-flex">
-        <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar" aria-expanded="false" aria-controls="sideNavbar">
-            &#9776; <!-- Hamburger icon -->
-        </button>
-        <div class="collapse" id="sideNavbar">
-            <nav class="sidebar-nav flex-column" id="sideNavContent">
-                <button class="closebtn" data-bs-toggle="collapse" data-bs-target="#sideNavbar">&times;</button> <!-- close button icon -->
-                <a class="sidebar-link" href="/AT_Dashboard">
-                    <img class ="img-fluid"src="/images/dashboard.png" id="icons" alt="dashboardicon"> 
-                    Dashboard
-                </a>
-                <a class="sidebar-link" href="/Roles/Roles">
-                    <img class ="img-fluid"src="/images/roles.png" id="icons" alt="rolesicon">
-                    Roles
-                </a>
-                <a class="sidebar-link" href="/Affiliations/CreateAffiliate">
-                    <img class ="img-fluid"src="/images/affiliations.png" id="other" alt="affiliationsicon">
-                    Affiliations
-                </a>
-                <a class="sidebar-link" href="/Transactions/Transactions">
-                    <img class ="img-fluid"src="/images/transactions.png" id="icons" alt="transactionsicon">
-                     Transactions
-                </a>
-                <a class="sidebar-link" href="/Listings/Listings">
-                    <img class ="img-fluid"src="/images/listings.png" id="icons" alt="transactionsicon">
-                    Listings
-                </a>
-                <a class="sidebar-link" href="/Properties/Properties">
-                    <img class ="img-fluid"src="/images/properties.png" id="icons" alt="propertiesicon">
-                    Properties
-                </a>
-                <a class="sidebar-link" href="/People/People">
-                    <img class ="img-fluid"src="/images/people.png" id="other" alt="peopleicon">
-                    People
-                </a>
-                <a class="sidebar-link" href="/Leads/Leads">
-                    <img class ="img-fluid"src="/images/leads.png" id="icons" alt="leadsicon">
-                    Leads
-                </a>
-                <a class="sidebar-link" href="/Entities/Entities">
-                    <img class ="img-fluid"src="/images/entities.png" id="icons" alt="entitiesicon">
-                    Entities
-                </a>
-            </nav>
+    @* Sidebar Logic *@
+    @if (SignInManager.IsSignedIn(User) && (
+    Context.Request.Path.StartsWithSegments("/AT_Dashboard") ||
+    Context.Request.Path.StartsWithSegments("/Roles") ||
+    Context.Request.Path.StartsWithSegments("/Listings") ||
+    Context.Request.Path.StartsWithSegments("/Affiliations") ||
+    Context.Request.Path.StartsWithSegments("/Transactions") ||
+    Context.Request.Path.StartsWithSegments("/Entities") ||
+    Context.Request.Path.StartsWithSegments("/People") ||
+    Context.Request.Path.StartsWithSegments("/Properties") ||
+    Context.Request.Path.StartsWithSegments("/Leads")))
+    {
+        var currentUser = await UserManager.GetUserAsync(User);
+        var roles = await UserManager.GetRolesAsync(currentUser);
+        bool isAdmin = roles.Contains("Admin");
+        bool isBroker = roles.Contains("Broker");
+        bool isAgent = roles.Contains("Agent");
+
+        <div class="d-flex">
+            <button id="sideNavbarToggle" class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar">
+                &#9776;
+            </button>
+            <div class="collapse" id="sideNavbar">
+                <nav class="sidebar-nav flex-column" id="sideNavContent">
+                    <button class="closebtn" data-bs-toggle="collapse" data-bs-target="#sideNavbar">&times;</button>
+
+                    <a class="sidebar-link" href="/AT_Dashboard">
+                        <img class="img-fluid" src="/images/dashboard.png" id="icons" alt="dashboardicon" />
+                        Dashboard
+                    </a>
+
+                    @if (isAdmin)
+                    {
+                        <a class="sidebar-link" href="/Roles/Roles">
+                            <img class="img-fluid" src="/images/roles.png" id="icons" alt="rolesicon" />
+                            Roles
+                        </a>
+                    }
+
+                    <a class="sidebar-link" href="/Affiliations/CreateAffiliate">
+                        <img class="img-fluid" src="/images/affiliations.png" id="other" alt="affiliationsicon" />
+                        Affiliations
+                    </a>
+
+                    <a class="sidebar-link" href="/Transactions/Transactions">
+                        <img class="img-fluid" src="/images/transactions.png" id="icons" alt="transactionsicon" />
+                        Transactions
+                    </a>
+
+                    <a class="sidebar-link" href="/Listings/Listings">
+                        <img class="img-fluid" src="/images/listings.png" id="icons" alt="listingsicon" />
+                        Listings
+                    </a>
+
+                    <a class="sidebar-link" href="/Properties/Properties">
+                        <img class="img-fluid" src="/images/properties.png" id="icons" alt="propertiesicon" />
+                        Properties
+                    </a>
+
+                    @if (isAdmin || isBroker || isAgent)
+                    {
+                        <a class="sidebar-link" href="/People/MyPeople">
+                            <img class="img-fluid" src="/images/people.png" id="other" alt="peopleicon" />
+                            People
+                        </a>
+                    }
+
+                    <a class="sidebar-link" href="/Leads/Leads">
+                        <img class="img-fluid" src="/images/leads.png" id="icons" alt="leadsicon" />
+                        Leads
+                    </a>
+
+                    <a class="sidebar-link" href="/Entities/Entities">
+                        <img class="img-fluid" src="/images/entities.png" id="icons" alt="entitiesicon" />
+                        Entities
+                    </a>
+                </nav>
+            </div>
         </div>
-    </div>
-}
+    }
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -115,7 +139,7 @@
     {
         <footer class="border-top footer text-muted">
             <div class="container">
-                &copy; 2024 - Kelle Solutions - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                &copy; 2025 - Kelle Solutions - <a asp-area="" asp-page="/Privacy">Privacy</a>
             </div>
         </footer>
     }

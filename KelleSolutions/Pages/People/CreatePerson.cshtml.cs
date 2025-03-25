@@ -3,19 +3,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using KelleSolutions.Models;
 using KelleSolutions.Data;
+<<<<<<< Updated upstream
 using System;
+=======
+>>>>>>> Stashed changes
 using System.Threading.Tasks;
+using System;
 
 namespace KelleSolutions.Pages.People
 {
     public class CreatePersonModel : PageModel
     {
+        private readonly KelleSolutionsDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly KelleSolutionsDbContext _context;
 
+<<<<<<< Updated upstream
         public CreatePersonModel(UserManager<User> userManager, KelleSolutionsDbContext context)
+=======
+        public CreatePersonModel(KelleSolutionsDbContext context, UserManager<User> userManager)
+>>>>>>> Stashed changes
         {
+            _context = context;
             _userManager = userManager;
+<<<<<<< Updated upstream
             _context = context;
             
             // initialize an empty person with default values
@@ -39,10 +50,13 @@ namespace KelleSolutions.Pages.People
                 Country = string.Empty,
                 Notes = string.Empty
             };
+=======
+
+>>>>>>> Stashed changes
         }
 
         [BindProperty]
-        public PersonViewModel Person { get; set; }
+        public Person Person { get; set; }
 
         public IActionResult OnGet()
         {
@@ -56,6 +70,7 @@ namespace KelleSolutions.Pages.People
                 return Page();
             }
 
+<<<<<<< Updated upstream
             try
             {
                 var currentUser = await _userManager.GetUserAsync(User);
@@ -116,11 +131,34 @@ namespace KelleSolutions.Pages.People
                 // Add to database and save changes
                 _context.People.Add(personEntity);
                 await _context.SaveChangesAsync();
+=======
+            var currentUser = await _userManager.GetUserAsync(User);
+            var userRoles = await _userManager.GetRolesAsync(currentUser);
+            string userRole = userRoles.FirstOrDefault(); // Admin, Broker, or Agent
 
-                return RedirectToPage("/People/People");
-            }
-            catch (Exception ex)
+            // Backend-required fields
+            Person.Archived = false;
+            Person.VIP = false;
+            Person.Verified = false;
+            Person.DoNotContact = false;
+            Person.DoNotMarket = false;
+            Person.Created = DateTime.UtcNow;
+            Person.Updated = DateTime.UtcNow;
+            Person.Operator = 0;
+            Person.Team = 0;
+            Person.Visibility = 0;
+            Person.Category = 0;
+            Person.MySource = 0;
+>>>>>>> Stashed changes
+
+            // Save Person to DB
+            _context.Person.Add(Person);
+            await _context.SaveChangesAsync(); 
+
+            // Auto-link to TenantToPeople
+            var tenantLink = new TenantToPerson
             {
+<<<<<<< Updated upstream
                 ModelState.AddModelError("", "An error occurred while saving the person. Please try again.");
                 Console.WriteLine($"Error: {ex.Message}");
                 return Page();
@@ -148,4 +186,18 @@ namespace KelleSolutions.Pages.People
         public string Country { get; set; }
         public string Notes { get; set; }
     }
+=======
+                TenantID = currentUser.TenantID ?? 0,
+                PersonID = Person.Code, // Code is the PK from Person (just created)
+                TenantToPersonID = 1000 + Person.Code, // temp logic; adjust as needed
+                Role = userRole
+            };
+
+            _context.TenantToPeople.Add(tenantLink);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/People/MyPeople");
+        }
+    }
+>>>>>>> Stashed changes
 }

@@ -51,7 +51,7 @@ namespace KelleSolutions.Data
                 .HasOne(tp => tp.Person)
                 .WithMany()
                 .HasForeignKey(tp => tp.PersonID)
-                .HasConstraintName("FK_TenantToPeople_AspNetUsers_PersonID")
+                .HasConstraintName("FK_TenantToPeople_Person_PersonID")
                 .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
 
             builder.Entity<IdentityRole>().HasData(
@@ -141,7 +141,9 @@ namespace KelleSolutions.Data
             builder.Entity<RolePermissionGroupEntity>()
                 .HasOne(rpge => rpge.RoleNavigation)
                 .WithMany()
-                .HasForeignKey(rpge => rpge.RoleID);
+                .HasForeignKey(rpge => rpge.RoleID)
+                .HasPrincipalKey(r => r.Id)
+                .HasConstraintName("FK_RolePermissionGroupEntity_AspNetRoles_RoleID");
 
             builder.Entity<RolePermissionGroupEntity>()
                 .HasOne(rpge => rpge.PermissionGroupNavigation)
@@ -206,6 +208,10 @@ namespace KelleSolutions.Data
 
         // DbSet for PermissionGroup
         public DbSet<PermissionGroup> PermissionGroups { get; set; }
+
+        // DbSet for People
+
+        public DbSet<Person> Person { get; set; }
 
         // DbSet for PersonToEntity
         public DbSet<PersonToEntity> PersonToEntity { get; set; }

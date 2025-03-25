@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace KelleSolutions.Models
 {
@@ -8,20 +8,16 @@ namespace KelleSolutions.Models
         // Primary Key
         [Key]
         [Required]
-        public int RoleID { get; set; }
+        public string RoleID { get; set; } = null!;
 
-        // Primary Key
-        [Key]
         [Required]
         public int PermissionGroupID { get; set; }
 
-        // Primary Key
-        [Key]
         [Required]
         public int PageAccessID { get; set; }
 
-        // Foreign Keys
-        public virtual Role RoleNavigation { get; set; } = null!;
+        // Navigation properties
+        public virtual IdentityRole RoleNavigation { get; set; } = null!;
         public virtual PermissionGroup PermissionGroupNavigation { get; set; } = null!;
         public virtual PageAccess PageAccess { get; set; } = null!;
     }

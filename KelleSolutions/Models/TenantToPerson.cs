@@ -3,24 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KelleSolutions.Models
 {
+    [Table("TenantToPeople")]
     public class TenantToPerson
     {
-        [Key]
+        public int TenantID { get; set; }
+        public int PersonID { get; set; }
+
+        [Required]
         public int TenantToPersonID { get; set; }
 
         [Required]
-        public int TenantID { get; set; }
-
-        [Key]
-        [MaxLength(450)]
-        public required string PersonID { get; set; }
-
-        [Required]
         [MaxLength(20)]
-        public required string Role { get; set; }
+        public required string Role { get; set; } = string.Empty;
+
+        // FK to specific user assignment (optional for filtering)
+        public string? AssignedToUserId { get; set; }
 
         // Navigation Properties
         public Tenant Tenant { get; set; } = null!;
-        public User Person { get; set; } = null!;
+        public Person Person { get; set; } = null!;
+        public User? AssignedUser { get; set; }
     }
 }

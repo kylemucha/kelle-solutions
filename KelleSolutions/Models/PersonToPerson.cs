@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using NuGet.Common;
 
 namespace KelleSolutions.Models
 {
     public class PersonToPerson
     {
-        //primary key
+        // Primary Key
         [Key]
         [Required]
         public required int Code {get;set;}
@@ -40,7 +35,6 @@ namespace KelleSolutions.Models
 
         [ForeignKey("Person2Id")]
         public Person ? Person2 {get; set;}
-
-        
+        public int RelatedId { get; set; }
     }
 }

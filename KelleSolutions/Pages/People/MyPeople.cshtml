@@ -104,6 +104,7 @@
             @foreach (var item in Model.ViewUserPeople)
             {
                 <tr>
+<<<<<<< Updated upstream
                     <td><a href="/People/ViewPerson?code=@item.ID" style="text-decoration: none;">@item.ID</a></td>
                     <td>@item.LastName</td>
                     <td>@item.FirstName</td>
@@ -111,6 +112,15 @@
                     <td>@item.Email</td>
                     <td>@item.CreationDate.ToString("yyyy-MM-dd")</td>
                     <td>@item.Category</td>
+=======
+                    <td><a href="ViewPerson" style="text-decoration: none;">@item.Code</a></td>
+                        <td>@item.NameLast</td>
+                        <td>@item.NameFirst</td>
+                        <td>@item.PhonePrimary</td>
+                        <td>@item.EmailPrimary</td>
+                        <td>@item.Created.ToString("yyyy-MM-dd")</td>
+                        <td>@item.Category.ToString()</td>
+>>>>>>> Stashed changes
                 </tr>
             }
         </tbody>
