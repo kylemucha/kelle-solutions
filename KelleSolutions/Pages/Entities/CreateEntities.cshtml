@@ -100,6 +100,37 @@
             <span asp-validation-for="Entity.Street" class="text-danger"></span>
         </div>
 
+        <!-- Website field -->
+        <div class="mb-3">
+            <label asp-for="Entity.Website" class="form-label">Website</label>
+            <input asp-for="Entity.Website" class="form-control" type="url" placeholder="https://example.com" />
+            <span asp-validation-for="Entity.Website" class="text-danger"></span>
+        </div>
+
+        <!-- Do Not Market dropdown (Market?) -->
+        <div class="mb-3">
+            <label asp-for="Entity.DoNot_Market" class="form-label">Market?</label>
+            <select asp-for="Entity.DoNot_Market" class="form-control">
+                <!-- If user selects Yes, we set DoNot_Market to false -->
+                <option value="false">Yes</option>
+                <!-- If user selects No, we set DoNot_Market to true -->
+                <option value="true">No</option>
+            </select>
+            <span asp-validation-for="Entity.DoNot_Market" class="text-danger"></span>
+        </div>
+
+        <!-- Do Not Contact dropdown (Contact?) -->
+        <div class="mb-3">
+            <label asp-for="Entity.DoNot_Contact" class="form-label">Contact?</label>
+            <select asp-for="Entity.DoNot_Contact" class="form-control">
+                <!-- If user selects Yes, we set DoNot_Contact to false -->
+                <option value="false">Yes</option>
+                <!-- If user selects No, we set DoNot_Contact to true -->
+                <option value="true">No</option>
+            </select>
+            <span asp-validation-for="Entity.DoNot_Contact" class="text-danger"></span>
+        </div>
+
         <div class="mt-4">
             <button type="submit" class="btn btn-primary me-2">Create Vendor</button>
             <a href="/Entities/Entities" class="btn btn-outline-secondary">Cancel</a>

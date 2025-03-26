@@ -235,10 +235,10 @@ Adding comments to better explain documentation.
                 event.preventDefault(); // Prevent page reload
 
                 let formData = {
-                    Property: document.getElementById("propertyId").value.trim(),
+                    PropertyId: document.getElementById("property").value.trim(),
                     Price: document.getElementById("listingPrice").value.trim(),
                     Status: document.getElementById("listingStatus").value.trim(),
-                    Affiliation: document.getElementById("listingAffiliation").value.trim()
+                    Source: document.getElementById("listingSource").value.trim()
                 };
 
                 console.log("Submitting Listing Data:", JSON.stringify(formData));
@@ -256,7 +256,7 @@ Adding comments to better explain documentation.
                     console.log("Server Response:", data);
                     if (data.success) {
                         alert("Listing added successfully!");
-                        $("#createListingModal").modal("hide");
+                        $("#AddListingModal").modal("hide");
                         location.reload();
                     } else {
                         alert("Error adding listing: " + data.message);

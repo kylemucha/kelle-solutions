@@ -46,6 +46,16 @@ namespace KelleSolutions.Pages.Entities
 
         public async Task<IActionResult> OnPostAsync()
         {
+
+             // Set default values for required properties not provided by the form
+            Entity.Archived = false;
+            Entity.Created = DateTime.Now;
+            Entity.Updated = DateTime.Now;
+            Entity.Operator = OperatorEnum.Operator1; 
+            Entity.Team = TeamEnum.TeamA; 
+            Entity.Visibility = VisibilityEnum.Low; 
+            
+
             if (!ModelState.IsValid)
             {
                 return Page();
