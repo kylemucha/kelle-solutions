@@ -234,5 +234,7 @@ namespace KelleSolutions.Data
         //DbSet for SellerIDMappings
         public DbSet<SellerIDMapping> SellerIDMappings { get; set; }
 
+        //DbSet for PageAccess
+        public DbSet<PageAccess> PageAccess { get; set; }
     }
 }
