@@ -63,12 +63,10 @@ namespace KelleSolutions.Data
             // Updated: Using the navigation property 'PropertyDetails' (of type Property)
             // and the foreign key property 'Property' (an int) as defined in the Listing model.
             builder.Entity<Listing>()
-    .HasOne(l => l.PropertyDetails)
-    .WithMany()  // No navigation property on Property
-    .HasForeignKey(l => l.FK_Property)  // Updated to use the new property name
-    .OnDelete(DeleteBehavior.Cascade);
-
-
+                .HasOne(l => l.PropertyDetails)
+                .WithMany()  // No navigation property on Property
+                .HasForeignKey(l => l.FK_Property)  // Updated to use the new property name
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configure PersonToEntity
             builder.Entity<PersonToEntity>()

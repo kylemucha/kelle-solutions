@@ -69,13 +69,24 @@ namespace KelleSolutions.Pages.Affiliations
         // OnPostUpdate to save changes when editing an affiliate
         public async Task<IActionResult> OnPostUpdateAsync()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Attach(NewAffiliate).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-                return RedirectToPage();
+                return Page();
             }
-            return Page();
+
+            var affiliate = await _context.Affiliates.FindAsync(NewAffiliate.Id);
+            if (affiliate == null)
+            {
+                return NotFound();
+            }
+
+            // Update fields
+            affiliate.Name = NewAffiliate.Name;
+            affiliate.Description = NewAffiliate.Description;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage(); // Reload the page to show updates
         }
 
         // OnPostDelete to delete an affiliate
