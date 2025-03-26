@@ -145,7 +145,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
+                        "/Account/Email/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
@@ -183,7 +183,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             {
                 throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
                     $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+                    $"override the register page in /Areas/Identity/Pages/Account/Register/Register.cshtml");
             }
         }
 
