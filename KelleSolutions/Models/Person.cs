@@ -174,14 +174,8 @@ namespace KelleSolutions.Models
     // Enums for fixed-value fields
     public enum CategoryEnum : short
     {
-<<<<<<< Updated upstream
-        Category1 = 0,
-        Category2 = 1,
-        Category3 = 2
-=======
         Partner = 0,
         Lead = 1
->>>>>>> Stashed changes
         // Extend with additional categories as needed
     }
 
