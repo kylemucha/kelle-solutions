@@ -55,9 +55,9 @@ namespace KelleSolutions.Data
                 .OnDelete(DeleteBehavior.Restrict); // Prevents accidental deletions
 
             builder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
-                new IdentityRole { Name = "Broker", NormalizedName = "BROKER" },
-                new IdentityRole { Name = "Agent", NormalizedName = "AGENT" });
+                new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = "2", Name = "Broker", NormalizedName = "BROKER" },
+                new IdentityRole { Id = "3", Name = "Agent", NormalizedName = "AGENT" });
 
             // Relationship between Listing and Property
             // Updated: Using the navigation property 'PropertyDetails' (of type Property)
@@ -226,6 +226,7 @@ namespace KelleSolutions.Data
         //DbSet for Actions
         public DbSet<ActionEntity> ActionEntities { get; set; }
 
+        // DbSet for Dashboard
         public DbSet<Dashboard> Dashboards { get; set; }
 
         //DbSet for StatusMappings
@@ -236,5 +237,8 @@ namespace KelleSolutions.Data
 
         //DbSet for PageAccess
         public DbSet<PageAccess> PageAccess { get; set; }
-    }
+
+        // DbSet for Users
+        public DbSet<User> Users { get; set; }
+        }
 }
