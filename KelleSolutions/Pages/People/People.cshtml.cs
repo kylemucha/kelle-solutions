@@ -60,6 +60,31 @@ namespace KelleSolutions.Pages.People
                 Category = p.Category.ToString()  // Enum to string
             }).ToList();
         }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int code)
+        {
+            var person = await _context.People.FindAsync(code);
+            
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                person.Archived = true;
+                person.Updated = DateTime.UtcNow;
+                
+                await _context.SaveChangesAsync();
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting person: {ex.Message}");
+                ModelState.AddModelError("", "Error deleting person. Please try again.");
+                return Page();
+            }
+        }
     }
 
     // The view model

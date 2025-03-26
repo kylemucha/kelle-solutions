@@ -15,7 +15,7 @@
             </svg>
         </a>
         <span>/</span>
-        <a href="/People/MyPeople">People</a>
+        <a href="/People/People">People</a>
         <span>/</span>
         <span class="pagename-text">Create New</span>
     </p>
@@ -65,6 +65,20 @@
                 <label asp-for="Person.EmailSecondary" class="form-label">Secondary Email</label>
                 <input asp-for="Person.EmailSecondary" type="email" class="form-control" required />
                 <span asp-validation-for="Person.EmailSecondary" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Email Label Fields  -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.EmailPrimaryLabel" class="form-label">Primary Email Label</label>
+                <input asp-for="Person.EmailPrimaryLabel" class="form-control" required />
+                <span asp-validation-for="Person.EmailPrimaryLabel" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Person.EmailSecondaryLabel" class="form-label">Secondary Email Label</label>
+                <input asp-for="Person.EmailSecondaryLabel" class="form-control" required />
+                <span asp-validation-for="Person.EmailSecondaryLabel" class="text-danger"></span>
             </div>
         </div>
 
