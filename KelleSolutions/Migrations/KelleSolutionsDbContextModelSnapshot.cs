@@ -4,7 +4,6 @@ using KelleSolutions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KelleSolutions.Migrations
 {
     [DbContext(typeof(KelleSolutionsDbContext))]
-    [Migration("20250326014645_AddPageAccessTable")]
-    partial class AddPageAccessTable
+    partial class KelleSolutionsDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,11 +200,11 @@ namespace KelleSolutions.Migrations
 
             modelBuilder.Entity("KelleSolutions.Models.Lead", b =>
                 {
-                    b.Property<long>("Code")
+                    b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Code"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
 
                     b.Property<bool>("Archived")
                         .HasColumnType("bit");
@@ -229,7 +226,8 @@ namespace KelleSolutions.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime?>("Created")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("DoNotContact")
@@ -1330,19 +1328,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f7050cd6-1bc0-43fd-9cab-136276b06ec3",
+                            Id = "418d56ba-26e6-4e5a-a8c7-9d005d66ca05",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "239329a7-815c-45e0-bb96-28f1ce23a06b",
+                            Id = "26fafe37-60cc-4241-9707-d475441f2fd4",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "a2e18dbc-72a2-4120-84b7-f4597b8769f4",
+                            Id = "81c2d935-7b3c-42de-849c-de72d922113d",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });

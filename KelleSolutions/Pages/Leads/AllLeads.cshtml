@@ -1,0 +1,328 @@
+@page
+@model KelleSolutions.Pages.Leads.AllLeadsModel
+@{ ViewData["Title"] = "All Leads"; }
+
+<div class="header-section">
+    <p>
+        <link rel="stylesheet" href="~/css/mainpages.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
+        <a href="/AT_Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
+        </a>
+        <span>/</span> 
+        <a href="/Leads/Leads">Leads</a>
+        <span>/</span> 
+        <span class="pagename-text">All Leads</span>
+    </p>
+</div>
+
+<div class="buttons">
+    <div class="d-flex">
+        <div class="dropdown me-2">
+            <label for="dropdownButton" class="button-label">Lead type</label>
+            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Options
+            </button>
+            <ul class="dropdown-menu p-2">
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="typeoption1">
+                    <label class="form-check-label" for="typeoption1">Option 1</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="typeoption2">
+                    <label class="form-check-label" for="typeoption2">Option 2</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="typeoption3">
+                    <label class="form-check-label" for="typeoption3">Option 3</label>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <label for="dropdownButton" class="button-label">Lead status</label>
+            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Options
+            </button>
+            <ul class="dropdown-menu p-2">
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusoption1">
+                    <label class="form-check-label" for="statusoption1">All</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusoption2">
+                    <label class="form-check-label" for="statusoption2">On Hold</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusoption3">
+                    <label class="form-check-label" for="statusoption3">Open House</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusoption4">
+                    <label class="form-check-label" for="statusoption4">Active</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusoption5">
+                    <label class="form-check-label" for="statusoption5">Pending</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="statusoption6">
+                    <label class="form-check-label" for="statusoption6">Closed</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+            <!-- Add Lead Button -->
+    <button class="gradient-button" data-bs-toggle="modal" data-bs-target="#AddLeadModal">
+        Add
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+        </svg>
+    </button>
+
+<style>
+    /* blur effect for background content when modal is open */
+    .modal-backdrop {
+        background-color: rgba(255, 255, 255, 0.2) !important; /* White opacity layer */
+        backdrop-filter: blur(8px); /* blur effect */
+    }
+
+    /* ensure modal opens in the center of the viewport */
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* styled submit button */
+    .submit-button {
+        background: #4a154b;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        width: auto;
+        text-align: center;
+        display: block;
+        margin: 20px auto 0 auto;
+        transition: background 0.3s ease;
+    }
+    .submit-button:hover {
+        background: linear-gradient(90deg, #ecb22e, #e01e5a);
+    }
+
+    .modal-title {
+        position:fixed
+        text-align:center;
+    }
+    
+</style>
+
+<div class="modal fade" id="AddLeadModal" tabindex="-1" aria-labelledby="addLeadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-l modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-3" d="addLeadModalLabel">Add New Lead</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="leadForm">
+                    <div class= "row">
+                        <!-- First Name input field -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Lead.NameFirst" class="control-label">First Name</label>
+                                <input asp-for="Lead.NameFirst" class="form-control" />
+                                <span asp-validation-for="Lead.NameFirst" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Middle Name input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.NameMiddle" class="control-label">Middle Name</label>
+                                <input asp-for="Lead.NameMiddle" class="form-control" />
+                                <span asp-validation-for="Lead.NameMiddle" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Last Name input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.NameLast" class="control-label">Last Name</label>
+                                <input asp-for="Lead.NameLast" class="form-control" />
+                                <span asp-validation-for="Lead.NameLast" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class= "row">
+                        <div class="col-md-6">
+                            <!-- Email input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.Email" class="control-label">Email</label>
+                                <input asp-for="Lead.Email" type="email" class="form-control" />
+                                <span asp-validation-for="Lead.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Phone input field -->
+                            <div class="form-group">
+                                <label asp-for="Lead.Phone" class="control-label">Phone</label>
+                                <input asp-for="Lead.Phone" type="tel" class="form-control" />
+                                <span asp-validation-for="Lead.Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Organization Name input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationName" class="control-label">Organization Name</label>
+                        <input asp-for="Lead.OrganizationName" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Organization Title input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.OrganizationTitle" class="control-label">Organization Title</label>
+                        <input asp-for="Lead.OrganizationTitle" class="form-control" />
+                        <span asp-validation-for="Lead.OrganizationTitle" class="text-danger"></span>
+                    </div>
+
+                    <!-- Tracking input field -->
+                    <div class="form-group">
+                        <label asp-for="Lead.Tracking" class="control-label"></label>
+                        <input asp-for="Lead.Tracking" class="form-control" />
+                        <span asp-validation-for="Lead.Tracking" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <button type="submit" class="submit-button mt-3">Create Lead</button>
+                    <!--<a asp-page="/Leads/Index" class="btn btn-secondary">Cancel</a>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="content-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Created</th>
+                <th>Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lead in Model.AllLeads) {
+                <tr>
+                    <td>@lead.Code</td>
+                    <td>@(lead.Created.HasValue ? lead.Created.Value.ToString("yyyy") : "N/A")</td>
+                    <td>@lead.City</td>
+                    <td>@lead.Postal</td>
+                    <td>@lead.Street</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination-section">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="rows-per-page-container">
+            <label for="pageSize" class="rowamount-label">Rows per page:</label>
+            <div class="dropdown-wrapper">
+                <select id="pageSize" class="form-control dropdown-outline" onchange="updatePageSize()">
+                    <option value="5" selected="@(Model.PageSize == 5 ? "selected" : null)">5</option>
+                    <option value="10" selected="@(Model.PageSize == 10 ? "selected" : null)">10</option>
+                    <option value="20" selected="@(Model.PageSize == 20 ? "selected" : null)">20</option>
+                    <option value="50" selected="@(Model.PageSize == 50 ? "selected" : null)">50</option>
+                </select>
+                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#5f6368">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-navigation">
+        <div class="page-desc">
+            <span>
+                @( (Model.PageNumber - 1) * Model.PageSize + 1) - 
+                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.AllLeads.Count))
+                of @Model.AllLeads.Count
+            </span>
+        </div>
+
+        <div class="page-btn">
+            @if (Model.PageNumber > 1)
+            {
+                <a href="?PageNumber=@(Model.PageNumber - 1)&PageSize=@Model.PageSize">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                    </svg>
+                </a>
+            }
+            else
+            {
+                <span class="disabled-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                    </svg>
+                </span>
+            }
+        </div>
+
+        <div class="page-btn">
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </a>
+            }
+            else
+            {
+                <span class="disabled-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </span>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".dropdown").forEach(dropdown => {
+                const checkboxes = dropdown.querySelectorAll(".option-checkbox");
+                const dropdownButton = dropdown.querySelector(".dropdown-toggle");
+    
+                function updateButtonText() {
+                    const checkedCount = dropdown.querySelectorAll(".option-checkbox:checked").length;
+                    dropdownButton.textContent = checkedCount > 0 ? `${checkedCount} selected` : "Select Options";
+                }
+    
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener("change", updateButtonText);
+                });
+            });
+        });
+    </script>
+    <script>
+        function updatePageSize() {
+            var pageSize = document.getElementById("pageSize").value;
+            window.location.href = "?PageSize=" + pageSize + "&PageNumber=1";
+        }
+    </script>
+}
