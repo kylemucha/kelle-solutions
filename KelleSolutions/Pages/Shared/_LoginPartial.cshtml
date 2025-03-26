@@ -11,7 +11,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light username-align" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle username-align" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 @await GetUserNameAsync()
             </a>
             <ul class="dropdown-menu">
