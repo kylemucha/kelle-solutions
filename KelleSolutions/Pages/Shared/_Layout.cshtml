@@ -145,35 +145,38 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container">
-                <div class="d-flex align-items-center">
-                    @if (SignInManager.IsSignedIn(User)) {
-                        <button id="sideNavbarToggle" class="btn me-3" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar">
-                            &#9776;
-                        </button>
-                    }
-                    <a class="navbar-brand" href="@(SignInManager.IsSignedIn(User) ? Url.Page("/AT_Dashboard") : Url.Page("/Index"))">
-                        <img src="~/images/KELLE_logo_fullcolor.png" alt="Kelle Solutions Logo" style="height: 40px; width: auto;">
-                    </a>
-                </div>
+    @if (Context.Request.Path != "/Admin/adminDashboard")
+     {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+                <div class="container">
+                    <div class="d-flex align-items-center">
+                        @if (SignInManager.IsSignedIn(User)) {
+                            <button id="sideNavbarToggle" class="btn me-3" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar">
+                                &#9776;
+                            </button>
+                        }
+                        <a class="navbar-brand" href="@(SignInManager.IsSignedIn(User) ? Url.Page("/AT_Dashboard") : Url.Page("/Index"))">
+                            <img src="~/images/KELLE_logo_fullcolor.png" alt="Kelle Solutions Logo" style="height: 40px; width: auto;">
+                        </a>
+                    </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
+    }
 
     @* Sidebar Logic *@
     @if (SignInManager.IsSignedIn(User) && (
