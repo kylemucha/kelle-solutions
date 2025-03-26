@@ -174,8 +174,9 @@ namespace KelleSolutions.Models
     // Enums for fixed-value fields
     public enum CategoryEnum : short
     {
-        Partner = 0,
-        Lead = 1
+        Category1 = 0,
+        Category2 = 1,
+        Category3 = 2
         // Extend with additional categories as needed
     }
 
