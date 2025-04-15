@@ -402,6 +402,10 @@
         height: 20px;
     }
 
+    .menu-icon {
+        cursor: pointer;
+    }
+
     .custom-footer {
         padding: 20px 40px;
         background: white;
@@ -482,7 +486,7 @@
     </a>
     <div class="button-container">
         <a href="/Admin/adminDashboard" class="btn btn-primary btn-purple-active rounded-pill">
-            <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
+            <img src="~/images/selected_dashboard.svg" alt="" class="btn-icon">
             <span class="btn-text">Dashboard</span>
         </a>
         <a href="/Listings/MyListings" class="btn btn-primary btn-gray rounded-pill">
@@ -493,14 +497,19 @@
             <img src="~/images/actions_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">Actions</span>
         </a>
-        <a href="/Leads/Leads" class="btn btn-primary btn-gray rounded-pill">
+        <a href="/Leads/MyLeads" class="btn btn-primary btn-gray rounded-pill">
             <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">Leads</span>
         </a>
-        <a href="/People/People" class="btn btn-primary btn-gray rounded-pill">
+        <a href="/People/MyPeople" class="btn btn-primary btn-gray rounded-pill">
             <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">People</span>
         </a>
+        <img src="~/images/menu.svg" class="btn btn-primary btn-gray rounded-pill" data-bs-toggle="dropdown"  onclick="menuIcon(this)">
+        <ul id ="customDropdown" class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/Properties/MyProperties"> <img src="~/images/properties.svg" alt="" class="btn-icon">Properties</a></li>
+            <li><a class="dropdown-item" href=""><img src="~/images/vendors.svg" alt="" class="btn-icon">Vendors</a></li>
+        </ul>
         <a href="/Admin/Settings" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center p-2 position-absolute" style="width: 40px; height: 40px; right: 130px; top: 85px;">
             <img src="~/images/vertical_dots_button.svg" alt="" style="width: 24px; height: 24px;">
         </a>
@@ -911,5 +920,14 @@
                 });
             }
         });
+    </script>
+    <script>
+        function menuIcon(img) {
+            if(img.src.includes("/images/menu.svg")) {
+                img.src = "/images/menu_open.svg";
+            } else {
+                img.src = "/images/menu.svg";
+            }
+        }
     </script>
 }
