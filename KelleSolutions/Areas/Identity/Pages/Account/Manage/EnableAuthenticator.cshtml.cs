@@ -155,8 +155,8 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
 
             SharedKey = FormatKey(unformattedKey);
 
-            var email = await _userManager.GetEmailAsync(user);
-            AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
+            var userIdentfier = await _userManager.GetUserNameAsync(user);//GetEmailAsync(user);
+            AuthenticatorUri = GenerateQrCodeUri(userIdentfier, unformattedKey);
         }
 
         private string FormatKey(string unformattedKey)
@@ -176,14 +176,14 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             return result.ToString().ToLowerInvariant();
         }
 
-        private string GenerateQrCodeUri(string email, string unformattedKey)
+        private string GenerateQrCodeUri(string userIdentfier, string unformattedKey)
         {
             return string.Format(
                 CultureInfo.InvariantCulture,
                 AuthenticatorUriFormat,
                 // This line is the name of the project. It displays as the account nickname in an authenticator app
                 _urlEncoder.Encode("KelleSolutions"),
-                _urlEncoder.Encode(email),
+                _urlEncoder.Encode(userIdentfier),
                 unformattedKey);
         }
     }
