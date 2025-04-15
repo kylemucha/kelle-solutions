@@ -193,14 +193,13 @@
     /* Make the content area scrollable */
     .widget-content {
         flex-grow: 1;
-        overflow-y: auto;
+        overflow: hidden;  /* Changed from overflow-y: auto to prevent scrolling */
         margin-top: 15px;
     }
 
-    /* Update existing scrollable areas to use widget-content */
+    /* Update existing scrollable areas but exclude the chart widget */
     .properties-list,
-    .listing-items,
-    .chart-container {
+    .listing-items {
         overflow-y: auto;
         margin-top: 15px;
     }
@@ -230,34 +229,9 @@
     .chart-container {
         position: relative;
         width: 100%;
-        height: 220px;  /* Decreased from 250px */
-        max-width: 220px;  /* Decreased from 250px */
-        margin: 0 auto;
-    }
-
-    .chart-legend {
-        margin-top: 12px;  /* Decreased from 15px */
-    }
-
-    .legend-row {
-        display: flex;
-        justify-content: center;
-        gap: 20px;  /* Decreased from 25px */
-        margin-bottom: 6px;  /* Decreased from 8px */
-    }
-
-    .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;  /* Decreased from 6px */
-        min-width: 85px;  /* Decreased from 90px */
-        font-size: 12px;  /* Decreased from 13px */
-    }
-
-    .legend-color {
-        width: 8px;  /* Decreased from 10px */
-        height: 8px;
-        border-radius: 50%;
+        height: 280px;
+        max-width: 280px;
+        margin: 10px auto;
     }
 
     /* Status colors */
@@ -467,15 +441,7 @@
         height: 824px;  /* 400px * 2 + 24px gap */
     }
 
-/*register link*/
-    .nav-link, .nav-link:hover {
-        color: #1264a3;
-        font-family: 'sora', sans-serif;
-        position: absolute;
-        right: 130px;
-        bottom: -3px;
-        font-size: 1.5rem;
-    }
+
 
     .dropdown-toggle::after {
         border-top-color: black !important;
@@ -562,31 +528,30 @@
             <li><a class="dropdown-item" href=""><img src="~/images/vendors.svg" alt="" class="btn-icon">Vendors</a></li>
         </ul>
 
-    <!-- SETTINGS -->
-    <a href="/Admin/Settings" 
+    <!-- SETTINGS button NOT NEEDED, # uncomment to show -->
+    @* <a href="/Admin/Settings" 
        class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center p-2 position-absolute" 
        style="width: 40px; height: 40px; right: 130px; top: 85px;">
         <img src="~/images/vertical_dots_button.svg" alt="" style="width: 24px; height: 24px;">
-    </a>
+    </a> *@
+
 </div>
 </div>
 
 <!-- Add this new section only -->
 <div class="top-right-menu position-absolute" style="right: 40px; top: 20px;">
-    <button class="btn d-flex align-items-center justify-content-center p-2" style="width: 40px; height: 40px; border: none; background: none;">
+
+<!-- 3x3 dots button not needed,# uncomment to show -->
+    @* <button class="btn d-flex align-items-center justify-content-center p-2" style="width: 40px; height: 40px; border: none; background: none;">
         <img src="~/images/threeByThree_dots_button.svg" alt="Menu" style="width: 24px; height: 24px;">
-    </button>
+    </button> *@
+
     <div class="d-flex align-items-center ms-3 dropdown">
         <div class="profile-circle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; overflow: hidden; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #FF6B6B, #FFB84C) border-box; cursor: pointer;">
-            <img src="~/images/profilePhoto_example_1.jpg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="~/images/profileicon.png" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <li class="nav-item" style="right:10px; top:20px">
-            <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="/Identity/Account/#">My activity</a></li>
             <li><a class="dropdown-item" href="/Identity/Account/Manage">Account settings</a></li>
-            <li><a class="dropdown-item" href="/Identity/Account/#">Administration</a></li>
             <li><a class="dropdown-item" href="/Identity/Account/Logout">Sign out</a></li>
         </ul>
     </div>
@@ -599,64 +564,29 @@
         <div class="widget widget-double">
             <div class="widget-header">
                 <h5>Coming up next</h5>
-                <button class="btn btn-link p-0">
+                <!-- filter button not needed, # uncomment to show -->
+                @* <button class="btn btn-link p-0">
                     <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
-                </button>
+                </button> *@
             </div>
             
             <div class="widget-content">
                 <!-- Task items -->
-                <div class="task-item">
-                    <div class="date-box" style="background: #927393">
-                        <div class="day">18</div>
-                        <div class="month">NOVEMBER </div>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-title">Create new front end for real estate platform</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 30%"></div>
+                @foreach (var action in Model.ActionEntities)
+                {
+                    <div class="task-item">
+                        <div class="date-box" style="background: #927393">
+                            <div class="day">@action.Due.Day</div>
+                            <div class="month">@action.Due.ToString("MMMM").ToUpper()</div>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-title">@action.Title</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: @(action.Important ? "100%" : "30%")"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="task-item">
-                    <div class="date-box" style="background: #927393">
-                        <div class="day">28</div>
-                        <div class="month">NOVEMBER</div>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-title">Perform real estate market analysis</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 45%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <div class="date-box" style="background: #e01e5a">
-                        <div class="day">10</div>
-                        <div class="month">DECEMBER</div>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-title">Analyze real estate markets, trends and best practices</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <div class="date-box" style="background: #927393">
-                        <div class="day">1</div>
-                        <div class="month">JANUARY</div>
-                    </div>
-                    <div class="task-content">
-                        <div class="task-title">Search open listings to find properties</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 15%"></div>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -665,35 +595,12 @@
     <div class="dashboard-column">
         <div class="widget">
             <div class="widget-header">
-                <h5>Listings by status (132)</h5>
+                <h5>Listings by status</h5>
             </div>
             
             <div class="widget-content">
                 <div class="chart-container">
                     <canvas id="listingsChart"></canvas>
-                </div>
-
-                <div class="chart-legend">
-                    <div class="legend-row">
-                        <div class="legend-item">
-                            <div class="legend-color status-active"></div>
-                            <span>Active</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color status-onhold"></div>
-                            <span>On hold</span>
-                        </div>
-                    </div>
-                    <div class="legend-row">
-                        <div class="legend-item">
-                            <div class="legend-color status-openhouse"></div>
-                            <span>Open house</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color status-closed"></div>
-                            <span>Closed</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -702,9 +609,10 @@
         <div class="widget">
             <div class="widget-header">
                 <h5>Open House Listings</h5>
-                <button class="btn btn-link p-0">
+                <!-- filter button not needed, # uncomment to show -->
+                @* <button class="btn btn-link p-0">
                     <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
-                </button>
+                </button> *@
             </div>
 
             <div class="widget-content listing-items properties-list">
@@ -763,9 +671,10 @@
         <div class="widget">
             <div class="widget-header">
                 <h5>Active listings</h5>
-                <button class="btn btn-link p-0">
+                <!-- filter button not needed, # uncomment to show -->
+                @* <button class="btn btn-link p-0">
                     <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
-                </button>
+                </button> *@
             </div>
 
             <!-- Listing items -->
@@ -943,37 +852,72 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('listingsChart')?.getContext('2d');
-            if (ctx) {
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Active', 'Open house', 'On hold', 'Closed'],
-                        datasets: [{
-                            data: [50, 50, 22, 10],
-                            backgroundColor: [
-                                '#ecb22e',
-                                '#e01e5a',
-                                '#2ebc83',
-                                '#54b4d3'
-                            ],
-                            borderWidth: 0,
-                            spacing: 2,
-                            cutout: '75%'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: {
-                                display: false
+        document.addEventListener('DOMContentLoaded', function () {
+            // Listings by Status Chart
+            const listingsCtx = document.getElementById('listingsChart').getContext('2d');
+            const listingsData = {
+                labels: ['Active', 'Open House', 'On Hold', 'Closed'],
+                datasets: [{
+                    data: [
+                        @Model.ListingCounts["Active"],
+                        @Model.ListingCounts["OpenHouse"],
+                        @Model.ListingCounts["OnHold"],
+                        @Model.ListingCounts["Closed"]
+                    ],
+                    backgroundColor: [
+                        '#ecb22e',  // Active - Yellow
+                        '#e01e5a',  // Open House - Pink
+                        '#2ebc83',  // On Hold - Green
+                        '#54b4d3'   // Closed - Blue
+                    ],
+                    borderWidth: 0,
+                    spacing: 2,
+                    cutout: '70%'
+                }]
+            };
+
+            new Chart(listingsCtx, {
+                type: 'doughnut',
+                data: listingsData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                },
+                                boxWidth: 8,
+                                boxHeight: 8,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    if (data.labels.length && data.datasets.length) {
+                                        const dataset = data.datasets[0];
+                                        return [
+                                            { text: 'Active', fillStyle: '#ecb22e', index: 0 },
+                                            { text: 'On Hold', fillStyle: '#2ebc83', index: 2 },
+                                            { text: 'Open House', fillStyle: '#e01e5a', index: 1 },
+                                            { text: 'Closed', fillStyle: '#54b4d3', index: 3 }
+                                        ];
+                                    }
+                                    return [];
+                                }
                             }
                         }
+                    },
+                    layout: {
+                        padding: {
+                            top: 10,
+                            bottom: 20
+                        }
                     }
-                });
-            }
+                }
+            });
         });
     </script>
     <script>
