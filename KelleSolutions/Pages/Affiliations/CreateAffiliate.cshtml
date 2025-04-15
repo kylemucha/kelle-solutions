@@ -4,11 +4,26 @@
     ViewData["Title"] = "Affiliations";
 }
 
-<link rel="stylesheet" href="~/css/affiliations.css" />
+<link rel="stylesheet" href="~/css/mainpages.css" />
 
 <div class="header-section">
-    <h3>Affiliations</h3>
-    <a href="#" class="add-new-btn" data-toggle="modal" data-target="#createAffiliateModal">Add New</a>
+    <p>
+        <a href="/AT_Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+            </svg>
+        </a>
+        <span>/</span> <span class="pagename-text">Affiliations</span>
+    </p>
+
+    <a href="#" data-toggle="modal" data-target="#createAffiliateModal" style="float: right;">
+        <button class="gradient-button">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+            </svg>
+        </button>
+    </a> 
 </div>
 
 <div class="affiliations-container">
@@ -22,29 +37,38 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Affiliates)
+            @if (Model.Affiliates != null && Model.Affiliates.Any())
+            {
+                @foreach (var item in Model.Affiliates)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <!-- Update Button -->
+                                <a href="#" class="btn btn-link update-btn" data-toggle="modal" data-target="#updateAffiliateModal"
+                                data-id="@item.Id" data-name="@item.Name" data-description="@item.Description">
+                                    Update
+                                </a>
+
+                                <!-- Divider -->
+                                <span class="mx-2 border-left" style="height: 100%;"></span>
+
+                                <!-- Delete Button -->
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this affiliate?');">
+                                    <button type="submit" class="btn btn-link">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <!-- Update Button -->
-                            <a href="#" class="btn btn-link update-btn" data-toggle="modal" data-target="#updateAffiliateModal"
-                            data-id="@item.Id" data-name="@item.Name" data-description="@item.Description">
-                                Update
-                            </a>
-
-                            <!-- Divider -->
-                            <span class="mx-2 border-left" style="height: 100%;"></span>
-
-                            <!-- Delete Button -->
-                            <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this affiliate?');">
-                                <button type="submit" class="btn btn-link">Delete</button>
-                            </form>
-                        </div>
-                    </td>
+                    <td colspan="6" class="text-center">No affiliates found. Add a new affiliate to get started.</td>
                 </tr>
             }
         </tbody>
