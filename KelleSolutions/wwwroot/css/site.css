@@ -11,15 +11,11 @@
 */
 
 /* Global font size */
-html {
-  font-size: 14px;
-}
+
 
 /* Increase font size for larger screens */
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+  
 }
 
 /* Focus styles for buttons, links, and form controls */
@@ -28,15 +24,10 @@ html {
 }
 
 /* Set relative positioning and ensure minimum height for the page */
-html {
-  position: relative;
-  min-height: 100%;
-}
+
 
 /* Reserve space at the bottom of the body to avoid footer overlap */
-body {
-  margin-bottom: 60px;
-}
+
 
 /* ------------------ Carousel Specific Styles ------------------ */
 /* Reduce the vertical height of the carousel and ensure proper image scaling */
@@ -52,22 +43,15 @@ body {
     top: 5px; /* Adjust to align with other navbar elements */
 }
 
-.text-warning {
-  color: #e64b7b !important;
-}
 
-.text-danger{
-  color: #e64b7b !important;
-  font-weight:400 !important;
-}
+
+
 
 .input-validation-error {
   border:1px solid #e01e5a !important;
 }
 
-.form-control:focus {
-  
-}
+
 
 .form-control {
   color: #332d2d;
@@ -96,4 +80,476 @@ body {
 /*border of select when not focused*/
 .form-select {
   border: 1px solid;
+}
+
+/* === Custom Overrides Below === */
+
+/* Import Sora from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap');
+
+/* Set base font size and default font family for the entire document */
+html {
+  font-size: 14px;
+  font-family: 'Sora', sans-serif;
+}
+
+/* On medium screens and larger (768px+), increase base font size */
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+  .parallax-background {
+    background-attachment: scroll;
+  }
+}
+
+/* Heading Sizes */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Base body styling */
+body {
+  font-family: 'Sora', sans-serif;
+  font-weight: 400;                 /* Regular weight for body text */
+  margin-bottom: 60px;              /* Space for sticky footer */
+  color: #332d2d;                 /* Optional: default dark text */
+}
+
+/* Styling for footer */
+footer {
+  margin-top: 50px;
+}
+
+.footer-link {
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: #c1c6de;
+  text-decoration: none;
+}
+
+/* Styling for footer logo */
+.footer-logo {
+  -webkit-mask-image: url('/images/logo/black/KELLE_Brandmark-OneColor_RGB.svg');
+  mask-image: url('/images/logo/black/KELLE_Brandmark-OneColor_RGB.svg');
+
+  width: 24px;
+  height: 24px;
+  background-color: #c1c6de;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+
+/* Override Bootstrap's primary button styling */
+button,
+.btn,
+.gradient-button {
+  border-radius: 20px;
+  height: 40px;
+  padding: 0 1.25rem;         /* horizontal padding */
+  line-height: 40px;          /* vertical centering for <a> buttons */
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-primary {
+  background-color: #4a154b;
+  border-color: #4a154b;        /* optional: match border */
+  color: #fff;                  /* text color */
+}
+
+.btn-secondary  { background-color: #1264a3; }
+
+.btn-info       { background-color: #54B4D3; }
+
+.btn-success    { background-color: #2ebc83; }
+
+.btn-danger     { background-color: #e01e5a; }
+
+.btn-warning    { background-color: #ecb22e; }
+
+.btn-light      { background-color: #f6f6f8; color: #332d2d; }
+
+.btn-rounded.btn-light {
+  background-color: #f6f6f8; color: #332d2d;  /* in case it doesn't override */
+}
+
+/* Shared rounded button hover effect */
+.btn-rounded:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+  cursor: pointer;
+}
+
+/* Variant hover overrides for specific clarity */
+.btn-rounded.btn-primary:hover    { background-color: #4a154b; color: #fff; }
+.btn-rounded.btn-secondary:hover  { background-color: #1264a3; color: #fff; }
+.btn-rounded.btn-info:hover       { background-color: #54B4D3; color: #fff; }
+.btn-rounded.btn-success:hover    { background-color: #2ebc83; color: #fff; }
+.btn-rounded.btn-danger:hover     { background-color: #e01e5a; color: #fff; }
+.btn-rounded.btn-warning:hover    { background-color: #ecb22e; color: #fff; }
+.btn-rounded.btn-light:hover      { background-color: #f6f6f8; color: #332d2d; }
+
+.btn-primary:hover {
+  background-color: #3b0f3f;    /* darker on hover */
+  border-color: #3b0f3f;
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #4a154b;
+  border-color: #4a154b;
+}
+
+.btn-primary:focus,
+.btn-primary:focus-visible {
+  background-color: #4a154b;
+  border-color: #4a154b;
+  box-shadow: 0 0 0 0.25rem rgba(74, 21, 75, 0.3); /* Optional subtle glow */
+  outline: none;
+}
+
+.btn-primary:visited {
+  color: #fff;
+  background-color: #4a154b;
+  border-color: #4a154b;
+}
+
+/* Customize focus outlines for buttons, form fields, and links */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  /* Blue Gray inner ring with Purple outer ring for accessibility */
+  box-shadow: 0 0 0 0.1rem #c1c6de, 0 0 0 0.25rem #4a154b;
+}
+
+.btn-rounded {
+  border-radius: 20px; /* for a pill-like shape */
+  height: 40px;
+  padding: 0 1.25rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+a.btn-rounded {
+  text-decoration: none;
+}
+
+/* Modal submit button or other centered buttons */
+.button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Make sure the html tag stretches full height for proper layout */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.hero {
+  margin-top: 0px;
+}
+
+/* Parallax Styling in Home Page */
+.parallax-background {
+  background-image: url('/images/parallax/josh-hild-DXBwiwr6vrY-unsplash.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  border-radius: 10px;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Darkening the background */
+  background-color: rgba(0, 0, 0, 0.5); /* fallback */
+  background-blend-mode: overlay;
+}
+
+/* Content stays above the overlay */
+.parallax-background .parallax-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #f6f6f8;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+/* Styling for parallax logo */
+.parallax-logo {
+  -webkit-mask-image: url('/images/logo/white/KELLE_Logo-White_RGB.svg');
+  mask-image: url('/images/logo/white/KELLE_Logo-White_RGB.svg');
+
+  display: inline-block;
+  vertical-align: -0.28em;
+  width: auto;
+  height: 30px;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+/* Animation styling for Home Page */
+.fade-in-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation styling for nav bar */
+.fade-in-nav {
+  display: block;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1s ease, transform 1s ease;
+  position: aboslute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: transparent;
+}
+
+.fade-in-nav.visible {
+  opacity: 1;
+  transform: translateY(0);
+  background-color: rgba(255, 255, 255, 0.95); /* Solidify as it becomes visible */
+}
+
+/* Parallax Styling for anything else */
+.parallax-section {
+  background-image: url('/images/parallex/josh-hild-DXBwiwr6vrY-unsplash.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Features section styling in Home Page*/
+.features-section {
+  border-radius: 10px;
+}
+
+/* Icon Styling in Home Page */
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Optional hover effect */
+.feature-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Shared base styling in Home Page */
+.gradient-icon {
+  width: 256px;
+  height: 256px;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+/* Unique gradients */
+.gradient-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient( /* sandwich the gradient */
+    90deg,
+    #ecb22e 0%,
+    #e01e5a 16.67%,
+    #ecb22e 33.33%,
+    #e01e5a 50%,
+    #ecb22e 83.33%,
+    #e01e5a 100%
+  );
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-size: 600% 100%; /* makes the gradient move more visibly */
+  background-position: 0% center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animate the gradient button */
+@keyframes color-carousel {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 100% center;
+  }
+}
+
+.gradient-button:hover {
+  animation: color-carousel 10s linear infinite;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.gradient-button svg {
+  fill: #fff;
+  transition: transform 0.3s ease;
+}
+
+.gradient-button:hover svg {
+  transform: scale(1.1);
+}
+
+.gradient-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(236, 178, 46, 0.4);
+}
+
+.gradient-supervisor {
+  background: linear-gradient(90deg, #ecb22e, #e01e5a);
+
+  /* Masking */
+  -webkit-mask-image: url('/images/icons/supervisor_account_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg');
+  mask-image: url('/images/icons/supervisor_account_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg');
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  background-repeat: no-repeat;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.gradient-real-estate {
+  background: linear-gradient(90deg, #54B4D3, #1466A4);
+
+  /* Masking */
+  -webkit-mask-image: url('/images/icons/real_estate_agent_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg');
+  mask-image: url('/images/icons/real_estate_agent_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg');
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  background-repeat: no-repeat;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.gradient-trend-up {
+  background: linear-gradient(90deg, #D9CDD9, #714872);
+
+  /* Masking */
+  -webkit-mask-image: url('/images/icons/trending_up_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg');
+  mask-image: url('/images/icons/trending_up_24dp_5F6368_FILL0_wght300_GRAD0_opsz24.svg');
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  background-repeat: no-repeat;
+  display: inline-block;
+  transition: transform 0.3s ease;
 }

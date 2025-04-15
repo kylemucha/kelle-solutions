@@ -1,0 +1,192 @@
+@page
+@model HomeModel
+@{
+    ViewData["Title"] = "Welcome to Kelle Solutions";
+    ViewData["NavType"] = "Home";
+}
+
+<!-- parallax-background Start -->
+<div class="parallax-background container py-2 mb-3">
+    <!-- Hero Section -->
+    <div class="hero parallax-content py-5">
+        <div class="container"></div>
+            <img src="~/images/logo/color/KELLE_Brandmark-FullColor_RGB.svg" alt="Kelle Solutions Logo" class="mb-4" style="height: 80px;">
+            <h1 class="display-4 fw-bold">Empowering Property Management</h1>
+            <p class="lead">Freedom to grow your business, your way.</p>
+            <button class="btn-rounded gradient-button" data-bs-toggle="modal" data-bs-target="#signupModal">
+                Get Started
+            </button>
+            <a href="/Identity/Account/Login" class="btn-light btn-rounded ms-3">Login</a>
+        </div>
+    </div>
+<!-- parallax-background end -->
+</div>
+
+<!-- Feature Highlights -->
+<div class="bg-light features-section py-5 container">
+    <div class="container">
+        <h2 class="text-center mb-4">Why Choose Kelle Solutions?</h2>
+        <div class="row text-center">
+            <!-- Feature 1 -->
+            <div class="col-md-4 mb-4">
+                <div alt="Supervisor Icon" class="gradient-icon gradient-supervisor"></div>
+                <h5 class="mt-3">BETTER <br>EXPERIENCE</h5>
+                <p>Scale your business through one streamlined platform. Be reliable with real-time visibility across leads, properties, clients, and transactions — all in one system.</p>
+                <p>Kelle does it all. Track deals effortlessly with one-click transitions and full visibility into your pipeline.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="col-md-4 mb-4">
+                <div alt="Real Estate Icon" class="gradient-icon gradient-real-estate"></div>
+                <h5 class="mt-3">BETTER <br>LISTINGS</h5>
+                <p>Attract your ideal client by creating marketing pieces that reflect your brand and expertise. Stay organized with all marketing materials at your fingertips, ready to share with potential clients.</p>
+                <p>Use Agent Landers — personalized landing pages that showcase everything you do as an agent in one sleek, impressive space.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="col-md-4 mb-4">
+                <div alt="Trend Up Icon" class="gradient-icon gradient-trend-up"></div>
+                <h5 class="mt-3">BETTER <br>SALES</h5>
+                <p>Promote leads to transactions with just one click. Follow up with ease by knowing exactly where each deal is in the process.</p>
+                <p>Unlock growth by consolidating all your tech into one platform — saving time, budget, and boosting agent productivity.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- parallax-background Start -->
+<div class="parallax-background container py-5">
+<!-- Parallax Content -->
+    <div class="parallax-content">
+        <h2 class="display-5 fw-bold">Revolutionize Your Real Estate Workflow</h2>
+        <p class="lead">
+            Transform your business with
+            <img src="/images/logo/white/KELLE_Logo-White_RGB.svg" alt="Kelle Logo" class="ms-2 parallax-logo"/>
+        </p>
+    </div>
+<!-- parallax-background end -->
+</div>
+
+<!-- Our Story Section -->
+<div class="bg-white py-5">
+  <div class="container text-center" style="max-width: 720px;">
+    <h2 class="fw-bold mb-3">Our Story</h2>
+    <p class="lead">
+      Kelle was founded by Randall Watts and Don Stocker — two brokers who experienced firsthand how scattered real estate tech could be. Instead of settling for disjointed systems and constant inefficiencies, they decided to build something better.
+    </p>
+    <p class="lead">
+      With over a decade in the industry, Randall saw too many agents burn out from poor business systems. Don, a broker dedicated to training agents for long-term success, needed a solution for the mounting paperwork and chaos that slowed his team down.
+    </p>
+    <p class="lead">
+      So they built Kelle — a platform designed to bring everything into one place. From lead to close, agents can manage their business efficiently, grow sustainably, and finally treat real estate like the profession it deserves to be.
+    </p>
+    <br />
+    <img src="~/images/logo/color/KELLE_Brandmark-FullColor_RGB.svg" alt="Kelle Solutions Logo" class="mb-4" style="height: 80px;"> <br />
+    <p class="fw-semibold lead">
+      Your deals. Our system.
+    </p>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="bg-white py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">What Our Clients Are Saying</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <blockquote class="blockquote">
+                    <p>"Kelle has transformed the way we manage listings and leads. It's intuitive and powerful!"</p>
+                    <footer class="blockquote-footer">Jane D., <cite title="Company">Top Agent Realty</cite></footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4 mb-4">
+                <blockquote class="blockquote">
+                    <p>"We scaled faster than expected. Everything we need in one place."</p>
+                    <footer class="blockquote-footer">Michael T., <cite title="Company">Broker Partner</cite></footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4 mb-4">
+                <blockquote class="blockquote">
+                    <p>"My team finally has a tool that saves time and keeps us organized."</p>
+                    <footer class="blockquote-footer">Lindsay R., <cite title="Company">Property Manager</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact / Signup Section -->
+<div class="py-5 text-center container">
+    <div class="container">
+        <h2 class="fw-bold mb-3">Questions or Comments?</h2>
+        <p class="mb-4">
+            We know that our clients have unique needs. Send us a message, and we’ll get back to you soon.
+        </p>
+
+        <p class="mb-2">
+            <strong>Kelle Solutions</strong><br />
+            1610 R Street Suite 300 - Sacramento, California 95811 - United States
+        </p>
+
+        <p class="mb-2">
+            <a href="tel:+19162598158" class="text-dark text-decoration-none">(916) 259-8158</a> -
+            <strong>Hours:</strong> Open today 09:00 am – 05:00 pm
+        </p><br />
+
+        <button class="btn-rounded gradient-button" data-bs-toggle="modal" data-bs-target="#signupModal">
+            Sign Up
+        </button>
+    </div>
+</div>
+
+<!-- Sign-Up Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Contact Us to Get Started</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form>
+                    <!-- First and Last Name -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name..." required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name..." required>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email..." required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number..." required>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="3" placeholder="Tell us how we can help you..."></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="button-center">
+                        <button type="submit" class="gradient-button">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
