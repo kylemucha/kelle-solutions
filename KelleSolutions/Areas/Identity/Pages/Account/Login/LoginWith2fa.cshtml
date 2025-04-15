@@ -1,0 +1,75 @@
+﻿@page
+@model KelleSolutions.Areas.Identity.Pages.Account.Login.LoginWith2faModel
+@{
+    ViewData["Title"] = "Two-factor authentication";
+}
+
+<link rel="stylesheet" href="~/css/register.css" />
+
+<div class="container mt-5">
+    <header>
+        <img src="~/images/KELLE_logo_fullcolor.png" alt="Kelle Logo" style="margin-bottom: 20px;">
+    </header>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h4 class="log-in-heading">Two-factor authentication</h4>
+                    </div>
+                    <p class="text-center">Your login is protected with an authenticator app. Enter your code below.</p>
+
+                    <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                        <input asp-for="RememberMe" type="hidden" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                        <!-- Authenticator Code -->
+                        <div class="mb-3">
+                            <label asp-for="Input.TwoFactorCode" class="form-label">Authenticator Code</label>
+                            <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" placeholder="Enter authentication code" />
+                            <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                        </div>
+
+                        <!-- Remember this machine -->
+                        <div class="form-check mb-3">
+                            <input asp-for="Input.RememberMachine" class="form-check-input" />
+                            <label asp-for="Input.RememberMachine" class="form-check-label">
+                                @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">Log in</button>
+                        </div>
+
+                        <!-- Recovery Code Option -->
+                        <div class="d-grid mb-3">
+                            <p>
+                               
+                                Don't have access to your authenticator device?
+                                <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-primary btn-lg">
+                                    Log in with a recovery code                                
+                                </a> 
+                            </p> 
+                        </div>
+                        <!--
+                        <div class="text-center">
+                            <p>
+                                Don't have access to your authenticator device? You can
+                                <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">
+                                    log in with a recovery code
+                                </a>.
+                            </p>
+                        </div>
+                        -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

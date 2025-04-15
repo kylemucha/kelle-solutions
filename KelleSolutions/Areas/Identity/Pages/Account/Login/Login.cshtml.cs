@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 
-namespace KelleSolutions.Areas.Identity.Pages.Account
+namespace KelleSolutions.Areas.Identity.Pages.Account.Login
 {
     public class LoginModel : PageModel
     {
@@ -87,15 +87,17 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             User user = isEmail
                 ? await _userManager.FindByEmailAsync(Input.EmailOrPhone)
                 : await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == Input.EmailOrPhone);
-
+/* // Commented out due to causing Invalid login attempt
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                //User username = _userManager.GetUserNameAsync(Input.EmailOrPhone);
+                //if (User)
+                ModelState.AddModelError(string.Empty, "Invalid login attempt." + user);
                 return Page();
             }
-
+*/
             // Attempt to sign in the user
-            var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(Input.EmailOrPhone/*user*/, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
