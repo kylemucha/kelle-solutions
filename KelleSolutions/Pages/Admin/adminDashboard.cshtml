@@ -616,51 +616,16 @@
             </div>
 
             <div class="widget-content listing-items properties-list">
-                <div class="listing-item">
-                    <img src="~/images/houseExample_1.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">8581 Cord Way</div>
-                        <div class="listing-location">Sacramento, CA 95814</div>
-                        <div class="listing-id">(#125)</div>
+                @foreach (var listing in Model.OpenHouseListings)
+                {
+                    <div class="listing-item">
+                        <img src="~/images/propertyAlt.png" alt="House" class="listing-image">
+                        <div class="listing-details">
+                            <div class="listing-title">@listing.Street</div>
+                            <div class="listing-id">(#@listing.ID)</div>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Adding more example items to demonstrate scroll -->
-                <div class="listing-item">
-                    <img src="~/images/houseExample_2.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">6716 Castro Verde Way</div>
-                        <div class="listing-location">Elk Grove, CA 95757</div>
-                        <div class="listing-id">(#126)</div>
-                    </div>
-                </div>
-
-                <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">321 Maple Drive</div>
-                        <div class="listing-location">Sacramento, CA 95816</div>
-                        <div class="listing-id">(#127)</div>
-                    </div>
-                </div>
-
-                 <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">321 Maple Drive</div>
-                        <div class="listing-location">Sacramento, CA 95816</div>
-                        <div class="listing-id">(#127)</div>
-                    </div>
-                </div>
-
-                 <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">321 Maple Drive</div>
-                        <div class="listing-location">Sacramento, CA 95816</div>
-                        <div class="listing-id">(#127)</div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -671,58 +636,20 @@
         <div class="widget">
             <div class="widget-header">
                 <h5>Active listings</h5>
-                <!-- filter button not needed, # uncomment to show -->
-                @* <button class="btn btn-link p-0">
-                    <img src="~/images/filter_button.svg" alt="Filter" class="widget-icon">
-                </button> *@
             </div>
 
             <!-- Listing items -->
             <div class="widget-content listing-items">
-                <div class="listing-item">
-                    <img src="~/images/houseExample_3.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">120 Cakebread Circle</div>
-                        <div class="listing-location">Sacramento, CA 95834</div>
-                        <div class="listing-id">(#123)</div>
+                @foreach (var listing in Model.ActiveListings)
+                {
+                    <div class="listing-item">
+                        <img src="~/images/propertyAlt.png" alt="House" class="listing-image">
+                        <div class="listing-details">
+                            <div class="listing-title">@listing.Street</div>
+                            <div class="listing-id">(#@listing.ID)</div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">57 La Fresa Ct. #4</div>
-                        <div class="listing-location">Sacramento, CA 95823</div>
-                        <div class="listing-id">(#119)</div>
-                    </div>
-                </div>
-
-                 <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">57 La Fresa Ct. #4</div>
-                        <div class="listing-location">Sacramento, CA 95823</div>
-                        <div class="listing-id">(#119)</div>
-                    </div>
-                </div>
-
-                 <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">57 La Fresa Ct. #4</div>
-                        <div class="listing-location">Sacramento, CA 95823</div>
-                        <div class="listing-id">(#119)</div>
-                    </div>
-                </div>
-
-                 <div class="listing-item">
-                    <img src="~/images/houseExample_4.png" alt="House" class="listing-image">
-                    <div class="listing-details">
-                        <div class="listing-title">57 La Fresa Ct. #4</div>
-                        <div class="listing-location">Sacramento, CA 95823</div>
-                        <div class="listing-id">(#119)</div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
 
@@ -733,97 +660,20 @@
             </div>
 
             <div class="widget-content properties-list">
-                <div class="property-item">
-                    <div class="property-info">
-                        <div class="property-title">4465 Granite Drive</div>
-                        <div class="property-location">Rocklin, CA 95677</div>
+                @foreach (var property in Model.AllProperties)
+                {
+                    <div class="property-item">
+                        <div class="property-info">
+                            <div class="property-title">@property.Street</div>
+                            <div class="property-location">@property.City, @property.StateProvince @property.Postal</div>
+                        </div>
+                        <div class="property-actions">
+                            <a href="/Properties/MyProperties" class="action-btn">
+                                <img src="~/images/link_button.svg" alt="View Properties" class="action-icon">
+                            </a>
+                        </div>
                     </div>
-                    <div class="property-actions">
-                        <button class="action-btn">
-                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
-                        </button>
-                        <button class="action-btn">
-                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Repeat for other properties -->
-                <div class="property-item">
-                    <div class="property-info">
-                        <div class="property-title">123 Myers</div>
-                        <div class="property-location">West Sacramento, CA 95691</div>
-                    </div>
-                    <div class="property-actions">
-                        <button class="action-btn">
-                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
-                        </button>
-                        <button class="action-btn">
-                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="property-item">
-                    <div class="property-info">
-                        <div class="property-title">123 Myers</div>
-                        <div class="property-location">West Sacramento, CA 95691</div>
-                    </div>
-                    <div class="property-actions">
-                        <button class="action-btn">
-                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
-                        </button>
-                        <button class="action-btn">
-                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
-                        </button>
-                    </div>
-                </div>
-
-                <div class="property-item">
-                    <div class="property-info">
-                        <div class="property-title">123 Myers</div>
-                        <div class="property-location">West Sacramento, CA 95691</div>
-                    </div>
-                    <div class="property-actions">
-                        <button class="action-btn">
-                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
-                        </button>
-                        <button class="action-btn">
-                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
-                        </button>
-                    </div>
-                </div>
-
-                 <div class="property-item">
-                    <div class="property-info">
-                        <div class="property-title">123 Myers</div>
-                        <div class="property-location">West Sacramento, CA 95691</div>
-                    </div>
-                    <div class="property-actions">
-                        <button class="action-btn">
-                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
-                        </button>
-                        <button class="action-btn">
-                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
-                        </button>
-                    </div>
-                </div>
-
-                 <div class="property-item">
-                    <div class="property-info">
-                        <div class="property-title">123 Myers</div>
-                        <div class="property-location">West Sacramento, CA 95691</div>
-                    </div>
-                    <div class="property-actions">
-                        <button class="action-btn">
-                            <img src="~/images/map_button.svg" alt="Map" class="action-icon">
-                        </button>
-                        <button class="action-btn">
-                            <img src="~/images/link_button.svg" alt="Add" class="action-icon">
-                        </button>
-                    </div>
-                </div>
-                <!-- Add more properties following the same pattern -->
+                }
             </div>
         </div>
     </div>

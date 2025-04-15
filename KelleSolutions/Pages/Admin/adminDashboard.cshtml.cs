@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using KelleSolutions.Data;
 using KelleSolutions.Models;
+using KelleSolutions.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace KelleSolutions.Pages.Admin
@@ -11,6 +12,9 @@ namespace KelleSolutions.Pages.Admin
 
         public List<ActionEntity> ActionEntities { get; set; }
         public Dictionary<string, int> ListingCounts { get; set; }
+        public List<ViewUserListings> OpenHouseListings { get; set; }
+        public List<ViewUserListings> ActiveListings { get; set; }
+        public List<Property> AllProperties { get; set; }
 
         public adminDashboardModel(KelleSolutionsDbContext context)
         {
@@ -32,6 +36,35 @@ namespace KelleSolutions.Pages.Admin
                 { "OnHold", await _context.Listings.CountAsync(l => l.MyStatus == MyStatusEnum.OnHold) },
                 { "Closed", await _context.Listings.CountAsync(l => l.MyStatus == MyStatusEnum.Closed) }
             };
+
+            // Get open house listings with their property details
+            OpenHouseListings = await _context.Listings
+                .Include(l => l.PropertyDetails)
+                .Where(l => l.MyStatus == MyStatusEnum.OpenHouse)
+                .Select(l => new ViewUserListings
+                {
+                    ID = l.Code,
+                    Street = l.PropertyDetails.Street,
+                    Status = l.MyStatus.ToString()
+                })
+                .ToListAsync();
+
+            // Get active listings with their property details
+            ActiveListings = await _context.Listings
+                .Include(l => l.PropertyDetails)
+                .Where(l => l.MyStatus == MyStatusEnum.Active)
+                .Select(l => new ViewUserListings
+                {
+                    ID = l.Code,
+                    Street = l.PropertyDetails.Street,
+                    Status = l.MyStatus.ToString()
+                })
+                .ToListAsync();
+
+            // Get all properties
+            AllProperties = await _context.Properties
+                .OrderByDescending(p => p.Created)
+                .ToListAsync();
         }
     }
 } 
