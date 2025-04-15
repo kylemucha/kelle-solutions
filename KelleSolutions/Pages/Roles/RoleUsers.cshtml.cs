@@ -153,7 +153,6 @@ namespace KelleSolutions.Pages.Roles
             */
             }
             return Page();
-            
         }
 
         // Handler for editing (updating) an existing user

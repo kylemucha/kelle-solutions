@@ -50,11 +50,16 @@ namespace KelleSolutions.Pages.Listings
                 return RedirectToPage("/Account/Login");
             }
 
+             // Retrieve the current user's Person ID using your helper method.
+            int personId = await GetPersonIdForUserAsync(currentUser);
+
             var roles = await _userManager.GetRolesAsync(currentUser);
 
             // Include Property details via the navigation property "PropertyDetails"
             var listingsQuery = _context.Listings
                 .Include(l => l.PropertyDetails)
+                .Where(l => _context.PersonToListing.Any(ptl => ptl.ListingId == 
+                l.Code && ptl.PersonId == personId))
                 .AsQueryable();
 
             // Fetch raw listings ordered by Created date
@@ -98,6 +103,42 @@ namespace KelleSolutions.Pages.Listings
 
             return Page();
         }
+
+        private async Task<string> GetUserEmailAsync(User currentUser)
+{
+    // Retrieve the user's email from the AspNetUsers table using the UserName field.
+    var emailFromManager = await _userManager.GetUserNameAsync(currentUser);
+    if (!string.IsNullOrWhiteSpace(emailFromManager))
+    {
+        return emailFromManager.Trim();
+    }
+    
+    throw new Exception("Current user email is not set in AspNetUsers.");
+}
+
+        private async Task<int> GetPersonIdForUserAsync(User currentUser)
+{
+    var userEmail = await GetUserEmailAsync(currentUser);
+    Console.WriteLine($"Looking for Person record with EmailPrimary matching: '{userEmail}'");
+    
+    var persons = await _context.Person.ToListAsync();
+    foreach (var p in persons)
+    {
+        Console.WriteLine($"Found Person record: Code = {p.Code}, EmailPrimary = '{p.EmailPrimary}'");
+    }
+    
+    var person = persons.FirstOrDefault(p =>
+        string.Equals(p.EmailPrimary?.Trim(), userEmail, StringComparison.OrdinalIgnoreCase));
+    
+    if (person == null)
+    {
+        throw new Exception("No Person record found for the current user.");
+    }
+    
+    return person.Code;
+}
+
+
 
         public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request)
         {
@@ -200,6 +241,28 @@ public async Task<JsonResult> OnPostCreateListingAsync()
 
         _context.Listings.Add(newListing);
         await _context.SaveChangesAsync();
+
+        //Insert PersonToListing record ---
+        // Retrieve the current user.
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null)
+        {
+            return new JsonResult(new { success = false, message = "User not authenticated" });
+        }
+
+        // Obtain the Person's ID using your helper method.
+        int personId = await GetPersonIdForUserAsync(currentUser);
+
+        // Create a mapping record to link this listing with the current user's person.
+        var personToListing = new PersonToListing
+        {
+            PersonId = personId,
+            ListingId = newListing.Code
+        };
+
+        _context.PersonToListing.Add(personToListing);
+        await _context.SaveChangesAsync();
+        // End of Insert PersonToListing record ---
 
         return new JsonResult(new { success = true });
     }

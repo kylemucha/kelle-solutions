@@ -26,6 +26,9 @@ namespace KelleSolutions.Pages.Properties {
 
         public int TotalPages { get; set; }
 
+        [BindProperty]
+        public Property NewProperty { get; set; } = new Property();
+
         public async Task<IActionResult> OnGetAsync() {
             var query = _context.Properties.AsQueryable();
 
@@ -39,5 +42,23 @@ namespace KelleSolutions.Pages.Properties {
 
             return Page();
         }
+
+
+        public async Task<IActionResult> OnPostCreateAsync()
+{
+    // Check if the posted form is valid
+    if (!ModelState.IsValid)
+    {
+        
+        return Page();
+    }
+    
+    // Add the new property to the context and save changes
+    _context.Properties.Add(NewProperty);
+    await _context.SaveChangesAsync();
+    
+    // Redirect to refresh the page and display the updated list
+    return RedirectToPage();
+}
     }
 }

@@ -13,6 +13,7 @@ namespace KelleSolutions.Models
         //primary key
         [Key]
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public required int Code {get;set;}
 
         [Required]
