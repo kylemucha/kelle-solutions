@@ -3,15 +3,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using KelleSolutions.Models;
 using KelleSolutions.Data;
 using System.Threading.Tasks;
+using System;
 
-namespace KelleSolutions.Pages.Leads {
-    public class CreateLeadModel : PageModel {
+namespace KelleSolutions.Pages.Leads
+{
+    public class CreateLeadModel : PageModel
+    {
         private readonly KelleSolutionsDbContext _context;
 
-        public CreateLeadModel(KelleSolutionsDbContext context) {
+        public CreateLeadModel(KelleSolutionsDbContext context)
+        {
             _context = context;
-            // Initialize a new Lead instance using the updated properties.
-            Lead = new Lead {
+            // Initialize a new Lead with default (empty) values.
+            Lead = new Lead
+            {
                 NameFirst = string.Empty,
                 NameMiddle = string.Empty,
                 NameLast = string.Empty,
@@ -24,30 +29,50 @@ namespace KelleSolutions.Pages.Leads {
                 Street = string.Empty,
                 OrganizationName = string.Empty,
                 OrganizationTitle = string.Empty,
-                Tracking = string.Empty
+                Tracking = string.Empty,
+                // Set default values for required booleans.
+                Archived = false,
+                StageWorked = false,
+                TempWarm = false,
+                DoNotMarket = false,
+                DoNotContact = false,
+                // Set default enum values.
+                Operator = OperatorEnum.Operator1,
+                Originator = OriginatorEnum.Originator1,
+                Team = TeamEnum.TeamA,
+                Visibility = VisibilityEnum.Low,
+                OriginatorFeeRate = 0,
+                OriginatorFeeFixed = 0
             };
         }
 
-        // Bind the Lead model to the form
         [BindProperty]
         public Lead Lead { get; set; }
 
-        public IActionResult OnGet() {
+        public IActionResult OnGet()
+        {
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync() {
-            if (!ModelState.IsValid) {
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
                 return Page();
             }
-            try {
+            try
+            {
+                Lead.Created = DateTime.Now;
+                Lead.Updated = DateTime.Now;
                 _context.Leads.Add(Lead);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("/Leads/ViewLead", new { id = Lead.Code });
+                // Redirect back to the MyLeads page so the new lead is visible.
+                return RedirectToPage("/Leads/MyLeads");
             }
-            catch (System.Exception ex) {
+            catch (Exception ex)
+            {
                 ModelState.AddModelError("", "An error occurred while saving the lead. Please try again.");
-                System.Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
                 return Page();
             }
         }

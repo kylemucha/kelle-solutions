@@ -1,21 +1,105 @@
 @page
 @model KelleSolutions.Pages.Leads.ViewLeadsModel
-@{
-    ViewData["Title"] = "User Leads";
-}
-<link rel="stylesheet" href="~/css/mainpages.css" />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet" />
-
-<body>
+@{ ViewData["Title"] = "My Leads"; }
+<!--
+Date: 02/23/2025 
+Updating MyLeads.cshtml to reflect new and modified viewing table of the Leads Entities created by signed-in user.
+Adding comments to better explain documentation.
+-->
 <div class="header-section">
     <p>
+        <link rel="stylesheet" href="~/css/mainpages.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
         <a href="/AT_Dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
                 <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
             </svg>
         </a>
-        <span>/</span> <span class="pagename-text">Leads</span>
+        <span>/</span> <span class="pagename-text">View My Leads</span>
     </p>
+</div>
+
+<body>
+
+<div class="buttons">
+    <div class="d-flex">
+        <div class="dropdown me-2">
+            <label for="dropdownButton" class="button-label">Listing source</label>
+            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Options
+            </button>
+            <ul class="dropdown-menu p-2">
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option1">
+                    <label class="form-check-label" for="option1">Option 1</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option2">
+                    <label class="form-check-label" for="option2">Option 2</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option3">
+                    <label class="form-check-label" for="option3">Option 3</label>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <label for="dropdownButton" class="button-label">Listing status</label>
+            <button id="dropdownButton" class="btn btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Options
+            </button>
+            <ul class="dropdown-menu p-2">
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option1">
+                    <label class="form-check-label" for="option1">All</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option2">
+                    <label class="form-check-label" for="option2">On Hold</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option3">
+                    <label class="form-check-label" for="option3">Open House</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option4">
+                    <label class="form-check-label" for="option4">Active</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option5">
+                    <label class="form-check-label" for="option5">Pending</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option6">
+                    <label class="form-check-label" for="option6">Closed</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option7">
+                    <label class="form-check-label" for="option7">Expired</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option8">
+                    <label class="form-check-label" for="option8">Withdrawn</label>
+                </li>
+                <li>
+                    <input class="form-check-input me-2 option-checkbox" type="checkbox" id="option9">
+                    <label class="form-check-label" for="option9">Canceled</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+   
+    
+    <!-- Add Lead Button -->
+<a href="/Leads/CreateLead" class="gradient-button" style="text-decoration: none;">
+    Add
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+    </svg>
+</a>
+
+    
+
 </div>
 
 <div class="content-container">
@@ -23,21 +107,20 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Created</th>
+                <th>Creation Date</th>
                 <th>Full Name</th>
                 <th>Phone</th>
                 <th>Email</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.ViewUserLeads)
-            {
+            @foreach (var lead in Model.ViewUserLeads) {
                 <tr>
-                    <td><a href="ViewLead?id=@item.ID" style="text-decoration: none;">@item.ID</a></td>
-                    <td>@item.CreationDate.ToString("yyyy-MM-dd")</td>
-                    <td>@item.FullName</td>
-                    <td>@item.Phone</td>
-                    <td>@item.Email</td>
+                    <td>@lead.ID</td>
+                    <td>@lead.CreationDate.ToString("yyyy-MM-dd")</td>
+                    <td>@lead.FullName</td>
+                    <td>@lead.Phone</td>
+                    <td>@lead.Email</td>
                 </tr>
             }
         </tbody>
@@ -45,20 +128,128 @@
 </div>
 
 <div class="pagination-section">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="rows-per-page-container">
+            <label for="pageSize" class="rowamount-label">Rows per page:</label>
+            <div class="dropdown-wrapper">
+                <select id="pageSize" class="form-control dropdown-outline" onchange="updatePageSize()">
+                    <option value="5" selected="@(Model.PageSize == 5 ? "selected" : null)">5</option>
+                    <option value="10" selected="@(Model.PageSize == 10 ? "selected" : null)">10</option>
+                    <option value="20" selected="@(Model.PageSize == 20 ? "selected" : null)">20</option>
+                    <option value="50" selected="@(Model.PageSize == 50 ? "selected" : null)">50</option>
+                </select>
+                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#5f6368">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
     <div class="page-navigation">
-        <div class="page-item">
-            <a class="page-link">Previous</a>
+        <div class="page-desc">
+            <span>
+                @( (Model.PageNumber - 1) * Model.PageSize + 1) - 
+                @(System.Math.Min(Model.PageNumber * Model.PageSize, Model.ViewUserLeads.Count))
+                of @Model.ViewUserLeads.Count
+            </span>
         </div>
-        <div class="page-item">
-            <a class="page-link active">1</a>
+
+        <div class="page-btn">
+            @if (Model.PageNumber > 1) {
+                <a href="?PageNumber=@(Model.PageNumber - 1)&PageSize=@Model.PageSize">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                    </svg>
+                </a>
+            }
+            else {
+                <span class="disabled-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                    </svg>
+                </span>
+            }
         </div>
-        <div class="page-item">
-            <a class="page-link">Next</a>
+
+        <div class="page-btn">
+            @if (Model.PageNumber < Model.TotalPages) {
+                <a href="?PageNumber=@(Model.PageNumber + 1)&PageSize=@Model.PageSize">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </a>
+            }
+            else {
+                <span class="disabled-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#d3d3d3">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                    </svg>
+                </span>
+            }
         </div>
     </div>
 </div>
+
 </body>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let elements = document.querySelectorAll(".some-class");
+            if (elements.length > 0) {
+                elements.forEach(el => console.log(el.textContent));
+            } else {
+                console.warn("No elements found with the given selector.");
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("JavaScript Loaded for Create Lead Modal");
+
+            document.getElementById("createLeadForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent page reload
+
+                let formData = {
+                    FullName: document.getElementById("fullName").value.trim(),
+                    Phone: document.getElementById("phone").value.trim(),
+                    Email: document.getElementById("email").value.trim(),
+                    Source: document.getElementById("leadSource").value.trim()
+                };
+
+                console.log("Submitting Lead Data:", JSON.stringify(formData));
+
+                fetch("/Leads/ViewLeads?handler=CreateLead", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Server Response:", data);
+                    if (data.success) {
+                        alert("Lead added successfully!");
+                        $("#AddLeadModal").modal("hide");
+                        location.reload();
+                    } else {
+                        alert("Error adding lead: " + data.message);
+                    }
+                })
+                .catch(error => console.error("Fetch Error:", error));
+            });
+        });
+    </script>
+
+    <script>
+        function updatePageSize() {
+            var pageSize = document.getElementById("pageSize").value;
+            window.location.href = "?PageSize=" + pageSize + "&PageNumber=1";
+        }
+    </script>
 }

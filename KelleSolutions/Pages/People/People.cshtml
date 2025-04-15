@@ -73,14 +73,18 @@
               </ul>
           </div>
       </div>
-      <a href="/People/CreatePerson">
-          <button class="gradient-button">
-              Add
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
-                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
-              </svg>
-          </button>
-      </a>
+      @if (User.IsInRole("Admin") || User.IsInRole("Broker")) {
+
+    <a href="/People/CreatePerson">
+        <button class="gradient-button">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+            </svg>
+        </button>
+    </a>
+    
+    }
   </div>
 
   <div class="content-container">
@@ -94,14 +98,14 @@
                   <th>Email</th>
                   <th>Created</th>
                   <th>Category</th>
-                  <th>Actions</th>
+                  @if (User.IsInRole("Admin") || User.IsInRole("Broker")) {<th>Actions</th>} <!-- Only show the actions column for admins and brokers -->
               </tr>
           </thead>
           <tbody>
               @foreach (var item in Model.PeopleList)
               {
                   <tr>
-                      <td><a href="/People/ViewPerson?code=@item.Code" style="text-decoration: none;">@item.Code</a></td>
+                      <td><a href="/People/ViewPerson?code=@item.Code" style="text-decoration: none;">@item.Code</a> </td>
                       <td>@item.NameLast</td>
                       <td>@item.NameFirst</td>
                       <td>@item.PhonePrimary</td>
@@ -109,12 +113,14 @@
                       <td>@item.Created.ToString("yyyy-MM-dd")</td>
                       <td>@item.Category</td>
                       <td>
-                        <a href="/People/ViewPerson?code=@item.Code" class="btn btn-sm btn-primary me-2">Edit</a>
-                        <button type="button" class="btn btn-sm btn-danger" 
-                        onclick="confirmDelete(@item.Code, '@item.NameFirst @item.NameLast')">
-                        Delete
-                    </button>
-                      </td>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Broker")){
+                            <a href="/People/ViewPerson?code=@item.Code" class="btn btn-sm btn-primary me-2">Edit</a>
+                            <button type="button" class="btn btn-sm btn-danger" 
+                            onclick="confirmDelete(@item.Code, '@item.NameFirst @item.NameLast')">
+                            Delete
+                        </button>
+                        }
+</td>
                   </tr>
               }
           </tbody>

@@ -61,30 +61,35 @@ namespace KelleSolutions.Pages.People
             }).ToList();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(int code)
-        {
-            var person = await _context.People.FindAsync(code);
-            
-            if (person == null)
-            {
-                return NotFound();
-            }
+    public async Task<IActionResult> OnPostDeleteAsync(int code) {
+    // Check if the current user is in the "Admin" or "Broker" role
+    if (!User.IsInRole("Admin") && !User.IsInRole("Broker"))
+    {
+        // Return a forbidden response if the user isn't allowed to delete
+        return Forbid();
+    }
 
-            try
-            {
-                person.Archived = true;
-                person.Updated = DateTime.UtcNow;
-                
-                await _context.SaveChangesAsync();
-                return RedirectToPage();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error deleting person: {ex.Message}");
-                ModelState.AddModelError("", "Error deleting person. Please try again.");
-                return Page();
-            }
-        }
+    var person = await _context.People.FindAsync(code);
+    if (person == null)
+    {
+        return NotFound();
+    }
+    try
+    {
+        // Perform the delete (or soft-delete)
+        person.Archived = true;
+        person.Updated = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error deleting person: {ex.Message}");
+        ModelState.AddModelError("", "Error deleting person. Please try again.");
+        return Page();
+    }
+}
+
     }
 
     // The view model

@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using KelleSolutions.Models;
 using KelleSolutions.Data;
+using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System;
 
 namespace KelleSolutions.Pages.People
 {
+    [Authorize(Roles = "Admin,Broker")] // Adds strict control for this page, only Admin and Broker can use it, no other role is authorized unless changed here.
     public class CreatePersonModel : PageModel
     {
         private readonly KelleSolutionsDbContext _context;

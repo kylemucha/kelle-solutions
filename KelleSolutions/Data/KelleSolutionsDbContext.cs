@@ -220,6 +220,9 @@ namespace KelleSolutions.Data
         //DbSet for PersonToPerson
         public DbSet<PersonToPerson> PersonToPerson {get;set;}
 
+        //DbSet for PersonToListing
+        public DbSet<PersonToListing> PersonToListing { get; set; }
+
         //DbSet for PersonToProperties
         public DbSet<PersonToProperties> PersonToProperties {get;set;}
 
