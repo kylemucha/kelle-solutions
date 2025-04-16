@@ -126,72 +126,92 @@
     </table>
 </div>
 
-<!-- Edit Modal -->
+<!-- Edit Vendor Modal (Multi-Step) -->
 <div class="modal fade" id="editEntityModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Vendor</h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" asp-page-handler="Update">
-                    <input type="hidden" id="updateId" name="id" />
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Edit Vendor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
+        <div class="modal-body">
+            <form method="post" asp-page-handler="Update" id="editEntityForm">
+                <input type="hidden" id="updateId" name="id" />
+
+                <!-- Step 1 -->
+                <div class="form-step" id="editStep1">
                     <div class="mb-3">
                         <label for="updateName" class="form-label">Business Name</label>
                         <input type="text" class="form-control" id="updateName" name="EntityName" required />
                     </div>
 
-                    <div class="mb-3">
-                        <label for="updateCategory" class="form-label">Category</label>
-                        <select class="form-control" id="updateCategory" name="Category" required>
-                            <option value="0">Broker</option>
-                            <option value="1">Contractor</option>
-                            <option value="2">Escrow</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="updateCategory" class="form-label">Category</label>
+                            <select class="form-control" id="updateCategory" name="Category" required>
+                                <option value="0">Broker</option>
+                                <option value="1">Contractor</option>
+                                <option value="2">Escrow</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="updatePhone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="updatePhone" name="Phone" required />
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="updatePhone" class="form-label">Phone</label>
-                        <input type="tel" class="form-control" id="updatePhone" name="Phone" required />
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="updateCountry" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="updateCountry" name="Country" required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="updateCity" class="form-label">City</label>
-                        <input type="text" class="form-control" id="updateCity" name="City" required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="updateStateProvince" class="form-label">State/Province</label>
-                        <input type="text" class="form-control" id="updateStateProvince" name="StateProvince" required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="updatePostal" class="form-label">Postal Code</label>
-                        <input type="text" class="form-control" id="updatePostal" name="Postal" required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="updateStreet" class="form-label">Street Address</label>
-                        <input type="text" class="form-control" id="updateStreet" name="Street" required />
-                    </div>
-                    
                     <div class="mb-3">
                         <label for="updateWebsite" class="form-label">Website</label>
                         <input type="url" class="form-control" id="updateWebsite" name="Website" placeholder="https://example.com" />
                     </div>
+                </div>
 
-                    <button type="submit" class="btn btn-primary me-2">Save Changes</button>
-                </form>
-            </div>
+                <!-- Step 2 -->
+                <div class="form-step d-none" id="editStep2">
+                    <div class="mb-3">
+                        <label for="Street" class="form-label">Street Address</label>
+                        <input type="text" class="form-control" id="updateStreet" name="Street" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="City" class="form-label">City</label>
+                            <input type="text" class="form-control" id="updateCity" name="City" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="StateProvince" class="form-label">State/Province</label>
+                            <input type="text" class="form-control" id="updateStateProvince" name="StateProvince" required />
+                        </div>
+                    </div>
+                    <div class="row mb">
+                        <div class="col-md-6 mb-3">
+                            <label for="Country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="updateCountry" name="Country" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="Postal" class="form-label">Postal Code</label>
+                            <input type="text" class="form-control" id="updatePostal" name="Postal" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between position-relative">
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" id="editBackBtn" disabled>Back</button>
+                    </div>
+                    <div class="position-absolute start-50 translate-middle-x">
+                        <button type="submit" class="btn gradient-button-home mx-auto" name="saveExit">Save & Exit</button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" id="editNextBtn">Next</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
+        </div>
+  </div>
 </div>
 
 
@@ -283,6 +303,38 @@
                     }
                 }
             });
+        });
+    </script>
+    <script>
+        let editStep = 1;
+        const editSteps = 2;
+
+        const nextBtn = document.getElementById("editNextBtn");
+        const backBtn = document.getElementById("editBackBtn");
+        const form = document.getElementById("editEntityForm");
+
+        nextBtn.addEventListener("click", () => {
+            if (editStep === editSteps) {
+                // If on last step, submit the form
+                form.submit();
+            } else {
+                // Otherwise, move to next step
+                document.getElementById(`editStep${editStep}`).classList.add("d-none");
+                editStep++;
+                document.getElementById(`editStep${editStep}`).classList.remove("d-none");
+                backBtn.disabled = editStep === 1;
+                nextBtn.textContent = editStep === editSteps ? "Finish" : "Next";
+            }
+        });
+
+        backBtn.addEventListener("click", () => {
+            if (editStep > 1) {
+                document.getElementById(`editStep${editStep}`).classList.add("d-none");
+                editStep--;
+                document.getElementById(`editStep${editStep}`).classList.remove("d-none");
+                backBtn.disabled = editStep === 1;
+                nextBtn.textContent = "Next";
+            }
         });
     </script>
 }

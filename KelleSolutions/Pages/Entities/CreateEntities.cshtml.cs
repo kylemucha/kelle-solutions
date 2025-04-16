@@ -46,8 +46,8 @@ namespace KelleSolutions.Pages.Entities
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-             // Set default values for required properties not provided by the form
+             Console.WriteLine(">>> OnPostAsync reached: Did it work?");
+            // Set default values for required properties not provided by the form
             Entity.Archived = false;
             Entity.Created = DateTime.Now;
             Entity.Updated = DateTime.Now;

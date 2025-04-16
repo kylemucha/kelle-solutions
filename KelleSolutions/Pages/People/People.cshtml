@@ -114,13 +114,19 @@
                       <td>@item.Category</td>
                       <td>
                         @if (User.IsInRole("Admin") || User.IsInRole("Broker")){
-                            <a href="/People/ViewPerson?code=@item.Code" class="btn btn-sm btn-primary me-2">Edit</a>
+                            <button type="button"
+                                    class="btn btn-sm btn-primary me-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updateModal"
+                                    data-code="@item.Code">
+                                Edit
+                            </button>
                             <button type="button" class="btn btn-sm btn-danger" 
                             onclick="confirmDelete(@item.Code, '@item.NameFirst @item.NameLast')">
                             Delete
                         </button>
                         }
-</td>
+                        </td>
                   </tr>
               }
           </tbody>
@@ -247,6 +253,184 @@
       </div>
   </div>
 
+<!-- Update Person Modal (Styled like Entities) -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form id="updateForm" method="post">
+                <input type="hidden" name="PersonRecord.Code" id="personCode">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Person</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Step Indicators -->
+                <div class="d-flex justify-content-center gap-3 py-2">
+                    <div id="stepIndicator1" class="step-indicator">1</div>
+                    <div id="stepIndicator2" class="step-indicator">2</div>
+                    <div id="stepIndicator3" class="step-indicator">3</div>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Step 1 -->
+                    <div class="form-step" id="personStep1">
+                        <div class="mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="PersonRecord.NameFirst">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Middle Name</label>
+                            <input type="text" class="form-control" name="PersonRecord.NameMiddle">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="PersonRecord.NameLast">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Display Name</label>
+                            <input type="text" class="form-control" name="PersonRecord.NameDisplay">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Headline</label>
+                            <input type="text" class="form-control" name="PersonRecord.Headline">
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="form-step d-none" id="personStep2">
+                        <div class="row mb-3">
+                        <div class="col">
+                            <label>Primary Email</label>
+                            <input type="email" class="form-control" name="PersonRecord.EmailPrimary">
+                        </div>
+                        <div class="col">
+                            <label>Primary Email Label</label>
+                            <input type="text" class="form-control" name="PersonRecord.EmailPrimaryLabel">
+                        </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Secondary Email</label>
+                                <input type="email" class="form-control" name="PersonRecord.EmailSecondary">
+                            </div>
+                            <div class="col">
+                                <label>Secondary Email Label</label>
+                                <input type="text" class="form-control" name="PersonRecord.EmailSecondaryLabel">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Primary Phone</label>
+                                <input type="text" class="form-control" name="PersonRecord.PhonePrimary">
+                            </div>
+                            <div class="col">
+                                <label>Primary Phone Label</label>
+                                <input type="text" class="form-control" name="PersonRecord.PhonePrimaryLabel">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Secondary Phone</label>
+                                <input type="text" class="form-control" name="PersonRecord.PhoneSecondary">
+                            </div>
+                            <div class="col">
+                                <label>Secondary Phone Label</label>
+                                <input type="text" class="form-control" name="PersonRecord.PhoneSecondaryLabel">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Address, Bio, Flags -->
+                    <div class="step step-3 d-none" id="personStep3">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Street</label>
+                                <input type="text" class="form-control" name="PersonRecord.Street">
+                            </div>
+                            <div class="col">
+                                <label>City</label>
+                                <input type="text" class="form-control" name="PersonRecord.City">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>State/Province</label>
+                                <input type="text" class="form-control" name="PersonRecord.StateProvince">
+                            </div>
+                            <div class="col">
+                                <label>Postal Code</label>
+                                <input type="text" class="form-control" name="PersonRecord.Postal">
+                            </div>
+                            <div class="col">
+                                <label>Country</label>
+                                <input type="text" class="form-control" name="PersonRecord.Country">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Category</label>
+                                <select name="PersonRecord.Category" class="form-select" id="personCategory" required>
+                                    <option value="">Select...</option>
+                                    <option value="0">Broker</option>
+                                    <option value="1">Contractor</option>
+                                    <option value="2">Escrow</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label>Do Not Market</label>
+                                <input type="checkbox" class="form-check-input ms-2" name="PersonRecord.DoNotMarket">
+                            </div>
+                            <div class="col">
+                                <label>Do Not Contact</label>
+                                <input type="checkbox" class="form-check-input ms-2" name="PersonRecord.DoNotContact">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Comments</label>
+                            <textarea class="form-control" name="PersonRecord.Comments"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label>Bio</label>
+                            <textarea class="form-control" name="PersonRecord.Bio"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between position-relative">
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" id="personBackBtn" disabled>Back</button>
+                    </div>
+                    <div class="position-absolute start-50 translate-middle-x">
+                        <button type="submit" class="btn gradient-button-home d-none" id="personSubmitBtn">Save & Exit</button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" id="personNextBtn">Next</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+  .step-indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  .step-indicator.active {
+    background-color: #4a154b;
+    color: white;
+  }
+</style>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -279,4 +463,72 @@
           deleteModal.show();
       }
   </script>
+
+<script>
+  let personStep = 1;
+  const totalPersonSteps = 3;
+
+  const updateSteps = () => {
+    for (let i = 1; i <= totalPersonSteps; i++) {
+      document.getElementById(`personStep${i}`).classList.toggle("d-none", i !== personStep);
+      document.getElementById(`stepIndicator${i}`).classList.toggle("active", i === personStep);
+    }
+    document.getElementById("personBackBtn").disabled = personStep === 1;
+    document.getElementById("personNextBtn").textContent = personStep === totalPersonSteps ? "Finish" : "Next";
+    document.getElementById("personSubmitBtn").classList.toggle("d-none", personStep !== totalPersonSteps);
+  };
+
+  document.getElementById("personNextBtn").addEventListener("click", () => {
+    if (personStep === totalPersonSteps) {
+      const submitBtn = document.getElementById("personSubmitBtn");
+        submitBtn.classList.remove("d-none"); // temporarily show
+        submitBtn.click();
+    } else {
+      personStep++;
+      updateSteps();
+    }
+  });
+
+  document.getElementById("personBackBtn").addEventListener("click", () => {
+    if (personStep > 1) {
+      personStep--;
+      updateSteps();
+    }
+  });
+
+  document.getElementById('updateModal').addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const code = button.getAttribute('data-code');
+    document.getElementById('personCode').value = code;
+    console.log(code);
+    personStep = 1;
+    updateSteps();
+
+    fetch(`/People/ViewPerson?code=${code}`)
+      .then(res => res.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const inputs = doc.querySelectorAll('input, textarea');
+        const categoryField = document.querySelector('#personCategory');
+        const categoryValue = doc.querySelector('[name="PersonRecord.Category"]')?.value;
+
+        if (categoryField && categoryValue !== undefined) {
+        categoryField.value = categoryValue;
+        }
+
+        inputs.forEach(src => {
+          const target = document.querySelector(`#updateForm [name="${src.name}"]`);
+          if (target) {
+            if (target.type === 'checkbox') {
+              target.checked = src.checked;
+            } else {
+              target.value = src.value;
+            }
+          }
+        });
+      });
+  });
+</script>
+
 </body>
