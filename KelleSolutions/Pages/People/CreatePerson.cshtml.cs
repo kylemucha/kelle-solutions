@@ -89,7 +89,7 @@ namespace KelleSolutions.Pages.People
                     await _context.SaveChangesAsync();
                 }
 
-                return RedirectToPage("/People/MyPeople");
+                return RedirectToPage("/People/People");
             }
             catch (Exception ex)
             {
