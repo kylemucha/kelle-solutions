@@ -74,7 +74,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account
             public string PhoneNumber { get; set; }
 
             [Required(ErrorMessage = "License Number is required.")]
-            [RegularExpression(@"^\d{8}$", ErrorMessage = "The License Number must be exactly 8 digits.")]
+            [RegularExpression(@"^\d{7}$", ErrorMessage = "The License Number must be exactly 7 digits.")]
             public string LicenseNumber { get; set; }
 
             [Required(ErrorMessage = "Role selection is required.")]

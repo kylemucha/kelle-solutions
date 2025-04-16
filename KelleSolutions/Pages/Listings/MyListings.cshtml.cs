@@ -42,12 +42,19 @@ namespace KelleSolutions.Pages.Listings
 
         public int TotalPages => (int)Math.Ceiling((double)AllListings.Count / PageSize);
 
+        private string GetStatusDisplayName(MyStatusEnum status)
+        {
+            var memberInfo = status.GetType().GetMember(status.ToString()).FirstOrDefault();
+            var displayAttribute = memberInfo?.GetCustomAttribute<DisplayAttribute>();
+            return displayAttribute?.Name ?? status.ToString();
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login/Login", new { area = "Identity" });
             }
 
              // Retrieve the current user's Person ID using your helper method.
@@ -73,7 +80,7 @@ namespace KelleSolutions.Pages.Listings
                 ListingDate = l.Created.HasValue 
                     ? DateOnly.FromDateTime(l.Created.Value) 
                     : DateOnly.FromDateTime(DateTime.MinValue),
-                Status = l.MyStatus.ToString(),
+                Status = GetStatusDisplayName(l.MyStatus),
                 Operator = l.PropertyDetails.Operator.ToString(),
                 Affiliation = "N/A", // No user affiliation in the new model
                 Price = l.Price.HasValue ? (double)l.Price.Value : 0,
@@ -140,25 +147,65 @@ namespace KelleSolutions.Pages.Listings
 
 
 
-        public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request)
+public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request)
+{
+    // 1. Validate request
+    if (request == null || request.Id <= 0)
+    {
+        return new JsonResult(new { success = false, message = "Invalid request data" });
+    }
+
+    try
+    {
+        // 2. Find the listing (including related data if needed)
+        var listing = await _context.Listings
+            .FirstOrDefaultAsync(l => l.Code == request.Id);
+
+        if (listing == null)
         {
-            var listing = await _context.Listings.FindAsync(request.Id);
-            if (listing == null)
-            {
-                return new JsonResult(new { success = false, message = "Listing not found" });
-            }
-
-            if (Enum.TryParse(typeof(KelleSolutions.Models.MyStatusEnum), request.Status, out var status))
-            {
-                listing.MyStatus = (MyStatusEnum)status;
-                await _context.SaveChangesAsync();
-                return new JsonResult(new { success = true });
-            }
-
-            return new JsonResult(new { success = false, message = "Invalid Status" });
+            return new JsonResult(new { 
+                success = false, 
+                message = $"Listing {request.Id} not found" 
+            });
         }
 
-       [IgnoreAntiforgeryToken]
+        // 3. Log current values for debugging
+        Console.WriteLine($"Current status: {listing.MyStatus}");
+        Console.WriteLine($"Attempting to update to: {request.Status}");
+
+        // 4. Handle status conversion (with space removal)
+        var statusValue = request.Status?.Replace(" ", "") ?? "";
+        if (!Enum.TryParse(statusValue, true, out MyStatusEnum newStatus))
+        {
+            var validValues = string.Join(", ", Enum.GetNames(typeof(MyStatusEnum)));
+            return new JsonResult(new { 
+                success = false, 
+                message = $"Invalid status '{request.Status}'. Valid values: {validValues}" 
+            });
+        }
+
+        // 5. Update and save
+        listing.MyStatus = newStatus;
+        listing.Updated = DateTime.Now; // Add update timestamp if you have this field
+
+        await _context.SaveChangesAsync();
+
+        return new JsonResult(new { 
+            success = true,
+            newStatus = request.Status // Return the formatted status
+        });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error updating status: {ex}");
+        return new JsonResult(new { 
+            success = false, 
+            message = $"Database error: {ex.Message}" 
+        });
+    }
+}
+
+[IgnoreAntiforgeryToken]
 public async Task<JsonResult> OnPostCreateListingAsync()
 {
     try

@@ -161,11 +161,11 @@ namespace KelleSolutions.Pages.People
     public class PersonView
     {
         public int Code { get; set; }
-        public string NameLast { get; set; }
-        public string NameFirst { get; set; }
-        public string PhonePrimary { get; set; }
-        public string EmailPrimary { get; set; }
+        public required string NameLast { get; set; }
+        public required string NameFirst { get; set; }
+        public required string PhonePrimary { get; set; }
+        public required string EmailPrimary { get; set; }
         public DateTime Created { get; set; }
-        public string Category { get; set; }
+        public required string Category { get; set; }
     }
 }

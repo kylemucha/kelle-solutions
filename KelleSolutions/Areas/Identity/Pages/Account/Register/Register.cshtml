@@ -65,7 +65,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="licenseNumber" class="form-label">License Number</label>
-                                <input asp-for="Input.LicenseNumber" id="licenseNumber" class="form-control" maxlength="8" />
+                                <input asp-for="Input.LicenseNumber" id="licenseNumber" class="form-control"
+                                       maxlength="7" pattern="\d{7}" title="License number must be exactly 7 digit." required />
                                 <span asp-validation-for="Input.LicenseNumber" class="text-danger"></span>
                             </div>
                         </div>

@@ -58,9 +58,9 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
-            [Required(ErrorMessage = "Agent License Number is required.")]
-            [RegularExpression(@"^\d{8}$", ErrorMessage = "License Number must be an 8-digit number.")]
-            [Display(Name = "Agent License Number")]
+            [Required(ErrorMessage = "License Number is required.")]
+            [RegularExpression(@"^\d{7}$", ErrorMessage = "License Number must be a 7-digit number.")]
+            [Display(Name = "License Number")]
             public string LicenseNumber { get; set; }
         }
 

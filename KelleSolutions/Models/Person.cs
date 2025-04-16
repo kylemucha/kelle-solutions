@@ -85,13 +85,13 @@ namespace KelleSolutions.Models
         // Primary email (varchar(80) NOT NULL)
         [Required(ErrorMessage = "Primary email is required")]
         [StringLength(80)]
-        [EmailAddress(ErrorMessage = "Invalid email format")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|edu|org|net)$", ErrorMessage = "Email must end with .com, .edu, .org, or .net")]
         public required string EmailPrimary { get; set; }
 
         // Secondary email (varchar(80) NOT NULL)
         [Required(ErrorMessage = "Secondary email is required")]
         [StringLength(80)]
-        [EmailAddress(ErrorMessage = "Invalid email format")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|edu|org|net)$", ErrorMessage = "Email must end with .com, .edu, .org, or .net")]
         public required string EmailSecondary { get; set; }
 
         // Label for primary email (varchar(20) NOT NULL)
