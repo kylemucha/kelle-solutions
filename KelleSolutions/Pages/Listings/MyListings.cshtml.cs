@@ -84,7 +84,11 @@ namespace KelleSolutions.Pages.Listings
                 Operator = l.PropertyDetails.Operator.ToString(),
                 Affiliation = "N/A", // No user affiliation in the new model
                 Price = l.Price.HasValue ? (double)l.Price.Value : 0,
-                Address = $"{l.PropertyDetails.Street}, {l.PropertyDetails.City}, {l.PropertyDetails.StateProvince} {l.PropertyDetails.Postal}"
+                            Address = String.Join(", ", new[] {
+                                l.PropertyDetails.Street,
+                                l.PropertyDetails.City,
+                                $"{l.PropertyDetails.StateProvince} {l.PropertyDetails.Postal}"
+                            }.Where(s => !string.IsNullOrWhiteSpace(s)))
             }).ToList();
 
             // Paginate the listings

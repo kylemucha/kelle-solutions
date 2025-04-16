@@ -538,45 +538,49 @@ Adding comments to better explain documentation.
                 });
             }
             
-            // Filter listings based on selected statuses
-            function filterListings() {
-                // Get all selected statuses
-                const selectedStatuses = [];
-                let allSelected = false;
-                
-                statusCheckboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        if (checkbox.value === 'All') {
-                            allSelected = true;
-                        } else {
-                            selectedStatuses.push(checkbox.value.replace(/([A-Z])/g, ' $1').trim()); // Convert camelCase to spaced words
-                        }
-                    }
-                });
-                
-                // Get all table rows except header
-                const rows = document.querySelectorAll('.table tbody tr');
-                
-                rows.forEach(row => {
-                    // Get the status cell (3rd column, index 2)
-                    const statusCell = row.querySelector('td:nth-child(3)');
-                    const statusText = statusCell ? 
-                        statusCell.querySelector('.status-btn')?.textContent.trim() : '';
-                    
-                    // Show/hide row based on filtering
-                    if (allSelected || selectedStatuses.length === 0) {
-                        // If "All" is selected or no filter is applied, show all rows
-                        row.style.display = '';
-                    } else {
-                        // Show row only if its status is in the selected statuses
-                        row.style.display = selectedStatuses.some(status => 
-                            statusText.includes(status)) ? '' : 'none';
-                    }
-                });
-                
-                // Update dropdown button text
-                updateFilterButtonText();
+    // Filter listings based on selected statuses            
+    function filterListings() {
+    // Get all selected statuses
+    const selectedStatuses = [];
+    let allSelected = false;
+    
+    statusCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            if (checkbox.value === 'All') {
+                allSelected = true;
+            } else {
+                // Convert camelCase to SPACED UPPERCASE (e.g., OpenHouse → OPEN HOUSE)
+                const formattedValue = checkbox.value.replace(/([A-Z])/g, ' $1').trim().toUpperCase();
+                selectedStatuses.push(formattedValue);
+                console.log("Formatted selected status:", formattedValue);
             }
+        }
+    });
+    
+    console.log("Selected statuses:", selectedStatuses);
+    // Get all table rows except header
+    const rows = document.querySelectorAll('.table tbody tr');
+    
+    rows.forEach(row => {
+        // Get ONLY the visible status button text, not all dropdown options
+        const statusButton = row.querySelector('td:nth-child(3) .status-btn');
+        const statusText = statusButton ? 
+            statusButton.querySelector('.status-text').textContent.trim().toUpperCase() : '';
+        
+        console.log("Row status:", statusText);
+        // Show/hide row based on filtering
+        if (allSelected || selectedStatuses.length === 0) {
+            // If "All" is selected or no filter is applied, show all rows
+            row.style.display = '';
+        } else {
+            // Show row only if its status is in the selected statuses
+            const statusMatches = selectedStatuses.includes(statusText);
+            row.style.display = statusMatches ? '' : 'none';
+        }
+    });
+    
+    updateFilterButtonText();
+}
             
             function updateFilterButtonText() {
                 const dropdownButton = document.getElementById('statusDropdown');
