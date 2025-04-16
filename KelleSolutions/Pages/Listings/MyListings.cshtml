@@ -209,23 +209,23 @@ Adding comments to better explain documentation.
                     <td><a href="/Listings/ViewListing?listingId=@listing.ListingID" class="id-link">@listing.ListingID</a></td>
                     <td>@listing.ListingDate.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <div class="btn-group">
-                            <!-- Status dropdown content (unchanged) -->
-                            <button type="button" class="btn dropdown-outline status-btn">
-                                @listing.Status
+                        <div class="dropdown">
+                            <button class="btn status-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span id="currentStatus" class="status-text">@listing.Status</span>
+                                <span class="status-btn-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill=white><path d="M480-373.85 303.85-550h352.3L480-373.85Z"/></svg>
+                                </span>
                             </button>
-                            <button type="button" class="btn dropdown-outline dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu">
-                                @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.MyStatusEnum))) {
-                                    <li>
-                                        <a class="dropdown-item status-option" href="#"
-                                           data-value="@status"
-                                           data-listing-id="@listing.ListingID">
-                                            @status
-                                        </a>
-                                    </li>
-                                }
-                            </div>
+                            <ul class="dropdown-menu status-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-status="ON HOLD">ON HOLD</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="OPEN HOUSE">OPEN HOUSE</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="ACTIVE">ACTIVE</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="PENDING">PENDING</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="CLOSED">CLOSED</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="EXPIRED">EXPIRED</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="WITHDRAWN">WITHDRAWN</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="CANCELED">CANCELED</a></li>
+                            </ul>
                         </div>
                     </td>
                     <td>@listing.Affiliation</td>
@@ -393,59 +393,79 @@ Adding comments to better explain documentation.
         }
     </script>
     <script>
-        function updateButtonStyle(button, status) {
-            // Remove previous status classes
-            button.classList.remove( 'btn-warning', 'btn-success', 'btn-danger', 'btn-secondary');
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                let statusBtn = dropdown.querySelector('.status-btn');
+                let statusText = dropdown.querySelector('.status-text');
 
-            // Add new class based on status
-            switch (status) {
-                case "On Hold":
-                case "Open House":
-                    button.classList.add('btn-secondary'); // Gray for On Hold/Open House
-                    break;
-                case "Active":
-                    button.classList.add('btn-success'); // Green for Active
-                    break;
-                case "Pending":
-                    button.classList.add('btn-warning'); // Yellow for Pending
-                    break;
-                case "Closed":
-                    button.classList.add('btn-danger'); // Red for Closed
-                    break;
-                case "Expired":
-                    button.classList.add('btn-success'); // Green for Expired
-                    break;
-                case "Withdrawn":
-                    button.classList.add('btn-warning'); // Yellow for Withdrawn
-                    break;
-                case "Canceled":
-                    button.classList.add('btn-danger'); // Red for Canceled
-                    break;
-            }
-        }
+                const statusColors = {
+                    "ON HOLD": "status-btn-onhold",
+                    "OPEN HOUSE": "status-btn-openhouse",
+                    "ACTIVE": "status-btn-active",
+                    "PENDING": "status-btn-pending",
+                    "CLOSED": "status-btn-closed",
+                    "EXPIRED": "status-btn-expired",
+                    "WITHDRAWN": "status-btn-withdrawn",
+                    "CANCELED": "status-btn-canceled"
+                };
 
-        document.querySelectorAll('.btn-group').forEach(group => {
-            const button = group.querySelector('.status-btn');
+                // Function to update the button color
+                function updateButtonColor(status) {
+                    // Remove any previously applied classes
+                    statusBtn.classList.remove(...Object.values(statusColors));
 
-            // Set initial color based on current status
-            updateButtonStyle(button, button.textContent.trim());
+                    // Apply the new class based on status
+                    if (statusColors[status]) {
+                        statusBtn.classList.add(statusColors[status]);
+                    }
+                }
 
-            group.querySelectorAll('.status-option').forEach(item => {
-                item.addEventListener('click', function (e) {
-                    e.preventDefault();
+                // Wait until Razor syntax renders the dynamic status, then apply the correct color
+                setTimeout(() => {
+                    let currentStatus = statusText.textContent.trim();
+                    updateButtonColor(currentStatus);
+                }, 0);
 
-                    // Get the new status value
-                    let newStatus = this.getAttribute('data-value');
+                // Event listeners for dropdown selection
+                dropdown.querySelectorAll('.status-option').forEach(option => {
+                    option.addEventListener('click', function (e) {
+                        e.preventDefault();
 
-                    // Update button text and style
-                    button.textContent = newStatus;
-                    updateButtonStyle(button, newStatus);
+                        // Get the new status value
+                        let newStatus = this.getAttribute('data-status');
+                        let listingId = this.closest('tr').getAttribute('data-listing-id');
+                        
+                        fetch(`/Listings/MyListings?handler=UpdateStatus`, {
+                            method: "POST",
+                            headers: { 
+                                "Content-Type": "application/json",
+                                "Accept": "application/json",
+                                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify({ Id: listingId, Status: newStatus })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log("Status updated successfully");
+                            } else {
+                                console.error("Failed to update status:", data.message);
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+
+                        // Update button text
+                        statusText.textContent = newStatus;
+
+                        // Update button color
+                        updateButtonColor(newStatus);
+                    });
                 });
             });
-        });
+        }); 
     </script>
 
-    <script>
+    <!--<script>
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".status-option").forEach(item => {
                 item.addEventListener("click", function (event) {
@@ -478,7 +498,7 @@ Adding comments to better explain documentation.
                 });
             });
         });
-    </script>
+    </script>-->
     
     <script>
         function menuIcon(img) {

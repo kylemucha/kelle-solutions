@@ -127,14 +127,30 @@ namespace KelleSolutions.Models {
         public string? Comments { get; set; }
     }
 
-    public enum MyStatusEnum : short {
+    public enum MyStatusEnum : short
+    {
+        [Display(Name = "ON HOLD")]
         OnHold = 0,
+
+        [Display(Name = "OPEN HOUSE")]
         OpenHouse = 1,
+
+        [Display(Name = "ACTIVE")]
         Active = 2,
+
+        [Display(Name = "PENDING")]
         Pending = 3,
+
+        [Display(Name = "CLOSED")]
         Closed = 4,
+
+        [Display(Name = "EXPIRED")]
         Expired = 5,
+
+        [Display(Name = "WITHDRAWN")]
         Withdrawn = 6,
+
+        [Display(Name = "CANCELED")]
         Canceled = 7
     }
 
