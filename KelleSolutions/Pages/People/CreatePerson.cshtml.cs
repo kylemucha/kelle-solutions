@@ -50,7 +50,7 @@ namespace KelleSolutions.Pages.People
                 var currentUser = await _userManager.GetUserAsync(User);
                 // Add debugging line here to check TenantID
                 Console.WriteLine($"Current user TenantID: {currentUser?.TenantID}");
-                
+
                 var userRoles = await _userManager.GetRolesAsync(currentUser);
                 string userRole = userRoles.FirstOrDefault();
 
@@ -81,21 +81,20 @@ namespace KelleSolutions.Pages.People
                         TenantID = currentUser.TenantID.Value,
                         PersonID = Person.Code,
                         TenantToPersonID = 1000 + Person.Code,
-                        Role = userRole ?? "User"
+                        Role = userRole ?? "User",
+                        AssignedToUserId = currentUser.Id
                     };
 
                     _context.TenantToPeople.Add(tenantLink);
                     await _context.SaveChangesAsync();
                 }
 
-                return RedirectToPage("/People/People");
+                return RedirectToPage("/People/MyPeople");
             }
             catch (Exception ex)
             {
-                // Log the full exception details
                 Console.WriteLine($"Error creating person: {ex.Message}");
                 Console.WriteLine($"Stack trace: {ex.StackTrace}");
-                
                 ModelState.AddModelError("", $"Error: {ex.Message}");
                 return Page();
             }

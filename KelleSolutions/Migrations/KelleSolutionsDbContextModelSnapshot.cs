@@ -37,6 +37,9 @@ namespace KelleSolutions.Migrations
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Completed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Due")
                         .HasColumnType("datetime2");
 
@@ -1328,19 +1331,19 @@ namespace KelleSolutions.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "418d56ba-26e6-4e5a-a8c7-9d005d66ca05",
+                            Id = "1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "26fafe37-60cc-4241-9707-d475441f2fd4",
+                            Id = "2",
                             Name = "Broker",
                             NormalizedName = "BROKER"
                         },
                         new
                         {
-                            Id = "81c2d935-7b3c-42de-849c-de72d922113d",
+                            Id = "3",
                             Name = "Agent",
                             NormalizedName = "AGENT"
                         });

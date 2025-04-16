@@ -23,9 +23,6 @@ namespace KelleSolutions.Models
         public string? Email { get; set; } = null!;
 
         [MaxLength(50)]
-        public string PhoneNumber { get; set; } = null!;
-
-        [MaxLength(50)]
         public string LicenseNumber { get; set; } = string.Empty;
 
         public bool IsTenant { get; set; }

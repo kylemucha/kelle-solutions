@@ -35,16 +35,25 @@ namespace KelleSolutions.Pages.People
             var roles = await _userManager.GetRolesAsync(currentUser);
 
             bool isAdmin = roles.Contains("Admin");
-            bool isBroker = roles.Contains("Broker");
-            bool isAgent = roles.Contains("Agent");
+            IQueryable<Person> query;
 
-            IQueryable<Person> query = _context.Person
-                .Where(p => _context.TenantToPeople
-                    .Any(tp => tp.PersonID == p.Code && tp.TenantID == currentUser.TenantID && (
-                        (isAdmin) ||
-                        (isBroker && tp.Role == "Broker") ||
-                        (isAgent && tp.Role == "Agent")
-                    )));
+            if (isAdmin)
+            {
+                // Admin sees all people in their tenant
+                query = from p in _context.Person
+                        join tp in _context.TenantToPeople on p.Code equals tp.PersonID
+                        where tp.TenantID == currentUser.TenantID
+                        select p;
+            }
+            else
+            {
+                // Broker/Agent see only people assigned to them
+                query = from p in _context.Person
+                        join tp in _context.TenantToPeople on p.Code equals tp.PersonID
+                        where tp.TenantID == currentUser.TenantID &&
+                              tp.AssignedToUserId == currentUser.Id
+                        select p;
+            }
 
             AllPeople = await query.OrderByDescending(p => p.Created).ToListAsync();
 

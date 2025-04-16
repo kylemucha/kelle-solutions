@@ -28,7 +28,8 @@ namespace KelleSolutions.Migrations
                     Due = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Relation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Important = table.Column<bool>(type: "bit", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Completed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -523,6 +524,7 @@ namespace KelleSolutions.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Affiliation = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     LicenseNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsTenant = table.Column<bool>(type: "bit", nullable: false),
                     TenantID = table.Column<int>(type: "int", nullable: true),
@@ -532,7 +534,6 @@ namespace KelleSolutions.Migrations
                     ResetCodeExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -785,9 +786,9 @@ namespace KelleSolutions.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "26fafe37-60cc-4241-9707-d475441f2fd4", null, "Broker", "BROKER" },
-                    { "418d56ba-26e6-4e5a-a8c7-9d005d66ca05", null, "Admin", "ADMIN" },
-                    { "81c2d935-7b3c-42de-849c-de72d922113d", null, "Agent", "AGENT" }
+                    { "1", null, "Admin", "ADMIN" },
+                    { "2", null, "Broker", "BROKER" },
+                    { "3", null, "Agent", "AGENT" }
                 });
 
             migrationBuilder.CreateIndex(
