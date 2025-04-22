@@ -1,27 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
-using KelleSolutions.Models;
-using System.Threading.Tasks;
 
-namespace KelleSolutions.Pages
-{
-    // The model class associated with the Index page, inheriting from Razor's PageModel.
-    public class IndexModel : PageModel
-    {
-        // Private field to store the logger instance for logging purposes.
-        private readonly ILogger<IndexModel> _logger;
+namespace KelleSolutions.Pages;
 
-        // Constructor to inject the ILogger service.
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
-        // Method that handles GET requests to the Index page. Currently, it doesn't perform any actions.
-        public void OnGet()
-        {
-
-        }
+public class IndexModel : PageModel {
+    public IActionResult OnGet() {
+        // ASP.NET looks for /Pages/Index.cshtml by default when the app starts.
+        // This page exists solely to redirect visitors from "/" to the intended splash page.
+        // The root route ("/") cannot be changed through configuration in Razor Pages,
+        // so we handle redirection manually here.
+        return RedirectToPage("/Home/Home");
     }
 }
