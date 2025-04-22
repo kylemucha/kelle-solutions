@@ -110,7 +110,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Login
                 return roles switch
                 {
                     var r when r.Contains("Admin") => RedirectToPage("/Admin/AdminDashboard"),
-                    var r when r.Contains("Broker") || r.Contains("Agent") => RedirectToPage("/AT_Dashboard"),
+                    var r when r.Contains("Broker") || r.Contains("Agent") => RedirectToPage("/Dashboard"),
                     _ => LocalRedirect(returnUrl) // Fallback if role not recognized
                 };
             }

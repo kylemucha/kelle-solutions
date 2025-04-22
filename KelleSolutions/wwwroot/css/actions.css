@@ -9,13 +9,7 @@ body {
     display: inline-flex; /* Allows items to be aligned horizontally */
     align-items: center; /* Centers them vertically */
     gap: 8px; /* Adds space between the icon and the text */
-    margin-bottom: 1rem;
-}
-
-.header-section svg {
-    vertical-align: middle; /* Ensures the SVG aligns vertically with the text */
-    margin-top: -3px; /* Manually adjust the position */
-    fill: #1264a3;
+    margin: 20px 0 1rem;
 }
 
 .header-section span {
@@ -207,18 +201,6 @@ body {
 .date-picker{
     flex: 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .action-list {
     min-width: 400px;

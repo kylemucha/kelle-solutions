@@ -56,48 +56,104 @@
 
 </style>
 
-<div class="nav-bar-icons">
-    <div class="button-container">
-        <a href="/Admin/adminDashboard" class="btn btn-gray rounded-pill">
-            <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
+<div>
+    <div class="header-section">
+        <div class="button-container d-flex align-items-center" style="gap: 12px;">
+        <!-- DASHBOARD -->
+        <a href="/Dashboard" class="btn btn-primary btn-purple-active rounded-pill d-flex align-items-center">
+            <img src="~/images/selected_dashboard.svg" alt="" class="btn-icon">
             <span class="btn-text">Dashboard</span>
         </a>
-        <a href="/Listings/MyListings" class="btn btn-gray rounded-pill">
+
+        <!-- LISTINGS Dropdown -->
+        <a href="/Listings/MyListings" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
             <img src="~/images/listing_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">Listings</span>
         </a>
-        <a href="/Actions/MyActions" class="btn btn-purple-active rounded-pill">
-            <img src="~/images/selected_actions.svg" alt="" class="btn-icon">
+
+        <!-- ACTIONS -->
+        <a href="/Actions/MyActions" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
+            <img src="~/images/actions_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">Actions</span>
         </a>
-        <a href="/Leads/MyLeads" class="btn btn-gray rounded-pill">
+
+        <!-- PROPERTIES Dropdown 
+        <div class="dropdown d-inline-block">
+            <button class="btn btn-primary btn-gray rounded-pill dropdown-toggle d-flex align-items-center" 
+                    type="button" 
+                    id="propertiesDropdown" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+                <img src="~/images/svg_properties.svg" alt="" class="btn-icon">
+                <span class="btn-text">Properties</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="propertiesDropdown">
+                <li><a class="dropdown-item" href="/Properties/MyProperties">My Properties</a></li>
+                <li><a class="dropdown-item" href="/Properties/AllProperties">All Properties</a></li>
+            </ul>
+        </div> not needed?-->
+
+
+
+        <!-- LEADS Dropdown -->
+        <a href="/Leads/MyLeads" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
             <img src="~/images/leads_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">Leads</span>
         </a>
-        <a href="/People/MyPeople" class="btn btn-gray rounded-pill">
+
+        <!-- PEOPLE -->
+        <a href="/People/MyPeople" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
             <img src="~/images/people_logo_notSelected.svg" alt="" class="btn-icon">
             <span class="btn-text">People</span>
         </a>
-        <img src="~/images/menu.svg" class="btn btn-gray rounded-pill" data-bs-toggle="dropdown"  onclick="menuIcon(this)">
-        <ul id ="customDropdown" class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="/Properties/MyProperties"> <img src="~/images/properties.svg" alt="" class="btn-icon">Properties</a></li>
-            <li><a class="dropdown-item" href=""><img src="~/images/vendors.svg" alt="" class="btn-icon">Vendors</a></li>
-        </ul>
+
+        <div class="dropdown">
+            <button id="menuButton" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center"
+                    data-bs-toggle="dropdown" aria-expanded="false" style="padding: 8px; border: none;">
+                <span id="menuIcon">
+                    <!-- Initial Hamburger SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                        <path d="M140-254.62v-59.99h680v59.99H140ZM140-450v-60h680v60H140Zm0-195.39v-59.99h680v59.99H140Z"/>
+                    </svg>
+                </span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end" id="customDropdown">
+                <li>
+                    <a class="dropdown-item" href="/Properties/MyProperties">
+                        <img src="~/images/properties.svg" class="btn-icon"> Properties
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#">
+                        <img src="~/images/vendors.svg" class="btn-icon"> Vendors
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SETTINGS button NOT NEEDED, # uncomment to show -->
+        @* <a href="/Admin/Settings" 
+           class="btn btn-primary btn-gray rounded-pill d-flex align-items-center justify-content-center p-2 position-absolute" 
+           style="width: 40px; height: 40px; right: 130px; top: 85px;">
+            <img src="~/images/vertical_dots_button.svg" alt="" style="width: 24px; height: 24px;">
+        </a> *@
+
     </div>
 </div>
 
 
 <body>
-
-<div class="header-section">
-        <a href="/AT_Dashboard">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+<div>
+<div class="header-section ">
+        <a href="/Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#1264a3" style="margin-top: -3px">
                 <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
             </svg>
         </a>
         <span>/</span> <span class="pagename-text">View My Actions</span>
 </div>
-
+</div>
 <!-- Dashboard Content -->
 <div class="dashboard-container">
     <!-- Left Column -->
