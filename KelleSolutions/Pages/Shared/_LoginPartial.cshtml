@@ -16,7 +16,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
-                <li><a class="dropdown-item" asp-page="/AT_Dashboard">Dashboard</a></li>
+                <li><a class="dropdown-item" asp-page="/Dashboard">Dashboard</a></li>
                 <li>
                     <form id="logoutForm" class="dropdown-item p-0 m-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                         <button type="submit" class="btn btn-link dropdown-item">Logout</button>
@@ -38,7 +38,7 @@
             <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li> only admin can register*@
         <li class="nav-item">
-            <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login/Login" asp-route-returnUrl="@Url.Page("/AT_Dashboard")">Login</a>
+            <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login/Login" asp-route-returnUrl="@Url.Page("/Dashboard")">Login</a>
         </li>
     }
 </ul>

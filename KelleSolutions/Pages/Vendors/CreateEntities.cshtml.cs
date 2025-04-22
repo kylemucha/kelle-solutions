@@ -75,7 +75,7 @@ namespace KelleSolutions.Pages.Entities
                 await _context.SaveChangesAsync();
 
                 // Redirect to the Entities page
-                return RedirectToPage("./Entities");
+                return RedirectToPage("./MyVendors");
             }
             catch (Exception ex)
             {

@@ -2,20 +2,14 @@
 
 body {
     font-family: 'Sora';
-    font-size: 13px
 }
 
 .header-section {
     display: inline-flex; /* Allows items to be aligned horizontally */
     align-items: center; /* Centers them vertically */
     gap: 8px; /* Adds space between the icon and the text */
-    margin-bottom: 1rem;
-}
-
-.header-section svg {
-    vertical-align: middle; /* Ensures the SVG aligns vertically with the text */
-    margin-top: -3px; /* Manually adjust the position */
-    fill: #1264a3;
+    margin: 20px 0 1rem;
+    font-size: 13px;
 }
 
 .header-section span {
@@ -161,7 +155,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 38px
+    height: 38px;
+    font-size: 13px;
 }
 
 .dropdown-menu {
@@ -186,16 +181,11 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 14px;
     font-weight: 600;
     margin-left: 10px;
 }
 
 .form-control {
-    font-size: 13px;
-}
-
-.btn {
     font-size: 13px;
 }
 
@@ -207,18 +197,6 @@ body {
 .date-picker{
     flex: 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .action-list {
     min-width: 400px;
@@ -341,7 +319,6 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
 }
 
 .checkbox-container {
@@ -379,7 +356,7 @@ body {
 }
 
 .create-action {
-    min-width: 496px;
+    min-width: 510px;
 }
 
 .completed {

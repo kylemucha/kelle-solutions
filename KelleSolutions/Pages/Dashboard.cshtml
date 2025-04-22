@@ -1,12 +1,9 @@
 @page
-@model KelleSolutions.Pages.Admin.adminDashboardModel
+@model KelleSolutions.Pages.Dashboard.DashboardModel
 @{
     ViewData["Title"] = "Dashboard";
     ViewData["HideFooter"] = true;
 }
-
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<KelleSolutions.Models.User> SignInManager
 
 <!-- Add the Google Fonts link -->
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -41,7 +38,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 35px;
-        margin: 25px 0px 40px;
+        margin: 20px 0px 40px;
     }
 
     .header-content {
@@ -625,9 +622,6 @@ else if (User.IsInRole("Agent")){
     </div>
 
 }
-
-
-
 
 <!-- Dashboard Content -->
 <div class="dashboard-container">
