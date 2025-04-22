@@ -539,4 +539,31 @@ else if (User.IsInRole("Agent")) {
             }
         }
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const button = document.getElementById("menuButton");
+            const iconContainer = document.getElementById("menuIcon");
+
+            const openSVG = `
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                    <path d="M140-260v-60h488.46v60H140Zm637.85-38.08L595.15-480l182.7-181.54L820-619.38 679.46-480 820-340.23l-42.15 42.15ZM140-450v-60h371.54v60H140Zm0-190v-60h488.46v60H140Z"/>
+                </svg>`;
+
+            const defaultSVG = `
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                    <path d="M140-254.62v-59.99h680v59.99H140ZM140-450v-60h680v60H140Zm0-195.39v-59.99h680v59.99H140Z"/>
+                </svg>`;
+
+            // Use Bootstrap's Dropdown object to attach events
+            const dropdownToggle = new bootstrap.Dropdown(button);
+
+            button.addEventListener('show.bs.dropdown', () => {
+                iconContainer.innerHTML = openSVG;
+            });
+
+            button.addEventListener('hide.bs.dropdown', () => {
+                iconContainer.innerHTML = defaultSVG;
+            });
+        });
+    </script>
 }
