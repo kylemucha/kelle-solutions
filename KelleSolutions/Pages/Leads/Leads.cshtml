@@ -79,7 +79,7 @@
     }
 </style>
 @if (User.IsInRole("Admin") || User.IsInRole("Broker")) {
-    <div class="header-section">
+    <div class="nav-bar-icons">
 
     <div class="button-container d-flex align-items-center" style="gap: 12px;">
     <!-- DASHBOARD -->
@@ -178,7 +178,7 @@
 
 }
 else if (User.IsInRole("Agent")){
-    <div class="header-section">
+    <div class="nav-bar-icons">
         <div class="button-container d-flex align-items-center" style="gap: 12px;">
         <!-- DASHBOARD -->
         <a href="/Dashboard" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">

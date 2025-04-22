@@ -4,6 +4,20 @@ body {
 
 /*Above Table*/
 
+.nav-bar-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 35px;
+    margin: 25px 0px 40px;
+}
+
+.nav-bar-icons.content-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .header-section p {
     display: inline-flex; /* Allows items to be aligned horizontally */
     align-items: center; /* Centers them vertically */

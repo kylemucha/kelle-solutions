@@ -8,18 +8,6 @@
 <link rel="stylesheet" href="~/css/mainpages.css" />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet" />
 <style>
-    .nav-bar-icons {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .nav-bar-icons.content-container {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
 
     .btn.btn-gray {
         background-color: #f1f1f1 !important;
@@ -82,7 +70,7 @@
 
 </style>
 @if (User.IsInRole("Admin") || User.IsInRole("Broker")) {
-    <div class="header-section">
+    <div class="nav-bar-icons">
 
     <div class="button-container d-flex align-items-center" style="gap: 12px;">
     <!-- DASHBOARD -->
@@ -130,7 +118,7 @@
                 id="vendorsDropdown" 
                 data-bs-toggle="dropdown" 
                 aria-expanded="false">
-            <img src="~/images/vendors.svg" alt="" class="btn-icon">
+            <img src="~/images/selected_vendors.svg" alt="" class="btn-icon">
             <span class="btn-text">Vendors</span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="propertiesDropdown">
@@ -181,7 +169,7 @@
 
 }
 else if (User.IsInRole("Agent")) {
-    <div class="header-section">
+    <div class="nav-bar-icons">
         <div class="button-container d-flex align-items-center" style="gap: 12px;">
         <!-- DASHBOARD -->
         <a href="/Dashboard" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
@@ -218,7 +206,7 @@ else if (User.IsInRole("Agent")) {
                     data-bs-toggle="dropdown" aria-expanded="false" style="padding: 8px; border: none;">
                 <span id="menuIcon">
                     <!-- Initial Hamburger SVG -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white">
                         <path d="M140-254.62v-59.99h680v59.99H140ZM140-450v-60h680v60H140Zm0-195.39v-59.99h680v59.99H140Z"/>
                     </svg>
                 </span>
@@ -232,7 +220,7 @@ else if (User.IsInRole("Agent")) {
                 </li>
                 <li>
                     <a class="dropdown-item" href="#">
-                        <img src="~/images/selected_vendors.svg" class="btn-icon"> Vendors
+                        <img src="~/images/vendors.svg" class="btn-icon"> Vendors
                     </a>
                 </li>
             </ul>
@@ -251,7 +239,7 @@ else if (User.IsInRole("Agent")) {
 }
 
 <div>
-    <div class="breadcrumb">
+    <div class="header-section">
         <p>
             <a href="/Dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
@@ -587,12 +575,12 @@ else if (User.IsInRole("Agent")) {
             const iconContainer = document.getElementById("menuIcon");
 
             const openSVG = `
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white">
                     <path d="M140-260v-60h488.46v60H140Zm637.85-38.08L595.15-480l182.7-181.54L820-619.38 679.46-480 820-340.23l-42.15 42.15ZM140-450v-60h371.54v60H140Zm0-190v-60h488.46v60H140Z"/>
                 </svg>`;
 
             const defaultSVG = `
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white">
                     <path d="M140-254.62v-59.99h680v59.99H140ZM140-450v-60h680v60H140Zm0-195.39v-59.99h680v59.99H140Z"/>
                 </svg>`;
 
