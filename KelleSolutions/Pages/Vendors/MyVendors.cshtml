@@ -86,7 +86,7 @@
 
     <div class="button-container d-flex align-items-center" style="gap: 12px;">
     <!-- DASHBOARD -->
-    <a href="/Admin/adminDashboard" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
+    <a href="/Dashboard" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
         <img src="~/images/dashboard_logo_selected.svg" alt="" class="btn-icon">
         <span class="btn-text">Dashboard</span>
     </a>
@@ -250,15 +250,17 @@ else if (User.IsInRole("Agent")) {
 
 }
 
-<div class="header-section">
-    <p>
-        <a href="/Dashboard">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
-                <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
-            </svg>
-        </a>
-        <span>/</span> <span class="pagename-text">Vendors</span>
-    </p>
+<div>
+    <div class="header-section">
+        <p>
+            <a href="/Dashboard">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 -960 960 960" width="1.2em" fill="#5f6368">
+                    <path d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z"/>
+                </svg>
+            </a>
+            <span>/</span> <span class="pagename-text">My Vendors</span>
+        </p>
+    </div>
 </div>
 
 <div class="buttons">

@@ -22,6 +22,14 @@ body {
     margin-left: 1px; /* Adjust the gap size here */
 }
 
+.header-section {
+    display: inline-flex; /* Allows items to be aligned horizontally */
+    align-items: center; /* Centers them vertically */
+    gap: 8px; /* Adds space between the icon and the text */
+    margin: 20px 0 1rem;
+    font-size: 14px;
+}
+
 .pagename-text {
     color: #5f6368; /* Change this to your desired color */
 }
