@@ -9,18 +9,6 @@ Adding comments to better explain documentation.
 <link rel="stylesheet" href="~/css/mainpages.css" />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;250;300;400;500;600&display=swap" rel="stylesheet">
 <style>
-    .nav-bar-icons {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .nav-bar-icons.content-container {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
 
     .btn.btn-gray {
         background-color: #f1f1f1 !important;
@@ -82,7 +70,7 @@ Adding comments to better explain documentation.
     }
 </style>
 @if (User.IsInRole("Admin") || User.IsInRole("Broker")) {
-    <div class="header-section">
+    <div class="nav-bar-icons">
 
     <div class="button-container d-flex align-items-center" style="gap: 12px;">
     <!-- DASHBOARD -->
@@ -182,7 +170,7 @@ Adding comments to better explain documentation.
 }
 
 else if (User.IsInRole("Agent")) {
-    <div class="header-section">
+    <div class="nav-bar-icons">
         <div class="button-container d-flex align-items-center" style="gap: 12px;">
         <!-- DASHBOARD -->
         <a href="/Dashboard" class="btn btn-primary btn-gray rounded-pill d-flex align-items-center">
