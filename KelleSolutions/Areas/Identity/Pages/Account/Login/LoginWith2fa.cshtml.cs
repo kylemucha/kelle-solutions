@@ -114,7 +114,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Login
             if (result.Succeeded)
             {
                 _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
-                return LocalRedirect(returnUrl);
+                return LocalRedirect("/Dashboard");
             }
             else if (result.IsLockedOut)
             {
