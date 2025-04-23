@@ -270,25 +270,27 @@ else if (User.IsInRole("Agent")) {
         </thead>
         <tbody>
             @foreach (var listing in Model.AllListings) {
-                <tr>
+                <tr data-listing-id="@listing.ListingID">
                     <td><a href="/Listings/ViewListing?listingId=@listing.ListingID" class="id-link">@listing.ListingID</a></td>
                     <td>@listing.Date.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn dropdown-outline">
-                                @listing.Status
+                        <div class="dropdown">
+                            <button class="btn status-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span id="currentStatus" class="status-text">@listing.Status</span>
+                                <span class="status-btn-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill=white><path d="M480-373.85 303.85-550h352.3L480-373.85Z"/></svg>
+                                </span>
                             </button>
-                            <button type="button" class="btn dropdown-outline dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu">
-                                    @foreach (var status in Enum.GetNames(typeof(KelleSolutions.Models.MyStatusEnum)))
-                                    {
-                                        <li>
-                                            <a class="dropdown-item status-option" href="#" data-value="@status" data-listing-id="@listing.ListingID">
-                                                @status
-                                            </a>
-                                        </li>
-                                    }
-                                </div>
+                            <ul class="dropdown-menu status-menu">
+                                <li><a class="dropdown-item status-option" href="#" data-status="ON HOLD">ON HOLD</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="OPEN HOUSE">OPEN HOUSE</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="ACTIVE">ACTIVE</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="PENDING">PENDING</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="CLOSED">CLOSED</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="EXPIRED">EXPIRED</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="WITHDRAWN">WITHDRAWN</a></li>
+                                <li><a class="dropdown-item status-option" href="#" data-status="CANCELED">CANCELED</a></li>
+                            </ul>
                         </div>
                     </td>
                     <td>@listing.OperatorName</td>
@@ -394,5 +396,77 @@ else if (User.IsInRole("Agent")) {
             var pageSize = document.getElementById("pageSize").value;
             window.location.href = "?PageSize=" + pageSize + "&PageNumber=1";
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                let statusBtn = dropdown.querySelector('.status-btn');
+                let statusText = dropdown.querySelector('.status-text');
+
+                const statusColors = {
+                    "ON HOLD": "status-btn-onhold",
+                    "OPEN HOUSE": "status-btn-openhouse",
+                    "ACTIVE": "status-btn-active",
+                    "PENDING": "status-btn-pending",
+                    "CLOSED": "status-btn-closed",
+                    "EXPIRED": "status-btn-expired",
+                    "WITHDRAWN": "status-btn-withdrawn",
+                    "CANCELED": "status-btn-canceled"
+                };
+
+                // Function to update the button color
+                function updateButtonColor(status) {
+                    // Remove any previously applied classes
+                    statusBtn.classList.remove(...Object.values(statusColors));
+
+                    // Apply the new class based on status
+                    if (statusColors[status]) {
+                        statusBtn.classList.add(statusColors[status]);
+                    }
+                }
+
+                // Wait until Razor syntax renders the dynamic status, then apply the correct color
+                setTimeout(() => {
+                    let currentStatus = statusText.textContent.trim();
+                    updateButtonColor(currentStatus);
+                }, 0);
+
+                // Event listeners for dropdown selection
+                dropdown.querySelectorAll('.status-option').forEach(option => {
+                    option.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        // Get the new status value
+                        let newStatus = this.getAttribute('data-status');
+                        let listingId = this.closest('tr').getAttribute('data-listing-id');
+                        
+                        fetch(`/Listings/AllListings?handler=UpdateStatus`, {
+                            method: "POST",
+                            headers: { 
+                                "Content-Type": "application/json",
+                                "Accept": "application/json",
+                                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify({ Id: listingId, Status: newStatus })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log("Status updated successfully");
+                            } else {
+                                console.error("Failed to update status:", data.message);
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+
+                        // Update button text
+                        statusText.textContent = newStatus;
+
+                        // Update button color
+                        updateButtonColor(newStatus);
+                    });
+                });
+            });
+        }); 
     </script>
 }

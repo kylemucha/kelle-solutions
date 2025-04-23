@@ -14,12 +14,10 @@ using System.Text.Json;
 using System.IO;
 using System;
 
-namespace KelleSolutions.Pages.Listings
-{
+namespace KelleSolutions.Pages.Listings {
     // Apply the antiforgery ignore at the class level.
     [IgnoreAntiforgeryToken]
-    public class MyListingsModel : PageModel
-    {
+    public class MyListingsModel : PageModel {
         private readonly KelleSolutionsDbContext _context;
         private readonly UserManager<User> _userManager;
 
@@ -190,7 +188,7 @@ public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusMod
 
         // 5. Update and save
         listing.MyStatus = newStatus;
-        listing.Updated = DateTime.Now; // Add update timestamp if you have this field
+        listing.Updated = DateTime.Now;
 
         await _context.SaveChangesAsync();
 

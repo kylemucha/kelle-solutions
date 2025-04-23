@@ -188,6 +188,8 @@ body {
     gap: 10px;
     font-size: 10px;
     box-shadow: none !important; /* Remove Bootstrap's glow */
+    line-height: 1.5;
+    padding: .375rem .75rem;
 }
 
 .status-btn-onhold{

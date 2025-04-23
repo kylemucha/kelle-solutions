@@ -189,7 +189,8 @@
     Context.Request.Path.StartsWithSegments("/People") ||
     Context.Request.Path.StartsWithSegments("/Properties") ||
     Context.Request.Path.StartsWithSegments("/Leads") ||
-    Context.Request.Path.StartsWithSegments("/Admin")))
+    Context.Request.Path.StartsWithSegments("/Admin") ||
+    Context.Request.Path.StartsWithSegments("/Vendors")))
     {
         var currentUser = await UserManager.GetUserAsync(User);
         var roles = await UserManager.GetRolesAsync(currentUser);
