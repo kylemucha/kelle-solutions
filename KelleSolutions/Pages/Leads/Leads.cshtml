@@ -308,7 +308,9 @@ else if (User.IsInRole("Agent")){
                     <td></td>
                     <td></td>
                     <td>
-                        <a href="/Leads/AllLeads?userId=@user.Id" class="btn btn-link">View Leads</a>
+                        <a asp-page="/Leads/AllLeads"
+                        asp-route-personId="@user.Id"
+                        class="btn btn-link">View Leads</a>
                     </td>
                 </tr>
             }

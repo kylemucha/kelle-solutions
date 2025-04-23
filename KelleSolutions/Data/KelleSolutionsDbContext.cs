@@ -160,6 +160,23 @@ namespace KelleSolutions.Data
                 .HasForeignKey(ptl => ptl.PersonId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+                builder.Entity<PersonToLeads>(e =>
+    {
+        e.ToTable("PersonToLeads"); 
+        e.HasKey(ptl => ptl.Code);
+
+        // optional: additional config if you need indexes / FK names, e.g.:
+        e.HasOne(ptl => ptl.PersonNavigation)
+         .WithMany()
+         .HasForeignKey(ptl => ptl.Person)
+         .OnDelete(DeleteBehavior.Restrict);
+
+        e.HasOne(ptl => ptl.LeadNavigation)
+         .WithMany()
+         .HasForeignKey(ptl => ptl.Lead)
+         .OnDelete(DeleteBehavior.Restrict);
+    });
+
             builder.Entity<PersonToListing>()
                 .HasOne(ptl => ptl.Listing)
                 .WithMany() // No navigation property on Listing
@@ -219,6 +236,9 @@ namespace KelleSolutions.Data
 
         //DbSet for PersonToPerson
         public DbSet<PersonToPerson> PersonToPerson {get;set;}
+
+        //DbSet for PersonToLeads
+        public DbSet<PersonToLeads> PersonToLeads {get;set;}
 
         //DbSet for PersonToListing
         public DbSet<PersonToListing> PersonToListing { get; set; }
