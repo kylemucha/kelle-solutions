@@ -339,7 +339,7 @@ else if (User.IsInRole("Agent")) {
                 <tr>
                     <th>ID</th>
                     <th>Created</th>
-                    <th>County</th>
+                    <th>State/Province</th>
                     <th>City</th>
                     <th>Postal</th>
                     <th>Street</th>
@@ -352,7 +352,7 @@ else if (User.IsInRole("Agent")) {
                     <tr>
                         <td>@property.ID</td>
                         <td>@(property.CreationDate != DateOnly.MinValue ? property.CreationDate.ToString("yyyy-MM-dd") : "-")</td>
-                        <td>@property.County</td>
+                        <td>@property.StateProvince</td>
                         <td>@property.City</td>
                         <td>@property.Postal</td>
                         <td>@property.Street</td>

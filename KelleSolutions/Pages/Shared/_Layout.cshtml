@@ -144,22 +144,74 @@
         .hidden {
             display: none;
         }
+
+        .circular-btn {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;              /* Removes default border */
+          outline: none;             /* Removes default outline */
+          background-color: transparent; /* Keeps background transparent */
+          transition: background-color 0.2s ease;
+        }
+        
+        /* Hover effect only when menu is collapsed (i.e., closed) */
+        .circular-btn.collapsed:hover {
+          background-color: #d0e0ed;
+        }
+
+        /* Highlight when menu is open (i.e., button not collapsed) */
+        .circular-btn:not(.collapsed) {
+          background-color: #d0e0ed;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
-                <div class="d-flex align-items-center">
-                    @if (SignInManager.IsSignedIn(User)) {
-                        <button id="sideNavbarToggle" class="btn me-3" type="button" data-bs-toggle="collapse" data-bs-target="#sideNavbar">
-                            &#9776;
+                <div class="d-flex align-items-center position-relative">
+                    @if (SignInManager.IsSignedIn(User) & (User.IsInRole("Admin") || User.IsInRole("Broker"))) {
+                        <button id="sideNavbarToggle" class="btn me-3 circular-btn shadow-none collapsed" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368">
+                                <path d="M240-160q-33 0-56.5-23.5T160-240q0-33 23.5-56.5T240-320q33 0 56.5 23.5T320-240q0 33-23.5 56.5T240-160Zm240 0q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm240 0q-33 0-56.5-23.5T640-240q0-33 23.5-56.5T720-320q33 0 56.5 23.5T800-240q0 33-23.5 56.5T720-160ZM240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400ZM240-640q-33 0-56.5-23.5T160-720q0-33 23.5-56.5T240-800q33 0 56.5 23.5T320-720q0 33-23.5 56.5T240-640Zm240 0q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Zm240 0q-33 0-56.5-23.5T640-720q0-33 23.5-56.5T720-800q33 0 56.5 23.5T800-720q0 33-23.5 56.5T720-640Z"/>
+                            </svg>
                         </button>
+
+                        <div class="dropdown-menu p-3 shadow" aria-labelledby="sideNavbarToggle" style="min-width: 300px; border-radius: 0.5rem;">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <a href="/Roles/Roles" class="text-decoration-none text-dark">
+                                        <img src="/images/roles.png" class="img-fluid mb-1" style="height:30px;" alt="Roles" />
+                                        <div style="font-size: 12px;">Roles</div>
+                                    </a>
+                                </div>
+
+                                <div class="col-4">
+                                    <a href="/Affiliations/CreateAffiliate" class="text-decoration-none text-dark">
+                                        <img src="/images/affiliations.png" class="img-fluid mb-1" style="height:30px;" alt="Affiliations" />
+                                        <div style="font-size: 12px;">Affiliations</div>
+                                    </a>
+                                </div>
+
+                                <div class="col-4">
+                                    <a href="/Transactions/Transactions" class="text-decoration-none text-dark">
+                                        <img src="/images/transactions.png" class="img-fluid mb-1" style="height:30px;" alt="Transactions" />
+                                        <div style="font-size: 12px;">Transactions</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     }
                     <a class="navbar-brand" href="@(SignInManager.IsSignedIn(User) ? Url.Page("/Dashboard") : Url.Page("/Index"))">
                         <img src="~/images/KELLE_logo_fullcolor.png" alt="Kelle Solutions Logo" style="height: 40px; width: auto;">
                     </a>
                 </div>
+
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -177,7 +229,7 @@
         </nav>
     </header>
     
-    @* Sidebar Logic *@
+    @* Sidebar Logic 
     @if (SignInManager.IsSignedIn(User) && (
     Context.Request.Path.StartsWithSegments("/Dashboard") ||
     Context.Request.Path.StartsWithSegments("/Roles") ||
@@ -198,10 +250,14 @@
         bool isBroker = roles.Contains("Broker");
         bool isAgent = roles.Contains("Agent");
 
-        <div class="d-flex flex-column">
-            <div class="collapse" id="sideNavbar">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="sideNavbar" aria-labelledby="sideNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sideNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+
+            <div class="offcanvas-body d-flex flex-column">
                 <nav class="sidebar-nav flex-column" id="sideNavContent">
-                    <button class="closebtn" data-bs-toggle="collapse" data-bs-target="#sideNavbar">&times;</button>
 
                     <a class="sidebar-link" href="/Dashboard">
                         <img class="img-fluid" src="/images/dashboard.png" id="icons" alt="dashboardicon" />
@@ -253,10 +309,11 @@
                         <img class="img-fluid" src="/images/entities.png" id="icons" alt="entitiesicon" />
                         Entities
                     </a>
+
                 </nav>
             </div>
         </div>
-    }
+    }*@
 
     <div class="container flex-grow-1">
         <main role="main" class="pb-3">
