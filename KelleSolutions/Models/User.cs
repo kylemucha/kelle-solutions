@@ -19,9 +19,6 @@ namespace KelleSolutions.Models
         [MaxLength(255)]
         public string Affiliation { get; set; } = null!;
 
-        [MaxLength(255)]
-        public string? Email { get; set; } = null!;
-
         [MaxLength(50)]
         public string LicenseNumber { get; set; } = string.Empty;
 

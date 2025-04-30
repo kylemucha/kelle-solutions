@@ -87,7 +87,7 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Login
             User user = isEmail
                 ? await _userManager.FindByEmailAsync(Input.EmailOrPhone)
                 : await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == Input.EmailOrPhone);
-/* // Commented out due to causing Invalid login attempt
+            // Commented out due to causing Invalid login attempt
             if (user == null)
             {
                 //User username = _userManager.GetUserNameAsync(Input.EmailOrPhone);
@@ -95,7 +95,6 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Login
                 ModelState.AddModelError(string.Empty, "Invalid login attempt." + user);
                 return Page();
             }
-*/
             // Attempt to sign in the user
             var result = await _signInManager.PasswordSignInAsync(Input.EmailOrPhone/*user*/, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
