@@ -70,7 +70,7 @@ namespace KelleSolutions.Pages.Properties
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login/Login", new { area = "Identity" });
             }
 
             // Retrieve the current user's Person ID using the helper method
@@ -131,7 +131,7 @@ namespace KelleSolutions.Pages.Properties
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login/Login", new { area = "Identity" });
             }
 
             // Retrieve the current user's Person ID.
