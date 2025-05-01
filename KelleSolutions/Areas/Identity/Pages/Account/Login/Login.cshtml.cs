@@ -51,8 +51,13 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Login
         }
 
         // Initializes login page, signs out any external auth, sets return URL
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Dashboard");
+            }
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -66,6 +71,8 @@ namespace KelleSolutions.Areas.Identity.Pages.Account.Login
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+
+            return Page();
         }
 
         // Handles login form submission and redirects based on user role

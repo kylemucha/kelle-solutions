@@ -17,7 +17,8 @@ using System;
 namespace KelleSolutions.Pages.Listings {
     // Apply the antiforgery ignore at the class level.
     [IgnoreAntiforgeryToken]
-    public class MyListingsModel : PageModel {
+    public class MyListingsModel : PageModel
+    {
         private readonly KelleSolutionsDbContext _context;
         private readonly UserManager<User> _userManager;
 
@@ -114,251 +115,249 @@ namespace KelleSolutions.Pages.Listings {
         }
 
         private async Task<string> GetUserEmailAsync(User currentUser)
-{
-    // Retrieve the user's email from the AspNetUsers table using the UserName field.
-    var emailFromManager = await _userManager.GetUserNameAsync(currentUser);
-    if (!string.IsNullOrWhiteSpace(emailFromManager))
-    {
-        return emailFromManager.Trim();
-    }
-    
-    throw new Exception("Current user email is not set in AspNetUsers.");
-}
+        {
+            // Retrieve the user's email from the AspNetUsers table using the UserName field.
+            var emailFromManager = await _userManager.GetUserNameAsync(currentUser);
+            if (!string.IsNullOrWhiteSpace(emailFromManager))
+            {
+                return emailFromManager.Trim();
+            }
+
+            throw new Exception("Current user email is not set in AspNetUsers.");
+        }
 
         private async Task<int> GetPersonIdForUserAsync(User currentUser)
-{
-    var userEmail = await GetUserEmailAsync(currentUser);
-    Console.WriteLine($"Looking for Person record with EmailPrimary matching: '{userEmail}'");
-    
-    var persons = await _context.Person.ToListAsync();
-    foreach (var p in persons)
-    {
-        Console.WriteLine($"Found Person record: Code = {p.Code}, EmailPrimary = '{p.EmailPrimary}'");
-    }
-    
-    var person = persons.FirstOrDefault(p =>
-        string.Equals(p.EmailPrimary?.Trim(), userEmail, StringComparison.OrdinalIgnoreCase));
-    
-    if (person == null)
-    {
-        throw new Exception("No Person record found for the current user.");
-    }
-    
-    return person.Code;
-}
-
-
-
-public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request)
-{
-    // 1. Validate request
-    if (request == null || request.Id <= 0)
-    {
-        return new JsonResult(new { success = false, message = "Invalid request data" });
-    }
-
-    try
-    {
-        // 2. Find the listing (including related data if needed)
-        var listing = await _context.Listings
-            .FirstOrDefaultAsync(l => l.Code == request.Id);
-
-        if (listing == null)
         {
-            return new JsonResult(new { 
-                success = false, 
-                message = $"Listing {request.Id} not found" 
-            });
+            var userEmail = await GetUserEmailAsync(currentUser);
+            Console.WriteLine($"Looking for Person record with EmailPrimary matching: '{userEmail}'");
+
+            var persons = await _context.Person.ToListAsync();
+            foreach (var p in persons)
+            {
+                Console.WriteLine($"Found Person record: Code = {p.Code}, EmailPrimary = '{p.EmailPrimary}'");
+            }
+
+            var person = persons.FirstOrDefault(p =>
+                string.Equals(p.EmailPrimary?.Trim(), userEmail, StringComparison.OrdinalIgnoreCase));
+
+            if (person == null)
+            {
+                throw new Exception("No Person record found for the current user.");
+            }
+
+            return person.Code;
         }
 
-        // 3. Log current values for debugging
-        Console.WriteLine($"Current status: {listing.MyStatus}");
-        Console.WriteLine($"Attempting to update to: {request.Status}");
-
-        // 4. Handle status conversion (with space removal)
-        var statusValue = request.Status?.Replace(" ", "") ?? "";
-        if (!Enum.TryParse(statusValue, true, out MyStatusEnum newStatus))
+        public async Task<JsonResult> OnPostUpdateStatusAsync([FromBody] UpdateStatusModel request)
         {
-            var validValues = string.Join(", ", Enum.GetNames(typeof(MyStatusEnum)));
-            return new JsonResult(new { 
-                success = false, 
-                message = $"Invalid status '{request.Status}'. Valid values: {validValues}" 
-            });
-        }
-
-        // 5. Update and save
-        listing.MyStatus = newStatus;
-        listing.Updated = DateTime.Now;
-
-        await _context.SaveChangesAsync();
-
-        return new JsonResult(new { 
-            success = true,
-            newStatus = request.Status // Return the formatted status
-        });
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error updating status: {ex}");
-        return new JsonResult(new { 
-            success = false, 
-            message = $"Database error: {ex.Message}" 
-        });
-    }
-}
-
-[IgnoreAntiforgeryToken]
-public async Task<JsonResult> OnPostCreateListingAsync()
-{
-    try
-    {
-        // Enable buffering so we can read the request body multiple times.
-        Request.EnableBuffering();
-
-        string body;
-        using (var reader = new StreamReader(Request.Body, leaveOpen: true))
-        {
-            body = await reader.ReadToEndAsync();
-        }
-        // Reset the stream position for any further reads.
-        Request.Body.Position = 0;
-
-        if (string.IsNullOrWhiteSpace(body))
-        {
-            return new JsonResult(new { success = false, message = "Empty request body" });
-        }
-
-        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        CreateListingInputModel input;
-        try
-        {
-            input = JsonSerializer.Deserialize<CreateListingInputModel>(body, options);
-        }
-        catch (Exception ex)
-        {
-            return new JsonResult(new { success = false, message = "Invalid JSON: " + ex.Message });
-        }
-
-        if (input == null || string.IsNullOrWhiteSpace(input.PropertyId) ||
-            string.IsNullOrWhiteSpace(input.Price) || string.IsNullOrWhiteSpace(input.Status) ||
-            string.IsNullOrWhiteSpace(input.Source))
-        {
-            return new JsonResult(new { success = false, message = "Missing required fields" });
-        }
-
-        if (!decimal.TryParse(input.Price, out decimal price))
-        {
-            return new JsonResult(new { success = false, message = "Invalid price" });
-        }
-
-        if (!int.TryParse(input.PropertyId, out int propertyCode))
-        {
-            return new JsonResult(new { success = false, message = "Invalid property" });
-        }
-
-        var propertyDetails = await _context.Properties.FindAsync(propertyCode);
-        if (propertyDetails == null)
-        {
-            return new JsonResult(new { success = false, message = "Property not found" });
-        }
-
-        if (!Enum.TryParse(typeof(MyStatusEnum), input.Status, ignoreCase: true, out var statusEnum))
-        {
-            return new JsonResult(new { success = false, message = "Invalid status" });
-        }
-
-        if (!Enum.TryParse(typeof(MySourceEnum), input.Source, ignoreCase: true, out var sourceEnum))
-        {
-            return new JsonResult(new { success = false, message = "Invalid source" });
-        }
-
-        // Create new listing and set all required fields.
-        Listing newListing = new Listing
-        {
-            FK_Property = propertyCode, // explicitly set the foreign key
-            Price = price,
-            MyStatus = (MyStatusEnum)statusEnum,
-            MySource = (MySourceEnum)sourceEnum,
-            Created = DateTime.Now,
-            PropertyDetails = propertyDetails,
-            // Set default values for required fields not supplied via the form.
-            Archived = false,
-            Operator = OperatorEnum.Operator1,
-            Team = TeamEnum.TeamA,
-            Visibility = VisibilityEnum.Low
-        };
-
-        _context.Listings.Add(newListing);
-        await _context.SaveChangesAsync();
-
-        //Insert PersonToListing record ---
-        // Retrieve the current user.
-        var currentUser = await _userManager.GetUserAsync(User);
-        if (currentUser == null)
-        {
-            return new JsonResult(new { success = false, message = "User not authenticated" });
-        }
-
-        // Obtain the Person's ID using your helper method.
-        int personId = await GetPersonIdForUserAsync(currentUser);
-
-        // Create a mapping record to link this listing with the current user's person.
-        var personToListing = new PersonToListing
-        {
-            PersonId = personId,
-            ListingId = newListing.Code
-        };
-
-        _context.PersonToListing.Add(personToListing);
-        await _context.SaveChangesAsync();
-        // End of Insert PersonToListing record ---
-
-        return new JsonResult(new { success = true });
-    }
-    catch (Exception ex)
-    {
-        return new JsonResult(new { success = false, message = "Unhandled error: " + ex.ToString() });
-    }
-}
-
-public async Task<JsonResult> OnPostDeleteListingAsync([FromBody] DeleteListingModel request)
-{
-    // Find the listing
-    var listing = await _context.Listings.FindAsync(request.Id);
-    if (listing == null)
-    {
-        return new JsonResult(new { success = false, message = "Listing not found" });
-    }
-
-    try
-    {
-        // First remove any PersonToListing relations to prevent foreign key constraint errors
-        var personToListings = await _context.PersonToListing
-            .Where(ptl => ptl.ListingId == request.Id)
-            .ToListAsync();
-            
-        if (personToListings.Any())
-        {
-            _context.PersonToListing.RemoveRange(personToListings);
-        }
+            // 1. Validate request
+            if (request == null || request.Id <= 0)
+            {
+                return new JsonResult(new { success = false, message = "Invalid request data" });
+            }
         
-        // Remove the listing itself
-        _context.Listings.Remove(listing);
-        await _context.SaveChangesAsync();
+            try
+            {
+                // 2. Find the listing (including related data if needed)
+                var listing = await _context.Listings
+                    .FirstOrDefaultAsync(l => l.Code == request.Id);
         
-        return new JsonResult(new { success = true });
-    }
-    catch (Exception ex)
-    {
-        return new JsonResult(new { success = false, message = $"Error deleting listing: {ex.Message}" });
-    }
-}
+                if (listing == null)
+                {
+                    return new JsonResult(new { 
+                        success = false, 
+                        message = $"Listing {request.Id} not found" 
+                    });
+                }
+        
+                // 3. Log current values for debugging
+                Console.WriteLine($"Current status: {listing.MyStatus}");
+                Console.WriteLine($"Attempting to update to: {request.Status}");
+        
+                // 4. Handle status conversion (with space removal)
+                var statusValue = request.Status?.Replace(" ", "") ?? "";
+                if (!Enum.TryParse(statusValue, true, out MyStatusEnum newStatus))
+                {
+                    var validValues = string.Join(", ", Enum.GetNames(typeof(MyStatusEnum)));
+                    return new JsonResult(new { 
+                        success = false, 
+                        message = $"Invalid status '{request.Status}'. Valid values: {validValues}" 
+                    });
+                }
+        
+                // 5. Update and save
+                listing.MyStatus = newStatus;
+                listing.Updated = DateTime.Now;
+        
+                await _context.SaveChangesAsync();
+        
+                return new JsonResult(new { 
+                    success = true,
+                    newStatus = request.Status // Return the formatted status
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating status: {ex}");
+                return new JsonResult(new { 
+                    success = false, 
+                    message = $"Database error: {ex.Message}" 
+                });
+            }
+        }
 
-// Data transfer class for delete request
-public class DeleteListingModel
-{
-    public int Id { get; set; }
-}
+        [IgnoreAntiforgeryToken]
+        public async Task<JsonResult> OnPostCreateListingAsync()
+        {
+            try
+            {
+                // Enable buffering so we can read the request body multiple times.
+                Request.EnableBuffering();
+
+                string body;
+                using (var reader = new StreamReader(Request.Body, leaveOpen: true))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                // Reset the stream position for any further reads.
+                Request.Body.Position = 0;
+
+                if (string.IsNullOrWhiteSpace(body))
+                {
+                    return new JsonResult(new { success = false, message = "Empty request body" });
+                }
+
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                CreateListingInputModel input;
+                try
+                {
+                    input = JsonSerializer.Deserialize<CreateListingInputModel>(body, options);
+                }
+                catch (Exception ex)
+                {
+                    return new JsonResult(new { success = false, message = "Invalid JSON: " + ex.Message });
+                }
+
+                if (input == null || string.IsNullOrWhiteSpace(input.PropertyId) ||
+                    string.IsNullOrWhiteSpace(input.Price) || string.IsNullOrWhiteSpace(input.Status) ||
+                    string.IsNullOrWhiteSpace(input.Source))
+                {
+                    return new JsonResult(new { success = false, message = "Missing required fields" });
+                }
+
+                if (!decimal.TryParse(input.Price, out decimal price))
+                {
+                    return new JsonResult(new { success = false, message = "Invalid price" });
+                }
+
+                if (!int.TryParse(input.PropertyId, out int propertyCode))
+                {
+                    return new JsonResult(new { success = false, message = "Invalid property" });
+                }
+
+                var propertyDetails = await _context.Properties.FindAsync(propertyCode);
+                if (propertyDetails == null)
+                {
+                    return new JsonResult(new { success = false, message = "Property not found" });
+                }
+
+                if (!Enum.TryParse(typeof(MyStatusEnum), input.Status, ignoreCase: true, out var statusEnum))
+                {
+                    return new JsonResult(new { success = false, message = "Invalid status" });
+                }
+
+                if (!Enum.TryParse(typeof(MySourceEnum), input.Source, ignoreCase: true, out var sourceEnum))
+                {
+                    return new JsonResult(new { success = false, message = "Invalid source" });
+                }
+
+                // Create new listing and set all required fields.
+                Listing newListing = new Listing
+                {
+                    FK_Property = propertyCode, // explicitly set the foreign key
+                    Price = price,
+                    MyStatus = (MyStatusEnum)statusEnum,
+                    MySource = (MySourceEnum)sourceEnum,
+                    Created = DateTime.Now,
+                    PropertyDetails = propertyDetails,
+                    // Set default values for required fields not supplied via the form.
+                    Archived = false,
+                    Operator = OperatorEnum.Operator1,
+                    Team = TeamEnum.TeamA,
+                    Visibility = VisibilityEnum.Low
+                };
+
+                _context.Listings.Add(newListing);
+                await _context.SaveChangesAsync();
+
+                //Insert PersonToListing record ---
+                // Retrieve the current user.
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null)
+                {
+                    return new JsonResult(new { success = false, message = "User not authenticated" });
+                }
+
+                // Obtain the Person's ID using your helper method.
+                int personId = await GetPersonIdForUserAsync(currentUser);
+
+                // Create a mapping record to link this listing with the current user's person.
+                var personToListing = new PersonToListing
+                {
+                    PersonId = personId,
+                    ListingId = newListing.Code
+                };
+
+                _context.PersonToListing.Add(personToListing);
+                await _context.SaveChangesAsync();
+                // End of Insert PersonToListing record ---
+
+                return new JsonResult(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = "Unhandled error: " + ex.ToString() });
+            }
+        }
+
+        public async Task<JsonResult> OnPostDeleteListingAsync([FromBody] DeleteListingModel request)
+        {
+            // Find the listing
+            var listing = await _context.Listings.FindAsync(request.Id);
+            if (listing == null)
+            {
+                return new JsonResult(new { success = false, message = "Listing not found" });
+            }
+
+            try
+            {
+                // First remove any PersonToListing relations to prevent foreign key constraint errors
+                var personToListings = await _context.PersonToListing
+                    .Where(ptl => ptl.ListingId == request.Id)
+                    .ToListAsync();
+
+                if (personToListings.Any())
+                {
+                    _context.PersonToListing.RemoveRange(personToListings);
+                }
+
+                // Remove the listing itself
+                _context.Listings.Remove(listing);
+                await _context.SaveChangesAsync();
+
+                return new JsonResult(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = $"Error deleting listing: {ex.Message}" });
+            }
+        }
+
+        // Data transfer class for delete request
+        public class DeleteListingModel
+        {
+            public int Id { get; set; }
+        }
 
 
         public class CreateListingInputModel
