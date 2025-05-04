@@ -1,0 +1,64 @@
+/* General Body Styling */
+/*body {
+    background-color: white;
+    color: 332d2d;
+    font-family: 'sora', sans-serif;
+}*/
+
+.h2 {
+    color: #332d2d;
+}
+
+/* Form Container Styling 
+    Used Gray Extended Color
+*/
+.card {
+    background-color: #e8e9ed;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Input Field Styling */
+.form-label {
+    color: #332d2d;
+    font-weight: bold;
+}
+
+.card-body h4.login-heading {
+    color: #332d2d;
+}
+
+
+/* Button Styling */
+.btn-primary, .btn-primary:hover{
+    background-color: #4a154b;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.return-btn {
+    background-color: #4a154b;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Checkbox and Policies */
+.form-check-label {
+    color: #c7c7c7;
+    font-size: 14px;
+}
+
+.form-check-input {
+    accent-color: #007bff;
+}
+
+img {
+    /*resizing KELLE's logo and centering it*/
+    height: auto;
+    width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

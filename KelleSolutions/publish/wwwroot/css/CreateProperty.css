@@ -1,0 +1,10 @@
+/* For required input fields */
+label.required::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

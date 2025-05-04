@@ -1,0 +1,169 @@
+/* _content/KelleSolutions/Pages/Shared/_Layout.cshtml.rz.scp.css */
+/* 
+    This CSS file provides styling for the layout of Kelle Solutions.
+    It styles key elements such as the main navigation bar, sidebar navigation, buttons, links, and the footer.
+    Specific styles are applied to ensure a responsive and visually cohesive design.
+*/
+
+/* ---------------- Main Navbar Styles ---------------- */
+
+/* Gradient background for the main navbar (black to brown) */
+.navbar[b-9t576ufydj] {
+  background: linear-gradient(90deg, black, rgb(102, 67, 67)); /* Black to brown gradient */
+  color: white; /* Ensure text is visible over the gradient */
+  height:60px;
+}
+
+/* Customize the main navbar link colors */
+.navbar .nav-link[b-9t576ufydj] {
+  color: white; /* Make links white to contrast with the gradient */
+}
+
+.navbar .nav-link:hover[b-9t576ufydj] {
+  color: lightgray; /* Optional hover effect */
+}
+
+/* Adjusts the brand link in the main navbar to center text and break long words */
+a.navbar-brand[b-9t576ufydj] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Sets the default color for all anchor tags to a custom shade of blue */
+a[b-9t576ufydj] {
+  color: #0077cc;
+}
+
+/* Styles the primary button with specific background and border colors */
+.btn-primary[b-9t576ufydj] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Applies styles to active or selected navigation pills */
+.nav-pills .nav-link.active[b-9t576ufydj], .nav-pills .show > .nav-link[b-9t576ufydj] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Adds a thin top border to elements with this class */
+.border-top[b-9t576ufydj] {
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Adds a thin bottom border to elements with this class */
+.border-bottom[b-9t576ufydj] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Creates a subtle box shadow for depth and emphasis */
+.box-shadow[b-9t576ufydj] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+/* Styles for the "Accept Policy" button, adjusting font size and line height */
+button.accept-policy[b-9t576ufydj] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Ensures the footer sticks to the bottom of the page and has a consistent height */
+.footer[b-9t576ufydj] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+/* ---------------- Sidebar Navbar Styles ---------------- */
+
+/* Sidebar Navbar Container */
+.sidebar-nav[b-9t576ufydj] {
+  background-color: #F1F1F1; /* light gray background for sidebar */
+  color: white;
+  width: 200px; /* Fixed width for the sidebar */
+  position: absolute; /* absolute positioning to stay in place */
+  top: 60px;
+  left: 0;
+  height: 100%;
+  padding-top: 20px; /* Padding at the top for spacing */
+  display: flex;
+  flex-direction: column; /* Vertical layout */
+  z-index: 9; /*making sure there's no overlapping*/
+  /*height:450px /*height adjustment if needed*/
+}
+
+/* Sidebar Navbar Links */
+.sidebar-link[b-9t576ufydj] {
+  color: #585858; /* gray text color for sidebar links */
+  padding: 10px 15px; /* Padding for a larger clickable area */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Full-width clickable area */
+}
+
+.sidebar-link:hover[b-9t576ufydj], .closebtn:hover[b-9t576ufydj]{ /*change opacity when hover over close button*/
+  opacity:40%;
+  /*background-color: #e3e3e3; /*this changes the background color to light gray when hovered over -- idk which one we should to do so I'm going to leave it here*/
+}
+
+/* Specific styling to ensure sidebar links remain white */
+.sidebar-nav .navbar-light .sidebar-link[b-9t576ufydj] {
+  color: white;
+}
+
+/* Sidebar Toggle Button (Burger Icon) */
+#sideNavbarToggle[b-9t576ufydj] {
+  color: black; /* Set the icon to black */
+  background: transparent; /* Transparent background for the button */
+  border: none; /* Remove border for a clean look */
+}
+
+/* Burger icon styling using inline SVG for color customization */
+#sideNavbarToggle .navbar-toggler-icon[b-9t576ufydj] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='black' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Collapsible Sidebar Show/Hide Transition */
+.collapse.show[b-9t576ufydj] {
+  transition: width 0.3s ease-in-out; /* Smooth transition for sidebar appearance */
+}
+
+/*adjusting all icons on menu panel*/
+#icons[b-9t576ufydj] {
+  height:15px;
+  position:relative;
+  bottom:1px;
+}
+#other[b-9t576ufydj] { /*people and affiliations icon had to be adjusted separately bc these are smaller*/
+  height:20px;
+  position:relative;
+  bottom:1px;
+  right:2px;
+}
+
+.closebtn[b-9t576ufydj] {
+  color:#585858; /*color of close button*/
+  border:none;
+  position:absolute;
+  right:1px;
+  font-size: 30px;
+  transition: none;
+  cursor:pointer; /*making cursor pointer when hover over close button*/
+  background: transparent; /*making background transparent*/
+  top:-10px;
+}
+
+/* For required input fields */
+label.required[b-9t576ufydj]::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+.hidden[b-9t576ufydj] {
+  display: none;
+}

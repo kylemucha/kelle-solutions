@@ -1,0 +1,365 @@
+@import url('fonts.css');
+
+body {
+    font-family: 'Sora';
+}
+
+.header-section {
+    display: inline-flex; /* Allows items to be aligned horizontally */
+    align-items: center; /* Centers them vertically */
+    gap: 8px; /* Adds space between the icon and the text */
+    margin: 20px 0 1rem;
+    font-size: 13px;
+}
+
+.header-section span {
+    margin-left: 1px; /* Adjust the gap size here */
+}
+
+.pagename-text {
+    color: #5f6368; /* Change this to your desired color */
+}
+
+/* Widget container styles */
+.widget {
+    border-radius: 8px;
+    background: #f6f6f8;
+    border-radius: 12px;
+    padding: 12px 10px 10px;
+    height: 100%;  /* Fixed height for all widgets */
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 12px;
+    flex-shrink: 0;  /* Prevent header from shrinking */
+    font-weight: 800;
+    font-size: 20px;
+}
+
+/* Make the content area scrollable */
+.widget-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.white-box {
+    width: 100%;  /* Adjust width as needed */
+    height: 100%;  /* Adjust height as needed */
+    background-color: #ffffff;  /* Light gray background */
+    border-radius: 8px;  /* Rounded corners */
+    margin: 0px auto;  /* Center horizontally */
+    padding: 10px;
+}
+
+/* Custom scrollbar styling (already exists, but now applies to widget-content) */
+.widget-content::-webkit-scrollbar,
+.properties-list::-webkit-scrollbar,
+.listing-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+.widget-content::-webkit-scrollbar-track,
+.properties-list::-webkit-scrollbar-track,
+.listing-items::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.widget-content::-webkit-scrollbar-thumb,
+.properties-list::-webkit-scrollbar-thumb,
+.listing-items::-webkit-scrollbar-thumb {
+    background: #927393;
+    border-radius: 3px;
+}
+
+/* Add style for double-height widget */
+.widget-double {
+    height: 824px;  /* 400px * 2 + 24px gap */
+}
+
+/* Add grid layout styles */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    font-family: 'Sora', sans-serif;
+    display: flex;
+    align-items: flex-start; /* Ensures columns have independent heights */
+}
+
+.dashboard-container > div {
+    flex: 1; /* Makes columns take up equal width */
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-container input {
+    border: 1px solid #5f6368;
+    height: 38px;
+}
+
+.action-comment {
+    height: 150px;
+    text-align: left;       /* Moves the text to the right */
+    vertical-align: top;     /* Ensures text starts from the top */
+    direction: ltr;          /* Right-to-left text direction (forces caret to start at right) */
+    border: 1px solid #5f6368;
+}
+
+.input-container input:focus{
+    border: 1px solid #5f6368;
+}
+
+.input-container textarea:focus {
+    border: 1px solid #5f6368;
+}
+
+.dropdown-container {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    align-items: center;    
+    justify-content: space-between;
+}
+
+.dropdown-container button {
+    margin-left: auto;
+}
+
+.dropdown-container .dropdown {
+    flex: 1; /* Make buttons equally sized */
+}
+
+.button-label {
+    display: flex; /* Ensures the label is a block-level element, so it sits above the button */
+    text-align: left;
+    margin-left: 5px
+}
+
+.btn-outline {
+    border: 1px solid #5f6368;  /* Custom border color */
+    color: #5f6368;             /* Custom text color */
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 38px;
+    font-size: 13px;
+}
+
+.dropdown-menu {
+    min-width: 100%;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f6f6f8;
+    color: #000000 !important;
+}
+
+.buttonText:empty::before {
+    content: "\00a0"; /* Non-breaking space to keep height */
+    visibility: hidden; /* Hide the placeholder */
+}
+
+.dropdown-menu {
+    font-size: 13px;
+}
+
+.important-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.form-control {
+    font-size: 13px;
+}
+
+.create-btn {
+    color: #ffffff;
+    background-color: #1264a3;
+}
+
+.date-picker{
+    flex: 1;
+}
+
+.action-list {
+    min-width: 400px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.action-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.action-item:last-child {
+    margin-bottom: 0;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-circle {
+    width: 24px;
+    height: 24px;
+    background-color: #0A66C2; /* Blue color */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.icon-circle svg {
+    transform: scale(65%);
+    fill: white;
+}
+
+.connector {
+    width: 2px;
+    height: 10px;
+    background-color: #c1c6de;
+}
+
+.horizontal-connector {
+    width: 20px;
+    height: 2px;
+    background-color: #c1c6de;
+    margin-left: 18px;
+}
+
+.action-content {
+    margin-left: 10px;
+    text-align: left;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.date {
+    color: #0A66C2;
+}
+
+.details-link {
+    color: #0A66C2;
+    text-decoration: none;
+    font-size: 10px;
+}
+
+.details-link:hover {
+    text-decoration: underline;
+}
+
+.detail-circle {
+    width: 14px;
+    height: 14px;
+    background-color: #c1c6de; /* Blue color */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.graphics {
+    display: flex;
+    flex-direction: column; /* Stack .graphics and .horizontal-connector */
+    align-items: center; /* Ensure alignment */
+}
+
+.graphics-container {
+    display: flex;
+    flex-direction: column; /* Stack .graphics and .horizontal-connector */
+    align-items: center; /* Ensure alignment */
+}
+
+.action-title {
+    margin: 10px 0 5px;
+}
+
+.action-details {
+    margin: 0;
+    font-size: 10px;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.filter-container .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ensures it spans the container */
+}
+
+.checkbox-filter {
+    display: flex;
+    align-items: center;
+    gap: 5px
+}
+
+.date-sort {
+    display:flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.date-sort svg {
+    width: 16px; /* Adjust to desired size */
+    height: 16px;
+}
+
+.relation-dropdown {
+    min-width: 100px;
+    max-width: 100px;
+    margin: 0 !important;
+}
+
+#relation {
+    margin-top: auto;
+}
+
+.create-action {
+    min-width: 510px;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}

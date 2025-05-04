@@ -1,0 +1,26 @@
+[
+    {
+        "UserID": "1247dc39-847d-40ab-b2b8-bd89db48673d",
+        "Address": "1234 Plane Way",
+        "City": "Springfield",
+        "State": "IL",
+        "ZipCode": "62704",
+        "BedCount": 3,
+        "BathCount": 2,
+        "GarageCount": 1,
+        "YearConstructed": 2015,
+        "PropertyType": "Single Family Home"
+    },
+    {
+        "UserID": "1247dc39-847d-40ab-b2b8-bd89db48673d",
+        "Address": "4567 Oak Ave",
+        "City": "Chicago",
+        "State": "IL",
+        "ZipCode": "60616",
+        "BedCount": 2,
+        "BathCount": 1,
+        "GarageCount": 0,
+        "YearConstructed": 2008,
+        "PropertyType": "Apartment"
+    }
+]
