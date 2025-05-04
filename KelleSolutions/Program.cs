@@ -77,7 +77,15 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Startup Error: {ex.Message}");
+    throw;
+}
 
 
 // 🔧 Helper Methods
