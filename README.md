@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="logo" src="images/kellelogo.jpg" width="300">
+  <img alt="logo" src="images/kellelogo.png" width="300">
 
 # Kelle Solutions
 Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
