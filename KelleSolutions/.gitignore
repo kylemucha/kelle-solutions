@@ -55,4 +55,3 @@ Thumbs.db                  # Windows thumbnail cache files
 # Production specific files
 /wwwroot                   # Static files for production deployment
 /hostingstart.html         # Default hosting start page
-appsettings.json
