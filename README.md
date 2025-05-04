@@ -72,9 +72,9 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 | Brandon Kmiec         |
 | Evan Brizendine       |
 | Jalen Grant Hall      |
-| Kestine Tran          |
+| Kestine Tran [Team Lead]|
 | Kyle Mucha            |
-| Sergio Rodriguez [Team Lead]|
+| Sergio Rodriguez|
 
 <h2 id="features">
   <picture>
