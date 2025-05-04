@@ -26,11 +26,5 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
-  <ItemGroup>
-  <Content Include="wwwroot\data\properties.json">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
-</ItemGroup>
-
 
 </Project>
