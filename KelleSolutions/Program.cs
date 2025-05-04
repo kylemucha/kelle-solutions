@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
         await context.Database.MigrateAsync();
 
         await EnsureRolesAsync(services);
-        await ImportPropertyDataAsync(services);
+        //await ImportPropertyDataAsync(services);
     }
     catch (Exception ex)
     {
