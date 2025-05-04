@@ -2,50 +2,85 @@ using KelleSolutions.Data;
 using KelleSolutions.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;                 // encrypt and decrypt JSON file data
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register the DbContext with the SQL Server connection string
+// ✅ Load all config files, including environment-specific ones like appsettings.Production.json
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+// ✅ Register DbContext with SQL Server connection string
 builder.Services.AddDbContext<KelleSolutionsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-        // for future debugging
-        .EnableSensitiveDataLogging() 
-        .EnableDetailedErrors());
+           .EnableSensitiveDataLogging()
+           .EnableDetailedErrors());
 
-// Update Identity to use the custom User class (User instead of IdentityUser)
+// ✅ Register Identity with custom User class
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<KelleSolutionsDbContext>();
 
-// Registers Razor Pages for UI Rendering
+// ✅ Register Razor Pages
 builder.Services.AddRazorPages();
 
-// Allow frontend JavaScript send requests
+// ✅ Register CORS (Allow All - adjust for prod if needed)
 builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
     {
-        options.AddPolicy("AllowAll",
-            builder => builder.AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
+});
 
+// ✅ Register scoped services
 builder.Services.AddScoped<EmailService>();
 
 var app = builder.Build();
 
-// **Run the migrations**
-using (var scope = app.Services.CreateScope()) {
-    var context = scope.ServiceProvider.GetRequiredService<KelleSolutionsDbContext>();
-    context.Database.Migrate();
+// ✅ Run Migrations + Seed Logic Safely Inside Scope
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        var context = services.GetRequiredService<KelleSolutionsDbContext>();
+        await context.Database.MigrateAsync();
+
+        await EnsureRolesAsync(services);
+        await ImportPropertyDataAsync(services);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error during startup migration/seeding: {ex.Message}");
+    }
 }
 
-// **Ensure Roles Exist**
-await EnsureRolesAsync(app.Services);
+// ✅ Middleware & Routing
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
-// **Import Property Data**
-await ImportPropertyDataAsync(app.Services);
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapRazorPages();
 
+app.Run();
+
+
+// 🔧 Helper Methods
 async Task EnsureRolesAsync(IServiceProvider services)
 {
     using var scope = services.CreateScope();
@@ -101,18 +136,3 @@ async Task ImportPropertyDataAsync(IServiceProvider services)
         Console.WriteLine($"Error importing properties: {ex.Message}");
     }
 }
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment()) {
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseCors("AllowAll");
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapRazorPages();
-app.Run();
