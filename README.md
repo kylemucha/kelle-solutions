@@ -30,7 +30,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
   </tr>
   <tr>
     <td align="center"><img src="images/changepassword.png" alt="Change Password"></td>
-    <td align="center"><img src="images/ATdashboard.png" alt="Current Dashboard"></td>
+    <td align="center"><img src="images/dashboard.png" alt="Current Dashboard"></td>
   </tr>
 </table>
 
