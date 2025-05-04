@@ -5,7 +5,7 @@
 Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
 ## Synopsis
-Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features with tenants having advanced permissions.
+Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features, with tenants having advanced permissions.
 
 <table>
   <tr>
@@ -51,7 +51,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
-- [Deployment](#deploy)
+- [Deployment](#deployment)
 - [Developer Instructions](#instructions)
 - [How to Contribute](#contribute)
 - [License](#license)
@@ -152,7 +152,7 @@ Update the `appsettings.json` file with your database connection settings. Here 
 ```
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=tcp:kellesolutionssqlserver.database.windows.net,1433;Initial Catalog=KelleSolutionsDB;Persist Security Info=False;User ID=kellesolutionsADMIN;Password=Scrumbags2025!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   },
   "Logging": {
     "LogLevel": {
@@ -167,7 +167,7 @@ Update the `appsettings.json` file with your database connection settings. Here 
 
 ### 5. Apply Migrations and Create the Database
 
-Use Enitity Framework Core to apply migrations and create the database schema:
+Use Entity Framework Core to apply migrations and create the database schema:
 
 ```bash
 dotnet ef migrations add InitialCreate
@@ -212,39 +212,6 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 | `Models/User.cs`               | The `User` entity class, representing any agent, tenant, or admin who logs in.                  |
 | `Data/KelleSolutionsDbContext.cs` | The database context class for managing the database connection and querying the `Properties` and `Affiliates` model. |
 
-<h2 id="timeline">
-  <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="images/timeline.png">
-  <source media="(prefers-color-scheme: light)" srcset="images/timelinelight.png">
-  <img alt="Example Image" src="images/timeline.png">
-  </picture>
-  Timeline
-</h2>
-
-### Sprint 5: Page Creation and Initial Styling
-- Primary Focus: Completing page creation and updating styling for existing pages.
-  - Update styling for created pages.
-  - Create the following pages:
-    - Tenant/Admin and Agent Asset Pages.
-    - User-Specific Asset Pages.
-    - Data Entry Pages.
-
-### Sprint 6: Authentication and Permissions
-- Primary Focus: Enhancing security and role management.
-  - Set up Two-Factor Authentication.
-  - Integrate SendGrid for account creation and password reset.
-  - Create roles and their corresponding permissions.
-
-### Sprint 7: Testing and Debugging
-- Primary Focus: Ensuring reliability and identifying issues.
-  - Testing of all features.
-  - Debugging functionality, layout, and security issues.
-
-### Sprint 8: Final Deployment
-- Primary Focus: Wrapping up and launching the project.
-  - Finalize any remaining testing and debugging.
-  - Deploy the project.
-
 <h2 id="technologies-used">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/technologiesused.png">
@@ -275,7 +242,7 @@ This section will include:
 - Load testing to ensure application performance under concurrent usage.
 - User acceptance testing to verify role-based dashboards and features.
 
-<h2 id="deploy">
+<h2 id="deployment">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/deploy.png">
   <source media="(prefers-color-scheme: light)" srcset="images/deploylight.png">
