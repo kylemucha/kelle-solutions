@@ -109,30 +109,39 @@ async Task ImportPropertyDataAsync(IServiceProvider services)
     try
     {
         var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "properties.json");
+        Console.WriteLine($"🛠 Attempting to import properties from: {jsonPath}");
 
         if (File.Exists(jsonPath))
         {
             var jsonData = await File.ReadAllTextAsync(jsonPath);
             var properties = JsonSerializer.Deserialize<List<Property>>(jsonData);
 
+            if (properties == null)
+            {
+                Console.WriteLine("🚨 Deserialized property list is null. Check JSON format.");
+                return;
+            }
+
             if (!context.Properties.Any())
             {
                 context.Properties.AddRange(properties);
                 await context.SaveChangesAsync();
-                Console.WriteLine("Property data imported successfully!");
+                Console.WriteLine("✅ Property data imported successfully!");
             }
             else
             {
-                Console.WriteLine("Properties already exist! Skipping import...");
+                Console.WriteLine("ℹ️ Properties already exist. Skipping import.");
             }
         }
         else
         {
-            Console.WriteLine("JSON file not found! No data to import!");
+            Console.WriteLine("❌ JSON file not found! No data to import!");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Error importing properties: {ex.Message}");
+        Console.WriteLine("🔥 ERROR during property import:");
+        Console.WriteLine($"Message: {ex.Message}");
+        Console.WriteLine($"StackTrace: {ex.StackTrace}");
     }
 }
