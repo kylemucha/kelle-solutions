@@ -5,7 +5,7 @@
 Kelle Solutions is a simple Razor Pages web application built with ASP.NET Core and Entity Framework Core. Our application demonstrates basic CRUD (Create, Read, Update, Delete) functionality using a database (SQL Server).
 
 ## Synopsis
-Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features with tenants having advanced permissions.
+Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) platform designed to streamline operations for real estate professionals. It provides an all-in-one solution for users to organize and manage their businesses effectively. Each role (agent, tenant, and admin) has tailored views and specific permissions to CRUD (Create, Read, Update, Delete) functionalities. With a scalable design, Kelle Solutions integrates seamlessly with essential tools and systems, allowing users to navigate through their dashboard, leads, properties, listings, entities, and people. While agents have limited access to most functionalities, tenants and admins have additional tools and features, with tenants having advanced permissions.
 
 <table>
   <tr>
@@ -51,7 +51,7 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 - [Timeline](#timeline)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
-- [Deployment](#deploy)
+- [Deployment](#deployment)
 - [Developer Instructions](#instructions)
 - [How to Contribute](#contribute)
 - [License](#license)
@@ -72,9 +72,9 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
 | Brandon Kmiec         |
 | Evan Brizendine       |
 | Jalen Grant Hall      |
-| Kestine Tran          |
+| Kestine Tran [Team Lead]|
 | Kyle Mucha            |
-| Sergio Rodriguez [Team Lead]|
+| Sergio Rodriguez|
 
 <h2 id="features">
   <picture>
@@ -85,11 +85,12 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
   Features
 </h2>
 
-- Razor Pages with ASP.NET Core
-- Entity Framework Core for data access
-- SQL Server database for persistence
-- Dependency Injection for `DbContext`
-- CRUD operations for managing student data
+- Multi-tenant real estate management system
+- Role-based authentication and dashboards (Admin, Broker, Agent)
+- Built using ASP.NET Core 8 with Razor Pages
+- Secure user management with ASP.NET Identity
+- Azure SQL Server database with Entity Framework Core
+- CRUD functionality for listings, properties, vendors, actions, leads, people, and transactions
 
 
 <h2 id="prerequisites">
@@ -152,7 +153,7 @@ Update the `appsettings.json` file with your database connection settings. Here 
 ```
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SchoolDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=tcp:kellesolutionssqlserver.database.windows.net,1433;Initial Catalog=KelleSolutionsDB;Persist Security Info=False;User ID=kellesolutionsADMIN;Password=Scrumbags2025!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   },
   "Logging": {
     "LogLevel": {
@@ -167,7 +168,7 @@ Update the `appsettings.json` file with your database connection settings. Here 
 
 ### 5. Apply Migrations and Create the Database
 
-Use Enitity Framework Core to apply migrations and create the database schema:
+Use Entity Framework Core to apply migrations and create the database schema:
 
 ```bash
 dotnet ef migrations add InitialCreate
@@ -212,39 +213,6 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
 | `Models/User.cs`               | The `User` entity class, representing any agent, tenant, or admin who logs in.                  |
 | `Data/KelleSolutionsDbContext.cs` | The database context class for managing the database connection and querying the `Properties` and `Affiliates` model. |
 
-<h2 id="timeline">
-  <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="images/timeline.png">
-  <source media="(prefers-color-scheme: light)" srcset="images/timelinelight.png">
-  <img alt="Example Image" src="images/timeline.png">
-  </picture>
-  Timeline
-</h2>
-
-### Sprint 5: Page Creation and Initial Styling
-- Primary Focus: Completing page creation and updating styling for existing pages.
-  - Update styling for created pages.
-  - Create the following pages:
-    - Tenant/Admin and Agent Asset Pages.
-    - User-Specific Asset Pages.
-    - Data Entry Pages.
-
-### Sprint 6: Authentication and Permissions
-- Primary Focus: Enhancing security and role management.
-  - Set up Two-Factor Authentication.
-  - Integrate SendGrid for account creation and password reset.
-  - Create roles and their corresponding permissions.
-
-### Sprint 7: Testing and Debugging
-- Primary Focus: Ensuring reliability and identifying issues.
-  - Testing of all features.
-  - Debugging functionality, layout, and security issues.
-
-### Sprint 8: Final Deployment
-- Primary Focus: Wrapping up and launching the project.
-  - Finalize any remaining testing and debugging.
-  - Deploy the project.
-
 <h2 id="technologies-used">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/technologiesused.png">
@@ -254,11 +222,12 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Technologies Used
 </h2>
 
-- ASP.NET Core Razor Pages
+- ASP.NET Core 8 with Razor Pages
+- ASP.NET Identity
 - Entity Framework Core
-- SQL Server / LocalDB (In development)
-- Azure SQL Server Hosting (In testing)
-- Bootstrap (for simple page styling)
+- Azure SQL Server Database
+- Bootstrap 5
+- Selenium WebDriver
 
 <h2 id="testing">
   <picture>
@@ -269,24 +238,198 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Testing
 </h2>
 
-This section will include:
-- Unit testing for critical functionalities (e.g. CRUD operations).
-- Integration testing for database and authentication flows.
-- Load testing to ensure application performance under concurrent usage.
-- User acceptance testing to verify role-based dashboards and features.
+This project includes automated Selenium testing for key user interactions on the deployed version of the application.
 
-<h2 id="deploy">
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/download) (v22.13.1)
+- Google Chrome (Build: 136.0.7103.4900)
+- ChromeDriver (v136.0.7103.4900)
+- PowerShell terminal in VS Code
+
+### 1. Create a test console project
+```bash
+dotnet new console -n SeleniumTest
+cd SeleniumTest
+```
+
+### 2. Clone the test scripts folder
+```bash
+git clone https://github.com/ebrizendine-csus/test.git
+```
+
+### 3. Install required dependencies
+```bash
+npm install selenium-webdriver
+npm install --save-dev mocha@11.1.0
+```
+
+### 4. Ensure the package.json includes:
+```bash
+{
+  "dependencies": {
+    "selenium-webdriver": "^4.31.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
+```
+
+### 5. Add ChromeDriver for compatibility
+```bash
+dotnet add package Selenium.WebDriver.ChromeDriver --version 136.0.7103.4900
+```
+
+### Running the Tests
+
+- Run all tests:
+```bash
+npm test
+```
+
+- Run a specific test:
+```bash
+npx mocha test/[filename].js
+```
+
+<h2 id="deployment">
   <picture>
   <source media="(prefers-color-scheme: dark)" srcset="images/deploy.png">
   <source media="(prefers-color-scheme: light)" srcset="images/deploylight.png">
   <img alt="Example Image" src="images/deploy.png">
   </picture>
-  Deploy
+  Deployment
 </h2>
 
-This section will outline:
-- Publishing the web application to Azure App Services.
-- Testing deployment on the live environment for accuracy and reliability.
+This section outlines how to publish the **KelleSolutions** web application to **Azure App Services** and automate deployment using **GitHub Actions**.
+
+### 1. Publish to Azure
+
+#### 1.1. Create Resources
+
+##### 1.1.1. Azure App Service
+
+- Go to the Azure Portal and create an App Service.
+- Navigate to the **Configuration** settings within your App Service for **KelleSolutions**.
+- Under **Stack settings**, select:
+  - **Stack**: `.NET`
+  - **.NET Version**: `.NET 8 (LTS)`
+- Under **Platform settings**, set:
+  - **Platform**: `32 Bit`
+  - **Managed pipeline version**: `Integrated`
+- Under **Platform settings**, set:
+  - **Platform**: `32 Bit`
+  - **Managed pipeline version**: `Integrated`
+
+<p>
+  <img src="images/webAppConfigurations.png" alt="App Service Configuration" />
+</p>
+
+
+##### 1.1.2. Azure SQL Database
+
+- Create an **Azure SQL Database** named `KelleSolutionsDB`.
+- Under **Networking > Firewall Rules**, add a rule to allow the App Service’s IP address to access the database.
+
+### 2. Set Configuration
+
+#### 2.1. Add Environment Variables
+
+- In the Azure Portal, navigate to:
+- Add a new **Connection String**:
+- **Name**: `DefaultConnection`
+- **Value**: the ADO.NET connection string found in your SQL Database panel (under the "Connection Strings" tab).
+- **Type**: SQLServer
+<p>
+  <img src="images/connectionString.png" alt="App Service Connection String" />
+</p>
+
+> ⚠️ Ensure that this matches the connection string exactly as shown in the Azure SQL Database blade.
+
+
+### 3. Deploy
+
+#### 3.1. GitHub Actions (CI/CD Pipeline)
+
+To automate deployment on every push to `main`, set up a GitHub Actions workflow:
+
+##### 3.1.1. Create Workflow File
+
+- Add a `.yml` file with the code below, the file could be named kellesolutionsdeploy.yml:
+```
+name: Build and deploy ASP.NET Core app to Azure Web App - kellesolutions
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Build with dotnet
+        run: dotnet build ./KelleSolutions/KelleSolutions.sln --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish ./KelleSolutions/KelleSolutions.sln --configuration Release --output ./publish_output
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ./publish_output
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+          path: ./publish_output
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8BE90CCCB08A4CA1AD1AC05FB53DED2B }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A42E269D49294F589C27F30AFB84CBDE }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_29C588753C9E4743AC39A72AC415C554 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'kellesolutions'
+          slot-name: 'Production'
+          package: ./publish_output
+```
+
+
 
 <h2 id="instructions">
   <picture>
