@@ -85,11 +85,12 @@ Kelle Solutions is a user-friendly, multi-tenant SaaS (Software as a Service) pl
   Features
 </h2>
 
-- Razor Pages with ASP.NET Core
-- Entity Framework Core for data access
-- SQL Server database for persistence
-- Dependency Injection for `DbContext`
-- CRUD operations for managing student data
+- Multi-tenant real estate management system
+- Role-based authentication and dashboards (Admin, Broker, Agent)
+- Built using ASP.NET Core 8 with Razor Pages
+- Secure user management with ASP.NET Identity
+- Azure SQL Server database with Entity Framework Core
+- CRUD functionality for listings, properties, vendors, actions, leads, people, and transactions
 
 
 <h2 id="prerequisites">
@@ -221,11 +222,12 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Technologies Used
 </h2>
 
-- ASP.NET Core Razor Pages
+- ASP.NET Core 8 with Razor Pages
+- ASP.NET Identity
 - Entity Framework Core
-- SQL Server / LocalDB (In development)
-- Azure SQL Server Hosting (In testing)
-- Bootstrap (for simple page styling)
+- Azure SQL Server Database
+- Bootstrap 5
+- Selenium WebDriver
 
 <h2 id="testing">
   <picture>
@@ -236,11 +238,65 @@ The application will start on `https://localhost:5072` or `http://localhost:5000
   Testing
 </h2>
 
-This section will include:
-- Unit testing for critical functionalities (e.g. CRUD operations).
-- Integration testing for database and authentication flows.
-- Load testing to ensure application performance under concurrent usage.
-- User acceptance testing to verify role-based dashboards and features.
+This project includes automated Selenium testing for key user interactions on the deployed version of the application.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/download) (v22.13.1)
+- Google Chrome (Build: 136.0.7103.4900)
+- ChromeDriver (v136.0.7103.4900)
+- PowerShell terminal in VS Code
+
+### Setup
+
+### 1. Create a test console project
+```bash
+dotnet new console -n SeleniumTest
+cd SeleniumTest
+```
+
+### 2. Clone the test scripts folder
+```bash
+git clone https://github.com/ebrizendine-csus/test.git
+```
+
+### 3. Install required dependencies
+```bash
+npm install selenium-webdriver
+npm install --save-dev mocha@11.1.0
+```
+
+### 4. Ensure the package.json includes:
+```bash
+{
+  "dependencies": {
+    "selenium-webdriver": "^4.31.0"
+  },
+  "devDependencies": {
+    "mocha": "^11.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
+```
+
+### 5. Add ChromeDriver for compatibility
+```bash
+dotnet add package Selenium.WebDriver.ChromeDriver --version 136.0.7103.4900
+```
+
+### Running the Tests
+
+- Run all tests:
+  ```bash
+npm test
+```
+
+- Run a specific test:
+  ```bash
+npx mocha test/[filename].js
+```
 
 <h2 id="deployment">
   <picture>
@@ -248,12 +304,10 @@ This section will include:
   <source media="(prefers-color-scheme: light)" srcset="images/deploylight.png">
   <img alt="Example Image" src="images/deploy.png">
   </picture>
-  Deploy
+  Deployment
 </h2>
 
 This section outlines how to publish the **KelleSolutions** web application to **Azure App Services** and automate deployment using **GitHub Actions**.
-
----
 
 ### 1. Publish to Azure
 
@@ -283,8 +337,6 @@ This section outlines how to publish the **KelleSolutions** web application to *
 - Create an **Azure SQL Database** named `KelleSolutionsDB`.
 - Under **Networking > Firewall Rules**, add a rule to allow the App Service’s IP address to access the database.
 
----
-
 ### 2. Set Configuration
 
 #### 2.1. Add Environment Variables
@@ -300,7 +352,6 @@ This section outlines how to publish the **KelleSolutions** web application to *
 
 > ⚠️ Ensure that this matches the connection string exactly as shown in the Azure SQL Database blade.
 
----
 
 ### 3. Deploy
 
@@ -312,7 +363,7 @@ To automate deployment on every push to `main`, set up a GitHub Actions workflow
 
 - Add a `.yml` file with the code below, the file could be named kellesolutionsdeploy.yml:
 ```
-name: Build and deploy ASP.Net Core app to Azure Web App - kellesolutions
+name: Build and deploy ASP.NET Core app to Azure Web App - kellesolutions
 
 on:
   push:
