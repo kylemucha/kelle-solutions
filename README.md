@@ -269,7 +269,14 @@ This section outlines how to publish the **KelleSolutions** web application to *
 - Under **Platform settings**, set:
   - **Platform**: `32 Bit`
   - **Managed pipeline version**: `Integrated`
-![alt text](images/webAppConfigurations.png)
+- Under **Platform settings**, set:
+  - **Platform**: `32 Bit`
+  - **Managed pipeline version**: `Integrated`
+
+<p align="center">
+  <img src="images/webAppConfigurations.png" alt="App Service Configuration" />
+</p>
+
 
 ##### 1.1.2. Azure SQL Database
 
