@@ -247,8 +247,6 @@ This project includes automated Selenium testing for key user interactions on th
 - ChromeDriver (v136.0.7103.4900)
 - PowerShell terminal in VS Code
 
-### Setup
-
 ### 1. Create a test console project
 ```bash
 dotnet new console -n SeleniumTest
@@ -289,12 +287,12 @@ dotnet add package Selenium.WebDriver.ChromeDriver --version 136.0.7103.4900
 ### Running the Tests
 
 - Run all tests:
-  ```bash
+```bash
 npm test
 ```
 
 - Run a specific test:
-  ```bash
+```bash
 npx mocha test/[filename].js
 ```
 
