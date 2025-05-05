@@ -300,7 +300,74 @@ To automate deployment on every push to `main`, set up a GitHub Actions workflow
 ##### 3.1.1. Create Workflow File
 
 - Add a `.yml` file under:
+```
+name: Build and deploy ASP.Net Core app to Azure Web App - kellesolutions
 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Build with dotnet
+        run: dotnet build ./KelleSolutions/KelleSolutions.sln --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish ./KelleSolutions/KelleSolutions.sln --configuration Release --output ./publish_output
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ./publish_output
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+          path: ./publish_output
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8BE90CCCB08A4CA1AD1AC05FB53DED2B }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A42E269D49294F589C27F30AFB84CBDE }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_29C588753C9E4743AC39A72AC415C554 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'kellesolutions'
+          slot-name: 'Production'
+          package: ./publish_output
+```
 
 
 
