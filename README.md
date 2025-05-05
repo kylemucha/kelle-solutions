@@ -273,7 +273,7 @@ This section outlines how to publish the **KelleSolutions** web application to *
   - **Platform**: `32 Bit`
   - **Managed pipeline version**: `Integrated`
 
-<p align="center">
+<p>
   <img src="images/webAppConfigurations.png" alt="App Service Configuration" />
 </p>
 
