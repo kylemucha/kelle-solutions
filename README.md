@@ -294,6 +294,9 @@ This section outlines how to publish the **KelleSolutions** web application to *
 - **Name**: `DefaultConnection`
 - **Value**: the ADO.NET connection string found in your SQL Database panel (under the "Connection Strings" tab).
 - **Type**: SQLServer
+<p>
+  <img src="images/connectionString.png" alt="App Service Connection String" />
+</p>
 
 > ⚠️ Ensure that this matches the connection string exactly as shown in the Azure SQL Database blade.
 
