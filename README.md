@@ -270,14 +270,10 @@ This section outlines how to publish the **KelleSolutions** web application to *
   - **Platform**: `32 Bit`
   - **Managed pipeline version**: `Integrated`
 
-![App Service Stack Configuration](./images/deploy1.png)
-
 ##### 1.1.2. Azure SQL Database
 
 - Create an **Azure SQL Database** named `KelleSolutionsDB`.
 - Under **Networking > Firewall Rules**, add a rule to allow the App Service’s IP address to access the database.
-
-![Firewall Rule for Azure SQL](./images/deploy2.png)
 
 ---
 
@@ -286,6 +282,26 @@ This section outlines how to publish the **KelleSolutions** web application to *
 #### 2.1. Add Environment Variables
 
 - In the Azure Portal, navigate to:
+- Add a new **Connection String**:
+- **Name**: `DefaultConnection`
+- **Value**: the ADO.NET connection string found in your SQL Database panel (under the "Connection Strings" tab).
+- **Type**: SQLServer
+
+> ⚠️ Ensure that this matches the connection string exactly as shown in the Azure SQL Database blade.
+
+---
+
+### 3. Deploy
+
+#### 3.1. GitHub Actions (CI/CD Pipeline)
+
+To automate deployment on every push to `main`, set up a GitHub Actions workflow:
+
+##### 3.1.1. Create Workflow File
+
+- Add a `.yml` file under:
+
+
 
 
 <h2 id="instructions">
