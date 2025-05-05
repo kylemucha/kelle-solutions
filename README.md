@@ -299,7 +299,7 @@ To automate deployment on every push to `main`, set up a GitHub Actions workflow
 
 ##### 3.1.1. Create Workflow File
 
-- Add a `.yml` file under:
+- Add a `.yml` file with the code below, the file could be named kellesolutionsdeploy.yml:
 ```
 name: Build and deploy ASP.Net Core app to Azure Web App - kellesolutions
 
