@@ -251,9 +251,42 @@ This section will include:
   Deploy
 </h2>
 
-This section will outline:
-- Publishing the web application to Azure App Services.
-- Testing deployment on the live environment for accuracy and reliability.
+This section outlines how to publish the **KelleSolutions** web application to **Azure App Services** and automate deployment using **GitHub Actions**.
+
+---
+
+### 1. Publish to Azure
+
+#### 1.1. Create Resources
+
+##### 1.1.1. Azure App Service
+
+- Go to the Azure Portal and create an App Service.
+- Navigate to the **Configuration** settings within your App Service for **KelleSolutions**.
+- Under **Stack settings**, select:
+  - **Stack**: `.NET`
+  - **.NET Version**: `.NET 8 (LTS)`
+- Under **Platform settings**, set:
+  - **Platform**: `32 Bit`
+  - **Managed pipeline version**: `Integrated`
+
+![App Service Stack Configuration](./images/deploy1.png)
+
+##### 1.1.2. Azure SQL Database
+
+- Create an **Azure SQL Database** named `KelleSolutionsDB`.
+- Under **Networking > Firewall Rules**, add a rule to allow the App Service’s IP address to access the database.
+
+![Firewall Rule for Azure SQL](./images/deploy2.png)
+
+---
+
+### 2. Set Configuration
+
+#### 2.1. Add Environment Variables
+
+- In the Azure Portal, navigate to:
+
 
 <h2 id="instructions">
   <picture>
